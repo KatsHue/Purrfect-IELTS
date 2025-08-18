@@ -20,6 +20,9 @@ import TaskTwoView from "./views/speaking/TaskTwoView";
 import ProfileLayout from "./layouts/ProfileLayout";
 import NotFound from "./views/404/NotFound";
 import SpeakingLayout from "./layouts/SpeakingLayaout";
+import SendIAView from "./views/writing/SendIAView";
+import WritingLayout from "./layouts/WritingLayout";
+import WritingView from "./views/writing/WritingView";
 
 export default function Router() {
   return (
@@ -50,6 +53,11 @@ export default function Router() {
             <Route path="/speaking/" element={<SpeakingView />} />
             <Route path="/speaking/task-1" element={<TaskOneView />} />
             <Route path="/speaking/task-2" element={<TaskTwoView />} />
+          </Route>
+
+          <Route element={<WritingLayout></WritingLayout>}>
+            <Route path="/writing/" element={<WritingView />} />
+            <Route path="/writing/task-1" element={<SendIAView />} />
           </Route>
         </Route>
 
