@@ -19,7 +19,7 @@ export const AppLayout = () => {
         <>
             <header className='bg-gray-800 py-5'>
                 <div className=' max-w-screen-2xl mx-auto flex flex-col lg:flex-row justify-between items-center'>
-                    <div className='w-64 '>
+                    <div className='w-16 m-3'>
                         <Link to='/'>
                             <Logo />
                         </Link>

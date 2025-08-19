@@ -1,6 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AppLayout } from "@/layouts/AppLayout";
-import DashboardView from "@/views/DashboardView";
 import CreateProjectView from "./views/projects/CreateProjectView";
 import EditProjectView from "./views/projects/EditProjectView";
 import ProjectDetailsView from "./views/projects/ProjectDetailsView";
@@ -23,13 +22,14 @@ import SpeakingLayout from "./layouts/SpeakingLayaout";
 import SendIAView from "./views/writing/SendIAView";
 import WritingLayout from "./layouts/WritingLayout";
 import WritingView from "./views/writing/WritingView";
+import DashboardMainView from "./views/DashboardMainView";
 
 export default function Router() {
   return (
     <BrowserRouter>
       <Routes>
         <Route element={<AppLayout />}>
-          <Route path="/" element={<DashboardView />} index />
+          <Route path="/" element={<DashboardMainView />} index />
           <Route path="/projects/create" element={<CreateProjectView />} />
           <Route
             path="/projects/:projectId/"

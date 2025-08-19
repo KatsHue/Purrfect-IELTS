@@ -157,7 +157,7 @@ export default function SpeakingView() {
     return (
       <div className="max-w-3xl mx-auto p-6">
         <div className="text-center py-8">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-sky-500 mx-auto mb-4"></div>
           <p>Loading questions...</p>
         </div>
       </div>
@@ -204,7 +204,7 @@ export default function SpeakingView() {
         <div className="flex justify-between items-center">
           <button
             onClick={nextQuestion}
-            className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+            className="flex items-center gap-2 px-4 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition"
             disabled={questions.length <= 1}
           >
             Next Question <ChevronRightIcon className="h-4 w-4" />
@@ -226,7 +226,7 @@ export default function SpeakingView() {
         ) : !isRecording && !transcription ? (
           <button
             onClick={startRecording}
-            className="flex items-center justify-center gap-2 w-full py-3 bg-green-600 text-white rounded-lg font-bold hover:bg-green-700 transition"
+            className="flex items-center justify-center gap-2 w-full py-3 bg-sky-600 text-white rounded-lg font-bold hover:bg-sky-700 transition"
           >
             <MicrophoneIcon className="h-5 w-5" />
             Start Recording (Max 2 minutes)
@@ -258,7 +258,7 @@ export default function SpeakingView() {
             {audioUrl && (
               <button
                 onClick={playRecording}
-                className="flex items-center gap-2 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition"
+                className="flex items-center gap-2 px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition"
               >
                 <PlayIcon className="h-5 w-5" />
                 Play Your Recording

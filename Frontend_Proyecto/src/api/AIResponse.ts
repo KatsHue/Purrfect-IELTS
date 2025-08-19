@@ -4,14 +4,9 @@ import { generateText } from 'ai'
 export async function generateResponse(text: string) {
         
         const result = await generateText({
-            model: openrouter('openai/gpt-oss-20b:free'),
+            model: openrouter('moonshotai/kimi-k2:free'),
             messages: [
-                {"role": "system", "content": 'Eres un profesor de Ingles avanzado, el texto que    recibas solo lo revisaras y le haras las correciones pertinentes, es obligatorio que tu respuesta contenga encabezados (#), listas de errores y separaciones para que sea mas entendible' + 
-                    "Siempre responde en formato Markdown. Usa títulos (#), listas con viñetas, numeraciones, bloques de código con \
-                    y separa las secciones con líneas horizontales (---). \
-                    Si explicas errores, ponlos en una lista con viñetas" +
-                    'Debes de brindar retroalimentacion al usuario por medio de explicacion de los errores' +
-                    'Al final debes de dar un ejemplo de texto corregido en inglés'
+                {"role": "system", "content": 'Eres un profesor de ingles avanzado y tu respuesta es en inglés, se te proporcionara un escrito en ingles en caso que este no sea entendible o que no este en este idioma responderas lo siguiente: "/ Comprueba el texto ingresado "/ . En caso que el texto sea correcto deberás de realizar las correciones pertinentes de dicho texto tomando en cuenta la siguiente estructura en tu respuesta: | \n ***Texto original*** Colocar el texto ingresado por el usuario. \n | \n ***Errores*** Lista de errores encontrados. Con el formato de numero o con el signo - . Evitando color sublistas. \n | \n ***Consejos*** Lista de consejos en base a los errores. Con el mismo formato de los errores. \n | \n ***Texto corregido / mejoras*** Descripcion con consejos y texto corregido o mejorado en inglés \n | . Debes de asegurarte de seguir esta estructura y solo hacer comentarios basados en tu aprendizaje como profesor profesional '
                 },
                 {"role": "user", "content": text}
             ]

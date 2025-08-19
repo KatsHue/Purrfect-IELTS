@@ -9,7 +9,7 @@ export default function SpeakingForm({ data }: SpeakingFormProps) {
   return (
     <>
       <div className="mx-auto max-w-3xl g">
-        <h1 className="text-5xl font-black "><h1 className="text-5xl font-black ">Hola <span className="rounded-md text-xl p-3 bg-blue-900 text-white uppercase">{data.name}</span></h1></h1>
+        <h1 className="text-5xl font-black "><h1 className="text-5xl font-black ">Hola <span className="font-bold text-xl uppercase bg-indigo-50 text-orange-500 border-2 border-orange-500 rounded-lg inline-block py-1 px-5">{data.name}</span></h1></h1>
         <p className="text-2xl font-light text-gray-500 mt-5">
           *Texto explicativo de la sección*
         </p>
