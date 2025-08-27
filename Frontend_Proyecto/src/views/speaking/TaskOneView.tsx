@@ -7,6 +7,7 @@ import {
   ArrowPathIcon,
 } from "@heroicons/react/24/solid";
 import { SpeakingAPI } from "@/api/SpeakingTaskOneAPI";
+import { transcriptionAI } from "@/api/TranscriptionAI";
 
 export default function SpeakingView() {
   // Estados
@@ -112,12 +113,18 @@ export default function SpeakingView() {
   // Generar versión mejorada
   const generateImprovedVersion = () => {
     const mockImproved = `Aquí va a ir la versión mejorada de la respuesta anterior:\n\n"${transcription}"\n\nSe mostrarán:\n• las correciones hechas\n• Los cambios\n• Tal vez una explicación`;
+    console.log(audioUrl)
     setImprovedText(mockImproved);
     setShowImproved(true);
   };
 
   // Reproducir grabación
-  const playRecording = () => {
+  const playRecording = async() => {
+    if (audioChunksRef.current.length > 0) {
+      const audioBlob = new Blob(audioChunksRef.current, { type: "audio/webm" });
+      const text = await transcriptionAI(audioBlob);
+      setTranscription(text);
+    }
     if (audioRef.current) {
       audioRef.current.play();
     }

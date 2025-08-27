@@ -14,3 +14,17 @@ export async function generateResponse(text: string) {
         
         return result.text
 }
+
+export async function generateQuestions(text: string) {
+        
+        const result = await generateText({
+            model: openrouter('moonshotai/kimi-k2:free'),
+            messages: [
+                {"role": "system", "content": 'Eres un profesor de ingles avanzado y tu respuesta es en inglés, se te proporcionara una categoria una dificultad con ello tendras que realizar un cuestionario el cual tendra el siguiente formato de forma obligatoria: |\n **Question #(Reemplazar por numero de pregunta)**. Planteamiento de la pregunta en la cual tendra un espacio para la respuesta del usuario identificada con ___ . Posteriormente la respuesta debe estar entre, por ejemplo ***Respuesta correcta *** y por ultimo una explicacion de la respuesta con --- \n|\n agrega saltos de lineas entre cada pregunta y un | . Ninguna pregunta debe ser de opciones, solo debe de haver una respuesta por parte del usuario'
+                },
+                {"role": "user", "content": text}
+            ]
+        })
+        
+        return result.text
+}
