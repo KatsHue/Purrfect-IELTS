@@ -4,10 +4,11 @@ import {
   MicrophoneIcon,
   PlayIcon,
   StopIcon,
-  ArrowPathIcon,
 } from "@heroicons/react/24/solid";
 import { SpeakingAPI } from "@/api/SpeakingTaskOneAPI";
 import { transcriptionAI } from "@/api/TranscriptionAI";
+import { getSpeakingFeedback } from "@/api/AIAPI";
+import { formatResponse } from "@/utils/format";
 
 export default function SpeakingView() {
   // Estados
@@ -33,7 +34,6 @@ export default function SpeakingView() {
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        // Llamada al backend usando la función centralizada de Axios
         const data = await SpeakingAPI.getTaskOneQuestions();
         setQuestions(data);
         setIsLoading(false);
@@ -64,25 +64,36 @@ export default function SpeakingView() {
       };
 
       mediaRecorderRef.current.onstop = async () => {
-        const audioBlob = new Blob(audioChunksRef.current);
+        const audioBlob = new Blob(audioChunksRef.current, {
+          type: "audio/webm",
+        });
         setAudioUrl(URL.createObjectURL(audioBlob));
+        setIsRecording(false);
 
-        // Simular transcripción (en producción sería una API)
-        setIsProcessing(true);
-        setTimeout(() => {
-          setTranscription(
-            "Aquí va a estar la transcripción de la respuesta del usuario"
-          );
-          generateImprovedVersion();
+        try {
+          setIsProcessing(true);
+
+          //  Transcribir audio
+          const text = await transcriptionAI(audioBlob);
+          setTranscription(text);
+
+          //  Obtener feedback de IA
+          const feedback = await getSpeakingFeedback(text);
+          const formatted = formatResponse(feedback);
+          setImprovedText(formatted);
+          setShowImproved(true);
+        } catch (err) {
+          console.error("Error generando transcripción o feedback:", err);
+        } finally {
           setIsProcessing(false);
-        }, 2000);
+        }
       };
 
       mediaRecorderRef.current.start();
       setIsRecording(true);
       audioChunksRef.current = [];
 
-      // Temporizador de 2 minutos (120 segundos)
+      // Temporizador de 2 minutos
       setRecordingTime(120);
       timerRef.current = setInterval(() => {
         setRecordingTime((prev) => {
@@ -110,24 +121,9 @@ export default function SpeakingView() {
     }
   };
 
-  // Generar versión mejorada
-  const generateImprovedVersion = () => {
-    const mockImproved = `Aquí va a ir la versión mejorada de la respuesta anterior:\n\n"${transcription}"\n\nSe mostrarán:\n• las correciones hechas\n• Los cambios\n• Tal vez una explicación`;
-    console.log(audioUrl)
-    setImprovedText(mockImproved);
-    setShowImproved(true);
-  };
-
   // Reproducir grabación
-  const playRecording = async() => {
-    if (audioChunksRef.current.length > 0) {
-      const audioBlob = new Blob(audioChunksRef.current, { type: "audio/webm" });
-      const text = await transcriptionAI(audioBlob);
-      setTranscription(text);
-    }
-    if (audioRef.current) {
-      audioRef.current.play();
-    }
+  const playRecording = () => {
+    if (audioRef.current) audioRef.current.play();
   };
 
   // Siguiente pregunta
@@ -145,6 +141,7 @@ export default function SpeakingView() {
     setShowImproved(false);
     setImprovedText("");
     setIsProcessing(false);
+    audioChunksRef.current = [];
   };
 
   // Limpieza
@@ -159,7 +156,7 @@ export default function SpeakingView() {
     };
   }, []);
 
-  // Estados de carga y error
+  // Renderizado
   if (isLoading) {
     return (
       <div className="max-w-3xl mx-auto p-6">
@@ -198,28 +195,24 @@ export default function SpeakingView() {
 
   return (
     <div className="max-w-3xl mx-auto p-6 space-y-6">
-      {/* Título */}
       <h1 className="text-3xl font-bold text-gray-800">Speaking Practice</h1>
 
-      {/* Sección de Pregunta */}
+      {/* Pregunta */}
       <div className="bg-white p-6 rounded-xl shadow-md">
         <h2 className="text-xl font-semibold text-gray-700 mb-2">
           Question {currentQuestionIndex + 1}/{questions.length}
         </h2>
         <p className="text-lg mb-6">{questions[currentQuestionIndex]}</p>
-
-        <div className="flex justify-between items-center">
-          <button
-            onClick={nextQuestion}
-            className="flex items-center gap-2 px-4 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition"
-            disabled={questions.length <= 1}
-          >
-            Next Question <ChevronRightIcon className="h-4 w-4" />
-          </button>
-        </div>
+        <button
+          onClick={nextQuestion}
+          className="flex items-center gap-2 px-4 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition"
+          disabled={questions.length <= 1}
+        >
+          Next Question <ChevronRightIcon className="h-4 w-4" />
+        </button>
       </div>
 
-      {/* Sección de Grabación */}
+      {/* Grabación */}
       <div className="bg-white p-6 rounded-xl shadow-md space-y-4">
         <h2 className="text-xl font-semibold text-gray-700">
           Record Your Answer
@@ -277,39 +270,19 @@ export default function SpeakingView() {
         <audio ref={audioRef} src={audioUrl} hidden />
       </div>
 
-      {/* Sección de Improved Version */}
-      {showImproved && (
-        <div className="bg-white p-6 rounded-xl shadow-md space-y-4">
-          <h2 className="text-xl font-semibold text-gray-700">
-            Improved Version
-          </h2>
-
-          <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
-            <h3 className="font-medium text-blue-800 mb-2">Original:</h3>
-            <p className="mb-4 text-gray-700 whitespace-pre-line">
-              {transcription}
-            </p>
-
-            <h3 className="font-medium text-blue-800 mb-2">Improved:</h3>
-            <p className="text-blue-900 whitespace-pre-line">{improvedText}</p>
-          </div>
-
-          <div className="flex gap-3">
-            <button
-              onClick={resetExercise}
-              className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition"
-            >
-              <ArrowPathIcon className="h-5 w-5" />
-              Try Again
-            </button>
-            <button
-              onClick={nextQuestion}
-              className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
-              disabled={questions.length <= 1}
-            >
-              Next Question <ChevronRightIcon className="h-4 w-4" />
-            </button>
-          </div>
+      {/* Improved Version */}
+      {showImproved && Array.isArray(improvedText) && (
+        <div className="space-y-6">
+          {improvedText.map((section: string[], idx: number) => (
+            <div key={idx} className="p-4 bg-gray-100 rounded-lg shadow">
+              <h1 className="font-bold text-lg mb-2 text-yellow-600">
+                {section[0]}
+              </h1>
+              <p className="whitespace-pre-line">
+                {section.slice(1).join("\n")}
+              </p>
+            </div>
+          ))}
         </div>
       )}
     </div>
