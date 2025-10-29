@@ -61,7 +61,7 @@ hidden_size = 32
 output_size = len(tags)
 input_size = len(X_train[0])
 learning_rate = 0.0005
-num_epochs = 1000
+num_epochs = 500
 
 train_dataset = ChatDataset(X_train, y_train)
 val_dataset = ChatDataset(X_val, y_val)
@@ -81,7 +81,7 @@ val_losses = []
 val_accuracies = []
 
 best_loss = float('inf')
-patience = 400
+patience = 20
 patience_counter = 0
 
 # --- Entrenamiento ---
@@ -148,10 +148,10 @@ for epoch in range(num_epochs):
         print(f'Early stopping en época {epoch+1}')
         break
 
-    if (epoch + 1) % 100 == 0:
-        print(f'Época {epoch + 1}/{num_epochs}')
-        print(f'  Train - AvgLoss: {avg_train_loss:.10f}, Accuracy: {train_accuracy:.10f}')
-        print(f'  Val   - AvgLoss: {avg_val_loss:.10f}, Accuracy: {val_accuracy:.10f}')
+    if (epoch + 1) % 10 == 0:
+      print(f'Época {epoch + 1}/{num_epochs}')
+      print(f'  Train - AvgLoss: {avg_train_loss:.10f}, Accuracy: {train_accuracy:.10f}')
+      print(f'  Val   - AvgLoss: {avg_val_loss:.10f}, Accuracy: {val_accuracy:.10f}')
 
 # --- Evaluación final ---
 model.eval()
