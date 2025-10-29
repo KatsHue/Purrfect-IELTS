@@ -23,7 +23,7 @@ const ChatbotWidget = () => {
     setMessages([
       {
         sender: "bot",
-        text: "¡Hola, soy Purry! 😺. Estoy aquí para ayudarte con el IELTS General Training. ¿Sobre qué sección quieres saber: Listening, Reading, Writing o Speaking? O prefieres consejos para mejorar tus resultados.",
+        text: "¡Hola, soy Purry! 😺. Estoy aquí para ayudarte con el IELTS General Training. ¿Sobre qué sección quieres saber: Listening, Reading, Writing o Speaking? O prefieres consejos para mejorar tus resultados",
       },
     ]);
   };
