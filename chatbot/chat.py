@@ -54,5 +54,33 @@ def get_response(sentence):
      return "No estoy seguro de entenderte. ¿Puedes reformular tu pregunta?"
 
     
+# prueba
+test_sentence = "dame tips para el monólogo"
+print("Frase original:", test_sentence)
+
+test_sentence_norm = acentos(test_sentence)
+print("Después de acentos:", test_sentence_norm)
+
+tokens = tokenize(test_sentence_norm)
+print("Tokens:", tokens)
+
+for w in tokens:
+    print(f"'{w}' in all_words? ->", w in all_words)
+
+X_vec = bag_of_words(tokens, all_words)
+print("Vector BoW sum:", X_vec.sum(), "len:", len(X_vec))
+active_idx = [i for i,v in enumerate(X_vec) if v>0]
+print("Índices activos:", active_idx)
+print("Palabras activas:", [all_words[i] for i in active_idx])
+
+X_tensor = torch.from_numpy(X_vec.reshape(1, -1)).to(device)
+model.eval()
+with torch.no_grad():
+    output = model(X_tensor)
+    probs = torch.softmax(output, dim=1).cpu().numpy()
+    predicted_idx = probs.argmax()
+    print("Etiqueta predicha:", tags[predicted_idx])
+    print("Probabilidades:", probs)
+    print("Máxima probabilidad:", probs.max())
 
     

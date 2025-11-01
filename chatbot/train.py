@@ -13,6 +13,10 @@ from sklearn.model_selection import train_test_split
 with open('intents.json', 'r', encoding='utf-8') as f:
     intents = json.load(f)
 
+def acentos(sentences):
+    replacements = str.maketrans("áéíóúÁÉÍÓÚñÑ", "aeiouAEIOUnN")
+    return sentences.translate(replacements)
+
 all_words = []
 tags = []
 xy = []
@@ -20,7 +24,8 @@ for intent in intents['intents']:
     tag = intent['tag']
     tags.append(tag)
     for pattern in intent['patterns']:
-        w = tokenize(pattern)
+        pattern_norm = acentos(pattern)          
+        w = tokenize(pattern_norm)
         all_words.extend(w)
         xy.append((w, tag))
 
@@ -66,8 +71,8 @@ num_epochs = 500
 train_dataset = ChatDataset(X_train, y_train)
 val_dataset = ChatDataset(X_val, y_val)
 
-train_loader = DataLoader(dataset=train_dataset, batch_size=batch_size, shuffle=True, num_workers=0)
-val_loader = DataLoader(dataset=val_dataset, batch_size=batch_size, shuffle=False, num_workers=0)
+train_loader = DataLoader(dataset=train_dataset, batch_size=batch_size, shuffle=True, num_workers=0, drop_last=True)
+val_loader = DataLoader(dataset=val_dataset, batch_size=batch_size, shuffle=False, num_workers=0, drop_last=False)
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 model = NeuralNet(input_size, hidden_size, output_size).to(device)
