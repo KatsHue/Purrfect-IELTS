@@ -5,11 +5,9 @@ import {
   generateResponse,
   generateSpeakingFeedback,
 } from "./AIResponse";
-
 export async function getResponseIA({ text }: IAForm) {
   try {
     const data = await generateResponse(text);
-
     return data;
   } catch (error) {
     if (isAxiosError(error) && error.response) {
@@ -17,7 +15,6 @@ export async function getResponseIA({ text }: IAForm) {
     }
   }
 }
-
 export async function getQuestionIA(text: string) {
   try {
     const data = await generateQuestions(text);
@@ -28,8 +25,17 @@ export async function getQuestionIA(text: string) {
     }
   }
 }
-
 export async function getSpeakingFeedback(text: string) {
+  try {
+    const data = await generateSpeakingFeedback(text);
+    return data;
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.error);
+    }
+  }
+}
+export async function getSpeakingTaskTwoFeedback(text: string) {
   try {
     const data = await generateSpeakingFeedback(text);
     return data;
