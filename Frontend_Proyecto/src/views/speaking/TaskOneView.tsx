@@ -77,7 +77,10 @@ export default function SpeakingView() {
 
           setTranscription(text);
 
-          const feedback = await getSpeakingFeedback(text);
+          const feedback = await getSpeakingFeedback(
+            text,
+            questions[currentQuestionIndex]
+          );
 
           // Si la IA devolvió mensaje de error
           if (feedback.includes("/ Please check the submitted text /")) {

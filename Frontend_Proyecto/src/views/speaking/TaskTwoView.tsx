@@ -94,7 +94,10 @@ export default function SpeakingViewTaskTwo() {
 
           setTranscription(text);
 
-          const feedback = await getSpeakingTaskTwoFeedback(text);
+          const feedback = await getSpeakingTaskTwoFeedback(
+            text,
+            questions[currentQuestionIndex]
+          );
 
           // ⚠️ Error si la IA devolvió texto inválido
           if (feedback.includes("/ Please check the submitted text /")) {
@@ -317,9 +320,9 @@ export default function SpeakingViewTaskTwo() {
         <div className="space-y-6">
           {improvedText.map((section: string[], idx: number) => (
             <div key={idx} className="p-4 bg-gray-100 rounded-lg shadow">
-              <h1 className="font-bold text-lg mb-2 text-yellow-600">
+              <h2 className="font-bold text-lg mb-2 text-yellow-600">
                 {section[0]}
-              </h1>
+              </h2>
               <p className="whitespace-pre-line">
                 {section.slice(1).join("\n")}
               </p>
