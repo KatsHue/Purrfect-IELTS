@@ -6,12 +6,12 @@ import {
   PlayIcon,
   StopIcon,
 } from "@heroicons/react/24/solid";
-import { SpeakingTaskTwoAPI } from "@/api/SpeakingTaskTwoAPI";
+import { SpeakingAPI } from "@/api/SpeakingTaskTwoAPI";
 import { transcriptionAI } from "@/api/TranscriptionAI";
 import { getSpeakingTaskTwoFeedback } from "@/api/AIAPI";
 import { formatResponse } from "@/utils/format";
 
-export default function SpeakingViewTaskTwo() {
+export default function SpeakingView() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [isRecording, setIsRecording] = useState(false);
   const [transcription, setTranscription] = useState("");
@@ -20,7 +20,7 @@ export default function SpeakingViewTaskTwo() {
   const [showImproved, setShowImproved] = useState(false);
   const [improvedText, setImprovedText] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
-  const [questions, setQuestions] = useState<any[]>([]);
+  const [questions, setQuestions] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -29,42 +29,24 @@ export default function SpeakingViewTaskTwo() {
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
 
-  // 🔹 Cargar preguntas Task 2 en orden
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        const data = await SpeakingTaskTwoAPI.getTaskTwoQuestions(); // endpoint Task 2
+        const data = await SpeakingAPI.getTaskOneQuestions();
         setQuestions(data);
         setIsLoading(false);
       } catch (err) {
         setError(err instanceof Error ? err.message : "Unknown error occurred");
         setIsLoading(false);
         setQuestions([
-          {
-            mainQuestion: "Describe a person who has inspired you.",
-            prompts: [
-              "who this person is",
-              "how you know him or her",
-              "what qualities this person has",
-              "and explain why he or she has inspired you",
-            ],
-          },
-          {
-            mainQuestion: "Describe a city or town you enjoyed visiting.",
-            prompts: [
-              "where it is",
-              "when you went there",
-              "what you did there",
-              "and explain why you enjoyed your visit",
-            ],
-          },
+          "Describe a person who has inspired you.\nWho this person is\nHow you know him or her\nWhat qualities this person has\nAnd explain why he or she has inspired you",
+          "Describe a city or town you enjoyed visiting.\nWhere it is\nWhen you went there\nWhat you did there\nAnd explain why you enjoyed your visit",
         ]);
       }
     };
     fetchQuestions();
   }, []);
 
-  // 🎙️ Lógica de grabación
   const startRecording = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -85,7 +67,6 @@ export default function SpeakingViewTaskTwo() {
           setIsProcessing(true);
           const text = await transcriptionAI(audioBlob);
 
-          // ⚠️ Error si la IA no entendió el audio
           if (text.trim() === "/ Please check the submitted text /") {
             setTranscription("⚠️ Unable to process audio. Please try again.");
             setIsProcessing(false);
@@ -94,12 +75,25 @@ export default function SpeakingViewTaskTwo() {
 
           setTranscription(text);
 
-          const feedback = await getSpeakingTaskTwoFeedback(
-            text,
-            questions[currentQuestionIndex]
+          console.log("=== DEBUG Task 2 ===");
+          console.log("Transcription text:", text);
+          console.log("Current question RAW:", questions[currentQuestionIndex]);
+
+          const formattedCueCard = questions[currentQuestionIndex].replace(
+            /\\n/g,
+            "\n"
           );
 
-          // ⚠️ Error si la IA devolvió texto inválido
+          console.log("Formatted Cue Card:", formattedCueCard);
+
+          const feedback = await getSpeakingTaskTwoFeedback(
+            text,
+            formattedCueCard
+          );
+
+          console.log("Feedback received:", feedback);
+          console.log("=== END DEBUG ===");
+
           if (feedback.includes("/ Please check the submitted text /")) {
             setTranscription(
               "⚠️ The recording seems unclear or not in English. Try again."
@@ -112,7 +106,7 @@ export default function SpeakingViewTaskTwo() {
           setImprovedText(formatted);
           setShowImproved(true);
         } catch (err) {
-          console.error("Error processing audio:", err);
+          console.error("Error generando transcripción o feedback:", err);
           setTranscription(
             "⚠️ There was an issue processing your audio. Please record again."
           );
@@ -190,12 +184,13 @@ export default function SpeakingViewTaskTwo() {
     };
   }, []);
 
-  // 🌀 Pantallas de carga / error
   if (isLoading) {
     return (
-      <div className="max-w-3xl mx-auto p-6 text-center py-8">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-sky-500 mx-auto mb-4"></div>
-        <p>Loading Task 2 questions...</p>
+      <div className="max-w-3xl mx-auto p-6">
+        <div className="text-center py-8">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-sky-500 mx-auto mb-4"></div>
+          <p>Loading questions...</p>
+        </div>
       </div>
     );
   }
@@ -205,30 +200,40 @@ export default function SpeakingViewTaskTwo() {
       <div className="max-w-3xl mx-auto p-6">
         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
           <strong className="font-bold">Error!</strong>
-          <span className="block sm:inline"> {error} Using default data.</span>
+          <span className="block sm:inline">
+            {" "}
+            {error} Using default questions.
+          </span>
         </div>
       </div>
     );
   }
 
-  const current = questions[currentQuestionIndex];
+  if (questions.length === 0) {
+    return (
+      <div className="max-w-3xl mx-auto p-6">
+        <div className="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded relative">
+          <strong className="font-bold">No questions available</strong>
+          <span className="block sm:inline"> Please try again later.</span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-3xl mx-auto p-6 space-y-6">
-      <h1 className="text-3xl font-bold text-gray-800">Task 2: Cue Cards</h1>
+      <h1 className="text-3xl font-bold text-gray-800">
+        Speaking Practice: Cue Card
+      </h1>
 
-      {/* 🗒️ Cue Card */}
+      {/* Pregunta */}
       <div className="bg-white p-6 rounded-xl shadow-md">
         <h2 className="text-xl font-semibold text-gray-700 mb-2">
-          Cue Card {currentQuestionIndex + 1}/{questions.length}
+          Question {currentQuestionIndex + 1}/{questions.length}
         </h2>
-        <p className="text-lg font-medium mb-4">{current.mainQuestion}</p>
-
-        <ul className="list-disc list-inside text-gray-700 mb-6">
-          {current.prompts.map((item: string, i: number) => (
-            <li key={i}>{item}</li>
-          ))}
-        </ul>
+        <p className="text-lg mb-6 whitespace-pre-line">
+          {questions[currentQuestionIndex]}
+        </p>
 
         <div className="flex gap-3">
           <button
@@ -236,19 +241,19 @@ export default function SpeakingViewTaskTwo() {
             className="flex items-center gap-2 px-4 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition"
           >
             <ChevronLeftIcon className="h-4 w-4" />
-            Previous
+            Previous Question
           </button>
 
           <button
             onClick={nextQuestion}
             className="flex items-center gap-2 px-4 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition"
           >
-            Next <ChevronRightIcon className="h-4 w-4" />
+            Next Question <ChevronRightIcon className="h-4 w-4" />
           </button>
         </div>
       </div>
 
-      {/* 🎙️ Grabación */}
+      {/* Grabación */}
       <div className="bg-white p-6 rounded-xl shadow-md space-y-4">
         <h2 className="text-xl font-semibold text-gray-700">
           Record Your Answer
@@ -312,10 +317,10 @@ export default function SpeakingViewTaskTwo() {
           </div>
         )}
 
-        <audio ref={audioRef} src={audioUrl} hidden />
+        {audioUrl && <audio ref={audioRef} src={audioUrl} hidden />}
       </div>
 
-      {/* ✨ Feedback mejorado */}
+      {/* Improved Version */}
       {showImproved && Array.isArray(improvedText) && (
         <div className="space-y-6">
           {improvedText.map((section: string[], idx: number) => (

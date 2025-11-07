@@ -1,26 +1,42 @@
+//QuestionTaskTwo.ts
 import { Schema, model, Document } from "mongoose";
 
 export interface IQuestionTaskTwo extends Document {
   topic: string;
-  mainQuestion: string; // Ej: "Describe a place you like to visit"
-  prompts: string[]; // Ej: ["Where is it?", "What do you do there?", "Why do you like it?"]
+  subtopic: string;
+  question: string;
   level: "easy" | "medium" | "hard";
   language: string;
+  tags: string[];
   isActive: boolean;
+  timesDisplayed: number;
+  lastDisplayedAt?: Date;
 }
 
 const QuestionSchema = new Schema<IQuestionTaskTwo>(
   {
     topic: { type: String, required: true },
-    mainQuestion: { type: String, required: true },
-    prompts: [{ type: String, required: true }],
+    subtopic: { type: String, required: true },
+    question: { type: String, required: true },
     level: {
       type: String,
       enum: ["easy", "medium", "hard"],
       default: "medium",
     },
-    language: { type: String, default: "english" },
-    isActive: { type: Boolean, default: true },
+    language: {
+      type: String,
+      default: "english",
+    },
+    tags: [{ type: String }],
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
+    timesDisplayed: {
+      type: Number,
+      default: 0,
+    },
+    lastDisplayedAt: { type: Date },
   },
   { timestamps: true }
 );

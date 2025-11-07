@@ -68,7 +68,6 @@ export default function SpeakingView() {
           setIsProcessing(true);
           const text = await transcriptionAI(audioBlob);
 
-          // Si la IA no entendió el texto
           if (text.trim() === "/ Please check the submitted text /") {
             setTranscription("⚠️ Unable to process audio. Please try again.");
             setIsProcessing(false);
@@ -82,7 +81,6 @@ export default function SpeakingView() {
             questions[currentQuestionIndex]
           );
 
-          // Si la IA devolvió mensaje de error
           if (feedback.includes("/ Please check the submitted text /")) {
             setTranscription(
               "⚠️ The recording seems unclear or not in English. Try again."
@@ -211,7 +209,7 @@ export default function SpeakingView() {
 
   return (
     <div className="max-w-3xl mx-auto p-6 space-y-6">
-      <h1 className="text-3xl font-bold text-gray-800">Speaking Practice</h1>
+      <h1 className="text-3xl font-bold text-gray-800">Speaking Practice </h1>
 
       {/* Pregunta */}
       <div className="bg-white p-6 rounded-xl shadow-md">

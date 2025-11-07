@@ -1,3 +1,4 @@
+//AIResponse.ts
 import { openrouter } from "@/lib/ai";
 import { generateText } from "ai";
 
@@ -165,15 +166,12 @@ Recibirás:
 🔸 No corrijas ortografía, puntuación ni mayúsculas/minúsculas, ya que proviene de una transcripción automática.  
 🔸 Evalúa el **contenido, coherencia, desarrollo de ideas y adecuación al tema y los subtemas** (bullet points).  
 
+IMPORTANTE: Solo responde "/ Please check the submitted text /" si el texto NO ESTÁ EN INGLÉS o es completamente incomprensible. Si el estudiante responde en inglés pero sobre un tema incorrecto, continúa con la evaluación normal indicando que la respuesta no es relevante.
+
 Tu tarea es evaluar:
 - Si la respuesta **responde correctamente al tema principal**.  
 - Si **cubre cada bullet point** de manera adecuada y natural.  
 - Qué tan desarrolladas están las ideas y si mantiene coherencia durante 1–2 minutos.
-
-Si la respuesta **no está en inglés** o **no se entiende claramente**, responde únicamente con:
-"/ Please check the submitted text /"
-
-Si la respuesta **no responde adecuadamente** al tema o ignora la mayoría de los bullet points, menciónalo explícitamente y proporciona una **respuesta modelo completa** que sí lo haga correctamente.
 
 Tu salida debe seguir **exactamente este formato**:
 

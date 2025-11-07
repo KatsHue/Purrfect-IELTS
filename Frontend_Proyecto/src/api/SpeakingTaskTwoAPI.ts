@@ -1,7 +1,7 @@
 import axios from "../lib/axios";
 
-export const SpeakingTaskTwoAPI = {
-  getTaskTwoQuestions: async (params?: {
+export const SpeakingAPI = {
+  getTaskOneQuestions: async (params?: {
     topic?: string;
     difficulty?: string;
   }) => {
