@@ -6,6 +6,8 @@ import {
   generateResponse,
   generateSpeakingFeedback,
   generateSpeakingTaskTwoFeedback,
+  generateTaskThreeQuestions,
+  generateSpeakingTaskThreeFeedback,
 } from "./AIResponse";
 export async function getResponseIA({ text }: IAForm) {
   try {
@@ -45,6 +47,39 @@ export async function getSpeakingTaskTwoFeedback(
 ) {
   try {
     const data = await generateSpeakingTaskTwoFeedback(text, question);
+    return data;
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.error);
+    }
+  }
+}
+
+export async function getTaskThreeQuestions(
+  cueCard: string,
+  studentResponse: string
+) {
+  try {
+    const data = await generateTaskThreeQuestions(cueCard, studentResponse);
+    return data;
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.error);
+    }
+  }
+}
+
+export async function getSpeakingTaskThreeFeedback(
+  text: string,
+  question: string,
+  originalCueCard: string
+) {
+  try {
+    const data = await generateSpeakingTaskThreeFeedback(
+      text,
+      question,
+      originalCueCard
+    );
     return data;
   } catch (error) {
     if (isAxiosError(error) && error.response) {

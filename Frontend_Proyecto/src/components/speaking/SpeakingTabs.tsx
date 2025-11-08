@@ -13,7 +13,7 @@ const tabs = [
     icon: BookOpenIcon,
   },
   {
-    name: "Task 2",
+    name: "Task 2 & 3",
     href: "/speaking/task-2",
     icon: MicrophoneIcon,
   },

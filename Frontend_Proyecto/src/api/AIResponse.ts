@@ -245,3 +245,166 @@ Usa un tono alentador y profesional, como un examinador IELTS con experiencia.
 
   return result.text;
 }
+
+export async function generateTaskThreeQuestions(
+  cueCard: string,
+  studentResponse: string
+) {
+  const result = await generateText({
+    model: openrouter("gpt-4o-mini"),
+    messages: [
+      {
+        role: "system",
+        content: `
+Eres un examinador certificado del **IELTS Speaking Part 3**.
+
+Recibirás:
+1️⃣ La **cue card original** de Part 2
+2️⃣ La **respuesta del estudiante** a esa cue card
+
+Tu tarea es **generar exactamente 3 preguntas de seguimiento** (follow-up questions) para el **IELTS Speaking Part 3**.
+
+**Características de las preguntas Part 3:**
+- Son preguntas **abstractas y analíticas** relacionadas con el tema de la cue card
+- Requieren que el estudiante dé **opiniones, compare, analice o especule**
+- Son más profundas que las preguntas de Part 1
+- Deben estar directamente relacionadas con el tema de la cue card
+
+**Ejemplos:**
+Si la cue card es sobre "una persona que te inspiró":
+- "Do you think people need role models in modern society?"
+- "How have role models changed over the generations?"
+- "What qualities make someone a good leader?"
+
+Si la cue card es sobre "una ciudad que visitaste":
+- "How has tourism changed cities in your country?"
+- "Do you think cities or countryside are better places to live?"
+- "What impact does urbanization have on traditional culture?"
+
+**IMPORTANTE:**
+- Responde ÚNICAMENTE con las 3 preguntas, una por línea
+- NO incluyas números, viñetas ni explicaciones
+- Solo las preguntas en inglés
+- Cada pregunta debe ser diferente y explorar un ángulo distinto del tema
+
+Formato de respuesta esperado:
+Question 1 here?
+Question 2 here?
+Question 3 here?
+        `,
+      },
+      {
+        role: "user",
+        content: `Cue Card: ${cueCard}\n\nStudent's response: ${studentResponse}`,
+      },
+    ],
+  });
+
+  // Parsear las preguntas (una por línea)
+  const questions = result.text
+    .split("\n")
+    .map((q) => q.trim())
+    .filter((q) => q.length > 0);
+
+  return questions;
+}
+
+export async function generateSpeakingTaskThreeFeedback(
+  text: string,
+  question: string,
+  originalCueCard: string
+) {
+  const result = await generateText({
+    model: openrouter("gpt-4o-mini"),
+    messages: [
+      {
+        role: "system",
+        content: `
+Eres un examinador certificado del **IELTS Speaking (Part 3 - Follow-up Discussion)**.
+
+Recibirás:
+1️⃣ La **cue card original** de Part 2 (para contexto)
+2️⃣ La **pregunta de seguimiento** (Part 3)
+3️⃣ La **transcripción de la respuesta** del estudiante (obtenida por reconocimiento de voz)
+
+🔸 No corrijas ortografía, puntuación ni mayúsculas/minúsculas, ya que proviene de una transcripción automática.
+🔸 Evalúa el **contenido, profundidad de análisis, coherencia y desarrollo de ideas**.
+
+IMPORTANTE: Solo responde "/ Please check the submitted text /" si el texto NO ESTÁ EN INGLÉS o es completamente incomprensible. Si el estudiante responde en inglés pero la respuesta es débil o superficial, continúa con la evaluación indicando las debilidades.
+
+Tu tarea es evaluar:
+- Si la respuesta **responde directamente a la pregunta**
+- Si demuestra **pensamiento crítico y análisis**
+- Si da **ejemplos, razones o evidencias** para apoyar sus puntos
+- Qué tan bien desarrolladas están las ideas
+
+Tu salida debe seguir **exactamente este formato** (mantén los encabezados en inglés pero responde en español):
+
+|
+***Question***
+Muestra la pregunta de Part 3.
+|
+***Original Transcription***
+Muestra la transcripción tal como fue recibida.
+|
+***Answer Relevance***
+Evalúa si la respuesta es relevante y responde directamente a la pregunta.
+Usa una de estas opciones:
+- ✅ Adecuada y directa
+- ⚠️ Parcialmente relevante
+- ❌ No responde la pregunta
+
+Explica brevemente en español (2–3 oraciones).
+|
+***Depth of Analysis***
+Evalúa la profundidad del análisis y pensamiento crítico:
+- ✅ Análisis profundo con ejemplos y razonamiento sólido
+- ⚠️ Análisis básico o superficial
+- ❌ Sin análisis, respuesta muy simple
+
+Justifica brevemente.
+|
+***Estimated Band***
+Proporciona una **estimación aproximada de la banda IELTS Speaking (Part 3)** (Band 5.5–9.0).
+Evalúa con base en:
+- Fluidez y coherencia
+- Rango léxico (vocabulario más sofisticado)
+- Precisión gramatical (estructuras complejas)
+- Profundidad de ideas y análisis crítico
+
+Incluye una justificación breve en español.
+|
+***Identified Errors***
+Enumera errores o debilidades específicas:
+- Gramática hablada incorrecta
+- Vocabulario limitado o repetitivo
+- Falta de ejemplos o desarrollo insuficiente
+- Ideas poco claras o mal conectadas
+
+⚠️ No menciones errores ortográficos o de mayúsculas.
+Usa puntos o numeración.
+|
+***Professional Feedback***
+Da retroalimentación **profesional y constructiva** específica para IELTS Speaking Part 3.
+Incluye consejos sobre:
+- Cómo profundizar el análisis (dar razones, ejemplos, comparaciones)
+- Cómo usar vocabulario más académico y sofisticado
+- Cómo estructurar respuestas más coherentes y extensas
+- Cómo mostrar pensamiento crítico
+|
+***Model Example***
+Si la respuesta fue adecuada, ofrece una **versión mejorada en inglés (Band 8+)** con mayor profundidad y vocabulario sofisticado.
+Si fue inadecuada, genera una **respuesta modelo completa** que sí responda correctamente con análisis profundo.
+|
+Usa un tono alentador y profesional, como un examinador IELTS experimentado.
+        `,
+      },
+      {
+        role: "user",
+        content: `Original Cue Card (for context): ${originalCueCard}\n\nPart 3 Question: ${question}\n\nStudent's response:\n${text}`,
+      },
+    ],
+  });
+
+  return result.text;
+}
