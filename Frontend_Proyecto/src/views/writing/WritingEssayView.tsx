@@ -5,8 +5,9 @@ import { toast } from "react-toastify";
 import { getResponseIA } from "@/api/AIAPI";
 import { useEffect, useState } from "react";
 import { formatResponse } from "@/utils/format";
-import { WritingAPI } from "@/api/WritingTaskOneAPI";
+import { WritingAPI } from "@/api/WritingTaskTwoAPI";
 import { ChevronRightIcon, ChevronLeftIcon } from "@heroicons/react/24/solid";
+import { getWritingTaskTwoFeedback } from "@/api/AIAPI";
 
 export type IAForm = {
   text: string;
@@ -25,7 +26,7 @@ export default function SendIAView() {
 
   const [sections, setSections] = useState<string[][]>([]);
 
-  // NUEVOS ESTADOS PARA LAS PREGUNTAS
+  // ESTADOS PARA LAS PREGUNTAS
   const [questions, setQuestions] = useState<string[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [isLoadingQuestions, setIsLoadingQuestions] = useState(true);
@@ -41,7 +42,7 @@ export default function SendIAView() {
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        const data = await WritingAPI.getTaskOneQuestions();
+        const data = await WritingAPI.getTaskTwoQuestions();
         setQuestions(data);
         setIsLoadingQuestions(false);
       } catch (err) {
@@ -61,7 +62,7 @@ export default function SendIAView() {
 
   const { mutate } = useMutation({
     mutationFn: (formData: IAForm) =>
-      getResponseIA(formData, questions[currentQuestionIndex]),
+      getWritingTaskTwoFeedback(formData.text, questions[currentQuestionIndex]),
     onError: (error) => toast.error(error.message),
     onSuccess: (data) => {
       setIA({
@@ -163,7 +164,7 @@ export default function SendIAView() {
     <>
       <div className="mx-auto max-w-3xl p-6 space-y-6">
         <h1 className="text-3xl font-bold text-gray-800">
-          Writing Practice: Task 1 - Write a letter
+          Writing Practice: Task 3 - Write an essay
         </h1>
 
         {/* SECCIÓN DE LA PREGUNTA */}
@@ -201,11 +202,11 @@ export default function SendIAView() {
         >
           <div className="mb-5 space-y-3">
             <label className="text-sm uppercase font-bold" htmlFor="text">
-              Your Letter:
+              Your Essay:
             </label>
             <textarea
               id="text"
-              placeholder="Write your letter here..."
+              placeholder="Write your essay here..."
               rows={10}
               className="w-full p-3 border border-gray-200 rounded-lg resize-none"
               {...register("text", {
@@ -230,7 +231,7 @@ export default function SendIAView() {
           <div className="text-center py-12">
             <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mx-auto mb-4"></div>
             <p className="text-lg font-medium text-gray-600">
-              Processing your letter...
+              Processing your essay...
             </p>
           </div>
         )}

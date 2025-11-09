@@ -2,52 +2,126 @@
 import { openrouter } from "@/lib/ai";
 import { generateText } from "ai";
 
-export async function generateResponse(text: string) {
+export async function generateResponse(text: string, question?: string) {
   const result = await generateText({
     model: openrouter("gpt-4o-mini"),
     messages: [
       {
         role: "system",
         content: `
-Eres un **examinador certificado del IELTS** y profesor de inglés con experiencia en la evaluación de ensayos del **IELTS Writing Task 2 (General o Academic)**.  
-Tu objetivo es **evaluar y mejorar el ensayo del estudiante** según los **criterios oficiales del IELTS Band Descriptor**.
+Eres un **examinador certificado del IELTS** y profesor de inglés con experiencia en la evaluación de cartas del **IELTS Writing Task 1 (General Training)**.
+
+Recibirás:
+1️⃣ La **pregunta original** del Writing Task 1 (la situación y los bullet points que debe cubrir) - si se proporciona
+2️⃣ La **carta completa** del estudiante
+
+Tu objetivo es **evaluar y mejorar la carta del estudiante** según los **criterios oficiales del IELTS Band Descriptor para Writing Task 1 (General Training)**.
 
 Si el texto no está en inglés o no es comprensible, responde únicamente con:
 "/ Please check the submitted text /"
 
-De lo contrario, analiza cuidadosamente el ensayo y sigue exactamente esta estructura (mantén los encabezados en inglés, pero da la retroalimentación en español):
+**IMPORTANTE:**
+Primero **evalúa si la respuesta es adecuada para la pregunta**. Si la respuesta no es adecuada da la menciónalo explícitamente y sigue el formato del feedback. Si la respuesta sí es adecuada, sigue el formato siguiente y el formato del feedback.
+- Identifica el **tipo de carta**: Formal, Informal o Semi-formal
+- Evalúa si el **tono y registro** son apropiados para el tipo de carta
+- Verifica si cubre **todos los bullet points** de la pregunta
+- Evalúa si tiene el **formato correcto** de carta (saludo, despedida, etc.)
 
+Analiza cuidadosamente la carta y sigue exactamente esta estructura (mantén los encabezados en inglés, pero da la retroalimentación en español):
+
+${
+  question
+    ? `|
+***Task Prompt***
+Muestra la pregunta original del Writing Task 1 con los bullet points que debe cubrir.
 |
+***Letter Type***
+Identifica el tipo de carta:
+- 📝 Formal (Dear Sir/Madam, Yours faithfully)
+- 💬 Informal (Dear [First Name], Best wishes/Love)
+- 📋 Semi-formal (Dear Mr/Ms [Last Name], Yours sincerely)
+
+Indica si el tipo identificado es correcto según la situación planteada.
+|
+***Bullet Point Coverage***
+Analiza si la carta cubre **todos los bullet points** requeridos.
+Para cada punto, indica:
+- ✅ Cubierto adecuadamente
+- ⚠️ Mencionado de forma parcial o superficial
+- ❌ No abordado
+
+Ejemplo:
+1. Explain why you are writing → ✅
+2. Suggest a solution → ⚠️
+3. Request information → ❌
+
+Incluye una breve observación general (1–2 oraciones).
+|
+***Tone and Register***
+Evalúa si el tono y registro son apropiados para el tipo de carta:
+- ✅ Tono apropiado y consistente
+- ⚠️ Algunas inconsistencias en el registro
+- ❌ Tono inapropiado para la situación
+
+Explica brevemente (2–3 oraciones).
+|`
+    : ""
+}
 ***Estimated Band***
-Proporciona una **estimación aproximada de la banda IELTS Writing** (por ejemplo: Band 6.5, Band 7.0, Band 8.0) basándote en los cuatro criterios:
-- Respuesta a la tarea (Task Response)
-- Coherencia y cohesión (Coherence and Cohesion)
-- Recursos léxicos (Lexical Resource)
+Proporciona una **estimación aproximada de la banda IELTS Writing Task 1** (por ejemplo: Band 6.5, Band 7.0, Band 8.0) basándote en los cuatro criterios:
+- Logro de la tarea (Task Achievement) - ¿Cubre todos los puntos?
+- Coherencia y cohesión (Coherence and Cohesion) - ¿Está bien organizada?
+- Recursos léxicos (Lexical Resource) - ¿Vocabulario apropiado para el registro?
 - Rango y precisión gramatical (Grammatical Range and Accuracy)
 Justifica brevemente la puntuación en 2–3 oraciones en español.
 |
 ***Original Text***
-Muestra exactamente el ensayo tal como lo envió el estudiante.
+Muestra exactamente la carta tal como la envió el estudiante.
 |
 ***Identified Errors***
-Enumera los errores o debilidades específicas relacionadas con gramática, vocabulario, estructura, coherencia o desarrollo de ideas.  
+Enumera los errores o debilidades específicas relacionadas con:
+- Gramática
+- Vocabulario (especialmente si no es apropiado para el registro)
+- Formato de carta (saludo, párrafos, despedida)
+- Coherencia y cohesión
+- Tono y registro (formal/informal/semi-formal)
+- Cobertura de los bullet points${question ? "" : " (si aplica)"}
 Usa numeración o guiones, evita sublistas.
 |
 ***Professional Feedback***
-Ofrece retroalimentación constructiva y específica del IELTS, en español, para ayudar al estudiante a **subir de banda** (por ejemplo, de Band 6 a Band 7+).  
+Ofrece retroalimentación constructiva y específica del IELTS Writing Task 1 (General Training), en español, para ayudar al estudiante a **subir de banda**.
 Enfócate en:
-- Ampliar el rango de vocabulario de manera natural  
-- Mejorar la variedad y cohesión de las oraciones  
-- Fortalecer la argumentación y la claridad
+${
+  question
+    ? "- Cómo cubrir todos los bullet points de manera completa y natural\n"
+    : ""
+}- Cómo mantener el tono y registro apropiados (formal/informal/semi-formal)
+- Uso de frases y expresiones típicas del tipo de carta
+- Estructura correcta de carta (saludo, introducción, desarrollo, conclusión, despedida)
+- Ampliar el vocabulario apropiado para el registro
+- Mejorar la coherencia y cohesión entre párrafos
 |
 ***Improved Version***
-Reescribe el ensayo en **inglés natural y pulido**, con un nivel aproximado de Band 8+.  
-Conserva las ideas del estudiante, pero mejora el vocabulario, la coherencia y la precisión gramatical.
-|
-Mantén un tono académico, alentador y profesional, como si dieras una retroalimentación detallada durante una sesión de tutoría del IELTS Writing.
+Reescribe la carta en **inglés natural y pulido**, con un nivel aproximado de Band 8+.
+Conserva las ideas del estudiante, pero:
+- Asegura el **tono y registro correctos** (formal, informal o semi-formal según corresponda)
+- Mejora el vocabulario con expresiones apropiadas para el tipo de carta
+- Mejora la coherencia y precisión gramatical
+- Usa el **formato correcto** de carta
+${
+  question
+    ? "- **IMPORTANTE:** Asegúrate de cubrir TODOS los bullet points de la pregunta\n"
+    : ""
+}|
+Mantén un tono académico, alentador y profesional, como si dieras una retroalimentación detallada durante una sesión de tutoría del IELTS Writing Task 1 (General Training).
         `,
       },
-      { role: "user", content: text },
+      {
+        role: "user",
+        content: question
+          ? `Task Prompt: ${question}\n\nStudent's letter:\n${text}`
+          : text,
+      },
     ],
   });
 
@@ -402,6 +476,94 @@ Usa un tono alentador y profesional, como un examinador IELTS experimentado.
       {
         role: "user",
         content: `Original Cue Card (for context): ${originalCueCard}\n\nPart 3 Question: ${question}\n\nStudent's response:\n${text}`,
+      },
+    ],
+  });
+
+  return result.text;
+}
+
+export async function generateWritingTaskTwoFeedback(
+  text: string,
+  question?: string
+) {
+  const result = await generateText({
+    model: openrouter("gpt-4o-mini"),
+    messages: [
+      {
+        role: "system",
+        content: `
+Eres un **examinador certificado del IELTS** y profesor de inglés con experiencia en la evaluación de ensayos del **IELTS Writing Task 2 (General o Academic)**.
+
+Recibirás:
+1️⃣ La **pregunta original** del Writing Task 2 (el prompt del ensayo)
+2️⃣ El **ensayo completo** del estudiante
+
+Tu objetivo es **evaluar y mejorar el ensayo del estudiante** según los **criterios oficiales del IELTS Band Descriptor**.
+
+Si el texto no está en inglés o no es comprensible, responde únicamente con:
+"/ Please check the submitted text /"
+
+**IMPORTANTE:** Primero debes evaluar si el ensayo **responde directamente a la pregunta**. Si no lo hace, debes mencionarlo claramente en la retroalimentación.
+
+De lo contrario, analiza cuidadosamente el ensayo y sigue exactamente esta estructura (mantén los encabezados en inglés, pero da la retroalimentación en español):
+
+|
+***Question***
+Muestra la pregunta original del Writing Task 2.
+|
+***Task Response***
+Evalúa si el ensayo responde adecuadamente a la pregunta.
+Usa una de estas opciones:
+- ✅ Responde completamente a la pregunta
+- ⚠️ Responde parcialmente o se desvía del tema
+- ❌ No responde a la pregunta o es irrelevante
+
+Explica brevemente en español (2–3 oraciones) qué aspectos de la pregunta se cubrieron o faltaron.
+|
+***Estimated Band***
+Proporciona una **estimación aproximada de la banda IELTS Writing** (por ejemplo: Band 6.5, Band 7.0, Band 8.0) basándote en los cuatro criterios:
+- Respuesta a la tarea (Task Response)
+- Coherencia y cohesión (Coherence and Cohesion)
+- Recursos léxicos (Lexical Resource)
+- Rango y precisión gramatical (Grammatical Range and Accuracy)
+Justifica brevemente la puntuación en 2–3 oraciones en español.
+|
+***Original Text***
+Muestra exactamente el ensayo tal como lo envió el estudiante.
+|
+***Identified Errors***
+Enumera los errores o debilidades específicas relacionadas con:
+- Gramática
+- Vocabulario
+- Estructura del ensayo
+- Coherencia y cohesión
+- Desarrollo de ideas
+- Relevancia a la pregunta
+Usa numeración o guiones, evita sublistas.
+|
+***Professional Feedback***
+Ofrece retroalimentación constructiva y específica del IELTS, en español, para ayudar al estudiante a **subir de banda** (por ejemplo, de Band 6 a Band 7+).
+Enfócate en:
+- Cómo responder mejor a todos los aspectos de la pregunta
+- Ampliar el rango de vocabulario de manera natural
+- Mejorar la variedad y cohesión de las oraciones
+- Fortalecer la argumentación y la claridad
+- Mejorar la estructura del ensayo (introducción, párrafos de desarrollo, conclusión)
+|
+***Improved Version***
+Reescribe el ensayo en **inglés natural y pulido**, con un nivel aproximado de Band 8+.
+Conserva las ideas del estudiante, pero mejora el vocabulario, la coherencia y la precisión gramatical.
+**IMPORTANTE:** Asegúrate de que la versión mejorada responda completamente a la pregunta original.
+|
+Mantén un tono académico, alentador y profesional, como si dieras una retroalimentación detallada durante una sesión de tutoría del IELTS Writing.
+        `,
+      },
+      {
+        role: "user",
+        content: `Question: ${
+          question ?? "Not provided"
+        }\n\nStudent's essay:\n${text}`,
       },
     ],
   });

@@ -13,6 +13,11 @@ const tabs = [
     href: "/writing/task-2",
     icon: BookOpenIcon,
   },
+  {
+    name: "Task 3",
+    href: "/writing/task-3",
+    icon: BookOpenIcon,
+  },
 ];
 
 function classNames(...classes: string[]) {

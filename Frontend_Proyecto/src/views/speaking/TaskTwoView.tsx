@@ -28,7 +28,7 @@ export default function SpeakingView() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // ===== NUEVOS ESTADOS PARA TASK 3 =====
+  // NUEVOS ESTADOS PARA TASK 3
   const [showTaskThree, setShowTaskThree] = useState(false);
   const [taskThreeReady, setTaskThreeReady] = useState(false);
   const [taskThreeQuestions, setTaskThreeQuestions] = useState<string[]>([]);
@@ -39,7 +39,6 @@ export default function SpeakingView() {
   const [taskThreeAudioUrls, setTaskThreeAudioUrls] = useState<string[]>([]);
   const [taskThreeFeedbacks, setTaskThreeFeedbacks] = useState<any[]>([]);
   const [isRecordingTaskThree, setIsRecordingTaskThree] = useState(false);
-  // =======================================
 
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
@@ -80,7 +79,7 @@ export default function SpeakingView() {
         const url = URL.createObjectURL(audioBlob);
 
         if (!showTaskThree) {
-          // ===== PROCESAMIENTO TASK 2 =====
+          // ===== PROCESAMIENTO TASK 2
           setAudioUrl(url);
           setIsRecording(false);
 
@@ -118,7 +117,7 @@ export default function SpeakingView() {
             setImprovedText(formatted);
             setShowImproved(true);
 
-            // ===== GENERAR PREGUNTAS TASK 3 =====
+            // ===== GENERA PREGUNTAS PRA LA TASK 3
             const t3Questions = await getTaskThreeQuestions(
               formattedCueCard,
               text
@@ -127,7 +126,6 @@ export default function SpeakingView() {
               setTaskThreeQuestions(t3Questions);
               setTaskThreeReady(true);
             }
-            // ====================================
           } catch (err) {
             console.error("Error generando transcripción o feedback:", err);
             setTranscription(
@@ -137,7 +135,7 @@ export default function SpeakingView() {
             setIsProcessing(false);
           }
         } else {
-          // ===== PROCESAMIENTO TASK 3 =====
+          // ===== PROCESAMIENTO TASK 3
           setIsRecordingTaskThree(false);
 
           try {
@@ -150,7 +148,7 @@ export default function SpeakingView() {
               return;
             }
 
-            // Guardar transcripción y audio
+            // ===== Guardar transcripción y audio
             const newTranscriptions = [...taskThreeTranscriptions];
             newTranscriptions[currentTaskThreeIndex] = text;
             setTaskThreeTranscriptions(newTranscriptions);
@@ -159,7 +157,7 @@ export default function SpeakingView() {
             newUrls[currentTaskThreeIndex] = url;
             setTaskThreeAudioUrls(newUrls);
 
-            // Obtener feedback
+            // ===== Obtener feedback
             const feedback = await getSpeakingTaskThreeFeedback(
               text,
               taskThreeQuestions[currentTaskThreeIndex],
@@ -241,7 +239,6 @@ export default function SpeakingView() {
     setIsProcessing(false);
     audioChunksRef.current = [];
 
-    // ===== RESET TASK 3 =====
     setShowTaskThree(false);
     setTaskThreeReady(false);
     setTaskThreeQuestions([]);
@@ -250,7 +247,6 @@ export default function SpeakingView() {
     setTaskThreeAudioUrls([]);
     setTaskThreeFeedbacks([]);
     setIsRecordingTaskThree(false);
-    // ========================
   };
 
   const goToTaskThree = () => {

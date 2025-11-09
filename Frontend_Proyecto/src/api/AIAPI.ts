@@ -8,10 +8,12 @@ import {
   generateSpeakingTaskTwoFeedback,
   generateTaskThreeQuestions,
   generateSpeakingTaskThreeFeedback,
+  generateWritingTaskTwoFeedback,
 } from "./AIResponse";
-export async function getResponseIA({ text }: IAForm) {
+
+export async function getResponseIA({ text }: IAForm, question?: string) {
   try {
-    const data = await generateResponse(text);
+    const data = await generateResponse(text, question);
     return data;
   } catch (error) {
     if (isAxiosError(error) && error.response) {
@@ -19,6 +21,7 @@ export async function getResponseIA({ text }: IAForm) {
     }
   }
 }
+
 export async function getQuestionIA(text: string) {
   try {
     const data = await generateQuestions(text);
@@ -80,6 +83,20 @@ export async function getSpeakingTaskThreeFeedback(
       question,
       originalCueCard
     );
+    return data;
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.error);
+    }
+  }
+}
+
+export async function getWritingTaskTwoFeedback(
+  text: string,
+  question?: string
+) {
+  try {
+    const data = await generateWritingTaskTwoFeedback(text, question);
     return data;
   } catch (error) {
     if (isAxiosError(error) && error.response) {
