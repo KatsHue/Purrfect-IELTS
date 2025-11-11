@@ -10,6 +10,8 @@ import { SpeakingAPI } from "@/api/SpeakingTaskOneAPI";
 import { transcriptionAI } from "@/api/TranscriptionAI";
 import { getSpeakingFeedback } from "@/api/AIAPI";
 import { formatResponse } from "@/utils/format";
+import { useSavePracticeResult } from "@/hooks/useSavePracticeResult";
+import { parseAIFeedback } from "@/utils/parseAIFeedback";
 
 export default function SpeakingView() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -23,6 +25,10 @@ export default function SpeakingView() {
   const [questions, setQuestions] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const { mutate: saveResult } = useSavePracticeResult();
+
+  const [recordingStartTime, setRecordingStartTime] = useState(120);
 
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
@@ -92,6 +98,23 @@ export default function SpeakingView() {
           const formatted = formatResponse(feedback);
           setImprovedText(formatted);
           setShowImproved(true);
+
+          const parsedFeedback = parseAIFeedback(feedback);
+          const recordingDuration = recordingStartTime - recordingTime; // Tiempo usado
+
+          saveResult({
+            type: "speaking",
+            task: "task-one",
+            question: questions[currentQuestionIndex],
+            userResponse: text,
+            aiFeedback: feedback,
+            estimatedBand: parsedFeedback.estimatedBand,
+            identifiedErrors: parsedFeedback.identifiedErrors,
+            metadata: {
+              taskRelevance: parsedFeedback.metadata?.taskRelevance,
+              recordingDuration: recordingDuration,
+            },
+          });
         } catch (err) {
           console.error("Error generando transcripción o feedback:", err);
           setTranscription(
@@ -106,6 +129,7 @@ export default function SpeakingView() {
       setIsRecording(true);
       audioChunksRef.current = [];
 
+      setRecordingStartTime(120);
       setRecordingTime(120);
       timerRef.current = setInterval(() => {
         setRecordingTime((prev) => {

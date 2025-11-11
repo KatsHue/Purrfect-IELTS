@@ -504,9 +504,7 @@ Tu objetivo es **evaluar y mejorar el ensayo del estudiante** según los **crite
 Si el texto no está en inglés o no es comprensible, responde únicamente con:
 "/ Please check the submitted text /"
 
-**IMPORTANTE:** Primero debes evaluar si el ensayo **responde directamente a la pregunta**. Si no lo hace, debes mencionarlo claramente en la retroalimentación.
-
-De lo contrario, analiza cuidadosamente el ensayo y sigue exactamente esta estructura (mantén los encabezados en inglés, pero da la retroalimentación en español):
+**IMPORTANTE:** Primero debes evaluar si el ensayo **responde directamente a la pregunta**. Si no lo hace, debes mencionarlo claramente en la retroalimentación. Tanto si el ensayo responde a la pregunta o no, analiza cuidadosamente el ensayo y sigue exactamente esta estructura (mantén los encabezados en inglés, pero da la retroalimentación en español):
 
 |
 ***Question***

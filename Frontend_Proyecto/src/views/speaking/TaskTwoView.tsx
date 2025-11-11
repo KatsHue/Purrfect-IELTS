@@ -14,6 +14,8 @@ import {
   getSpeakingTaskThreeFeedback,
 } from "@/api/AIAPI";
 import { formatResponse } from "@/utils/format";
+import { useSavePracticeResult } from "@/hooks/useSavePracticeResult";
+import { parseAIFeedback } from "@/utils/parseAIFeedback";
 
 export default function SpeakingView() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -39,6 +41,12 @@ export default function SpeakingView() {
   const [taskThreeAudioUrls, setTaskThreeAudioUrls] = useState<string[]>([]);
   const [taskThreeFeedbacks, setTaskThreeFeedbacks] = useState<any[]>([]);
   const [isRecordingTaskThree, setIsRecordingTaskThree] = useState(false);
+
+  // para guardar resultados
+  const { mutate: saveResult } = useSavePracticeResult();
+
+  // para trackear el tiempo inicial de grabación
+  const [recordingStartTime, setRecordingStartTime] = useState(120);
 
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
@@ -117,6 +125,25 @@ export default function SpeakingView() {
             setImprovedText(formatted);
             setShowImproved(true);
 
+            //  Guardar resultado de Task 2 en la base de datos
+            const parsedFeedback = parseAIFeedback(feedback);
+            const recordingDuration = recordingStartTime - recordingTime; // Tiempo usado
+
+            saveResult({
+              type: "speaking",
+              task: "task-two",
+              question: formattedCueCard,
+              userResponse: text,
+              aiFeedback: feedback,
+              estimatedBand: parsedFeedback.estimatedBand,
+              identifiedErrors: parsedFeedback.identifiedErrors,
+              bulletPointsCovered: parsedFeedback.bulletPointsCovered,
+              metadata: {
+                taskRelevance: parsedFeedback.metadata?.taskRelevance,
+                recordingDuration: recordingDuration,
+              },
+            });
+
             // ===== GENERA PREGUNTAS PRA LA TASK 3
             const t3Questions = await getTaskThreeQuestions(
               formattedCueCard,
@@ -168,6 +195,24 @@ export default function SpeakingView() {
             const newFeedbacks = [...taskThreeFeedbacks];
             newFeedbacks[currentTaskThreeIndex] = formatted;
             setTaskThreeFeedbacks(newFeedbacks);
+
+            // Guardar resultado de Task 3 en la base de datos
+            const parsedFeedback = parseAIFeedback(feedback);
+            const recordingDuration = recordingStartTime - recordingTime;
+
+            saveResult({
+              type: "speaking",
+              task: "task-three",
+              question: taskThreeQuestions[currentTaskThreeIndex],
+              userResponse: text,
+              aiFeedback: feedback,
+              estimatedBand: parsedFeedback.estimatedBand,
+              identifiedErrors: parsedFeedback.identifiedErrors,
+              metadata: {
+                taskRelevance: parsedFeedback.metadata?.taskRelevance,
+                recordingDuration: recordingDuration,
+              },
+            });
           } catch (err) {
             console.error("Error en Task 3:", err);
             alert("⚠️ There was an issue processing your audio.");
@@ -185,6 +230,7 @@ export default function SpeakingView() {
       }
       audioChunksRef.current = [];
 
+      setRecordingStartTime(120);
       setRecordingTime(120);
       timerRef.current = setInterval(() => {
         setRecordingTime((prev) => {
@@ -442,17 +488,17 @@ export default function SpeakingView() {
           {taskThreeReady && !showTaskThree && (
             <div className="bg-gradient-to-r from-yellow-100 to-amber-100 p-6 rounded-xl shadow-lg border-2 border-yellow-400">
               <h3 className="text-xl font-bold text-amber-800 mb-3">
-                🎯 Ready for Part 3!
+                🎯 ¡Listo para la Parte 3!
               </h3>
               <p className="text-gray-700 mb-4">
-                Great job on Part 2! Now let's move on to the follow-up
-                discussion questions (Part 3).
+                ¡Buen trabajo en la Parte 2! Ahora pasemos a las preguntas de
+                seguimiento. (Parte 3).
               </p>
               <button
                 onClick={goToTaskThree}
                 className="w-full py-3 bg-gradient-to-r from-yellow-500 to-amber-600 text-white rounded-lg font-bold hover:from-yellow-600 hover:to-amber-700 transition shadow-md"
               >
-                Continue to Part 3 →
+                Continúa con la Parte 3 →
               </button>
             </div>
           )}
@@ -467,7 +513,8 @@ export default function SpeakingView() {
               Part 3 - Follow-up Discussion
             </h2>
             <p className="text-gray-700">
-              Now let's discuss some abstract ideas related to your topic.
+              Ahora hablemos de algunas ideas abstractas relacionadas con tu
+              tema.
             </p>
           </div>
 
@@ -512,7 +559,7 @@ export default function SpeakingView() {
           {/* Grabación Task 3 */}
           <div className="bg-white p-6 rounded-xl shadow-md space-y-4">
             <h2 className="text-xl font-semibold text-gray-700">
-              Record Your Answer (30-60 seconds)
+              Record Your Answer
             </h2>
 
             {isProcessing ? (

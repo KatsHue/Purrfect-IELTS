@@ -8,6 +8,8 @@ import { formatResponse } from "@/utils/format";
 import { WritingAPI } from "@/api/WritingTaskTwoAPI";
 import { ChevronRightIcon, ChevronLeftIcon } from "@heroicons/react/24/solid";
 import { getWritingTaskTwoFeedback } from "@/api/AIAPI";
+import { useSavePracticeResult } from "@/hooks/useSavePracticeResult";
+import { parseAIFeedback } from "@/utils/parseAIFeedback";
 
 export type IAForm = {
   text: string;
@@ -31,6 +33,12 @@ export default function SendIAView() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [isLoadingQuestions, setIsLoadingQuestions] = useState(true);
   const [questionsError, setQuestionsError] = useState<string | null>(null);
+
+  // para guardar resultados
+  const { mutate: saveResult } = useSavePracticeResult();
+
+  // guardar el texto del usuario
+  const [userSubmittedText, setUserSubmittedText] = useState("");
 
   const {
     register,
@@ -71,6 +79,24 @@ export default function SendIAView() {
         response: true,
         loading: false,
       });
+
+      // r resultado en la base de datos
+      const parsedFeedback = parseAIFeedback(data!);
+
+      saveResult({
+        type: "writing",
+        task: "task-two", //
+        question: questions[currentQuestionIndex],
+        userResponse: userSubmittedText, // El texto que envió el usuario
+        aiFeedback: data!,
+        estimatedBand: parsedFeedback.estimatedBand,
+        identifiedErrors: parsedFeedback.identifiedErrors,
+        bulletPointsCovered: parsedFeedback.bulletPointsCovered,
+        metadata: {
+          toneType: parsedFeedback.metadata?.toneType,
+          taskRelevance: parsedFeedback.metadata?.taskRelevance,
+        },
+      });
     },
   });
 
@@ -83,6 +109,8 @@ export default function SendIAView() {
 
   const handleChangePassword = (formData: IAForm) => {
     setIA({ ...ia, loading: true });
+    //  Guardar el texto del usuario antes de enviarlo
+    setUserSubmittedText(formData.text);
     mutate(formData);
   };
 
@@ -108,6 +136,7 @@ export default function SendIAView() {
       loading: false,
     });
     setSections([]);
+    setUserSubmittedText("");
   };
 
   function renderContent(content: string) {

@@ -9,6 +9,7 @@ import speakingTaskOneRoutes from "./routes/SpeakingTaskOneRoutes";
 import speakingTaskTwoRoutes from "./routes/SpeakingTaskTwoRoutes";
 import writingTaskOneRoutes from "./routes/WritingTaskOneRoutes";
 import writingTaskTwoRoutes from "./routes/WritingTaskTwoRoutes";
+import analyticsRoutes from "./routes/AnalyticsRoutes";
 
 dotenv.config();
 
@@ -29,5 +30,8 @@ app.use("/api/speaking/task-two", speakingTaskTwoRoutes);
 // Rutas Writing Questions
 app.use("/api/writing/task-one", writingTaskOneRoutes);
 app.use("/api/writing/task-two", writingTaskTwoRoutes);
+
+// Rutas Historial
+app.use("/api/analytics", analyticsRoutes);
 
 export default app;
