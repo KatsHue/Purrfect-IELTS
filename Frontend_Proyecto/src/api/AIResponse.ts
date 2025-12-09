@@ -28,3 +28,17 @@ export async function generateQuestions(text: string) {
         
         return result.text
 }
+
+export async function generateTips(text: string) {
+        
+        const result = await generateText({
+            model: openrouter('moonshotai/kimi-k2:free'),
+            messages: [
+                {"role": "system", "content": 'Eres un profesor de ingles avanzado y tu respuesta es en inglés, se te proporcionara un texto el cual tendra en primer lugar el texto original y separado por |  despues la transcripcion del audio del usuario, a partir de esto deberás de brindar retroalimentación al usuario, indicando consejos de pronunciacion, además si observas que las palabras son distintas señalar cuales son.'
+                },
+                {"role": "user", "content": text}
+            ]
+        })
+        
+        return result.text
+}

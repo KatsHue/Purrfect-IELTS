@@ -25,7 +25,10 @@ export default function QuestionWritingView() {
 
     useEffect(() => {
         if(ia.text){
-            console.log(ia.text)
+            setIA({
+                ...ia,
+                loading: false
+            })
         }
     }, [ia.text])
 
@@ -53,6 +56,10 @@ export default function QuestionWritingView() {
             setConfiguration({
                 ...configuration,
                 reset: false
+            })
+            setIA({
+                ...ia,
+                loading: true
             })
             console.log(ia.text)
         }
@@ -89,11 +96,7 @@ export default function QuestionWritingView() {
                 }
 
                 {
-                    configuration.difficulty && configuration.category && !ia.text && (<p className="text-2xl font-light text-gray-500 mt-5">Espera unos minutos para la generación del cuestionario</p>)
-                }
-
-                {
-                    !ia.text ? (
+                    !ia.loading && !ia.text ? (
                         <div
                             className=" mt-6 space-y-5 bg-white shadow-lg p-10 rounded-lg mb-5"
                         >
@@ -133,9 +136,13 @@ export default function QuestionWritingView() {
                             }
                             
                         </div>
-                    ) : (
-                        <div className="flex items-center m-5">
-                            
+                    ) : ia.loading && (
+                        // Estados de carga y error(
+                        <div className="max-w-3xl mx-auto p-6">
+                            <div className="text-center py-8">
+                            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-sky-500 mx-auto mb-4"></div>
+                            <p>Loading questions...</p>
+                            </div>
                         </div>
                     )
                 }

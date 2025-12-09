@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const headers = {
-    authorization: "11ef32d699aa449dbd317f052299be88",
+    authorization: import.meta.env.VITE_API_IA_ASSEMBLY,
     "Content-Type": "application/json",
 }
 
@@ -13,7 +13,7 @@ export const transcriptionAI = async (audioBlob: Blob) => {
         audioBlob,
         {
             headers: {
-            authorization: "11ef32d699aa449dbd317f052299be88",
+            authorization: import.meta.env.VITE_API_IA_ASSEMBLY,
             "Content-Type": "application/octet-stream",
             },
         }

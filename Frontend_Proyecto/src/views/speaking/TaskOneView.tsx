@@ -8,6 +8,7 @@ import {
 } from "@heroicons/react/24/solid";
 import { SpeakingAPI } from "@/api/SpeakingTaskOneAPI";
 import { transcriptionAI } from "@/api/TranscriptionAI";
+import {generateTips} from "@/api/AIResponse" 
 
 export default function SpeakingView() {
   // Estados
@@ -112,10 +113,12 @@ export default function SpeakingView() {
 
   // Generar versión mejorada
   const generateImprovedVersion = () => {
+    /*
     const mockImproved = `Aquí va a ir la versión mejorada de la respuesta anterior:\n\n"${transcription}"\n\nSe mostrarán:\n• las correciones hechas\n• Los cambios\n• Tal vez una explicación`;
     console.log(audioUrl)
     setImprovedText(mockImproved);
     setShowImproved(true);
+    */
   };
 
   // Reproducir grabación
@@ -124,7 +127,13 @@ export default function SpeakingView() {
       const audioBlob = new Blob(audioChunksRef.current, { type: "audio/webm" });
       const text = await transcriptionAI(audioBlob);
       setTranscription(text);
+      const prompt = questions[currentQuestionIndex] + ' | ' + text
+      const result = await generateTips(prompt)
+      console.log(result)
+      setImprovedText(result)
+      setShowImproved(true)
     }
+
     if (audioRef.current) {
       audioRef.current.play();
     }
@@ -258,8 +267,8 @@ export default function SpeakingView() {
         ) : (
           <div className="space-y-4">
             <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
-              <h3 className="font-medium mb-2">Your transcription:</h3>
-              <p className="whitespace-pre-line">{transcription}</p>
+              <h3 className="font-medium mb-2">{transcription ? 'Transcripción' : 'Analiza primero tu audio'}</h3>
+              <p className="whitespace-pre-line">{transcription ? transcription : ' '}</p>
             </div>
 
             {audioUrl && (
@@ -268,7 +277,7 @@ export default function SpeakingView() {
                 className="flex items-center gap-2 px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition"
               >
                 <PlayIcon className="h-5 w-5" />
-                Play Your Recording
+                Analizar audio
               </button>
             )}
           </div>
@@ -289,9 +298,13 @@ export default function SpeakingView() {
             <p className="mb-4 text-gray-700 whitespace-pre-line">
               {transcription}
             </p>
+          </div>
 
-            <h3 className="font-medium text-blue-800 mb-2">Improved:</h3>
-            <p className="text-blue-900 whitespace-pre-line">{improvedText}</p>
+          <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
+            <h3 className="font-medium text-blue-800 mb-2">Retro:</h3>
+            <p className="mb-4 text-gray-700 whitespace-pre-line">
+              {improvedText}
+            </p>
           </div>
 
           <div className="flex gap-3">
