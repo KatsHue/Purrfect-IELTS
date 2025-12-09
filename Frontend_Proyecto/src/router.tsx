@@ -24,6 +24,12 @@ import WritingLayout from "./layouts/WritingLayout";
 import WritingView from "./views/writing/WritingView";
 import DashboardMainView from "./views/DashboardMainView";
 import QuestionWritingView from "./views/writing/QuestionWritingView";
+import WritingEssayView from "./views/writing/WritingEssayView";
+import HistoryLayout from "./layouts/HistoryLayout";
+import HistoryView from "./views/history/HistoryView";
+import AnalyticsView from "./views/history/AnalyticsView";
+import PracticeDetailView from "./views/history/DetailsView";
+import HistoryCompleteView from "./views/history/HistoryCompleteView";
 
 export default function Router() {
   return (
@@ -60,6 +66,20 @@ export default function Router() {
             <Route path="/writing/" element={<WritingView />} />
             <Route path="/writing/task-1" element={<SendIAView />} />
             <Route path="/writing/task-2" element={<QuestionWritingView />} />
+            <Route path="/writing/task-3" element={<WritingEssayView />} />
+          </Route>
+
+          <Route element={<HistoryLayout></HistoryLayout>}>
+            <Route path="/history/" element={<HistoryView />} />
+            <Route path="/history/analytics" element={<AnalyticsView />} />
+            <Route
+              path="/history/history-complete"
+              element={<HistoryCompleteView />}
+            />
+            <Route
+              path="/history/history-complete/:id"
+              element={<PracticeDetailView />}
+            />
           </Route>
         </Route>
 

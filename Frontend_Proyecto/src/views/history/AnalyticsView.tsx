@@ -1,0 +1,287 @@
+import { useQuery } from "@tanstack/react-query";
+import { AnalyticsAPI } from "@/api/AnalyticsAPI";
+import {
+  LineChart,
+  Line,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
+} from "recharts";
+import {
+  ChartBarIcon,
+  FireIcon,
+  TrophyIcon,
+  ClockIcon,
+} from "@heroicons/react/24/solid";
+import { Link } from "react-router-dom";
+
+export default function AnalyticsView() {
+  const { data: stats, isLoading } = useQuery({
+    queryKey: ["userStats"],
+    queryFn: AnalyticsAPI.getUserStats,
+  });
+
+  if (isLoading) {
+    return (
+      <div className="max-w-7xl mx-auto p-6">
+        <div className="text-center py-12">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-sky-500 mx-auto mb-4"></div>
+          <p className="text-lg font-medium text-gray-600">
+            Loading your statistics...
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!stats) {
+    return (
+      <div className="max-w-7xl mx-auto p-6">
+        <div className="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded">
+          No statistics available yet. Start practicing!
+        </div>
+      </div>
+    );
+  }
+
+  // Preparar datos para gráficos
+  const taskData = stats.byTypeAndTask.map((item) => ({
+    name: `${item._id.type} ${item._id.task}`,
+    band: parseFloat(item.avgBand.toFixed(1)),
+    practices: item.count,
+  }));
+
+  const progressData = stats.recentProgress.map((item) => ({
+    date: new Date(item._id).toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+    }),
+    band: parseFloat(item.avgBand.toFixed(1)),
+    count: item.count,
+  }));
+
+  const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#8884D8"];
+
+  return (
+    <div className="max-w-7xl mx-auto p-6 space-y-6">
+      {/* Header */}
+      <div className="flex justify-between items-center">
+        <h1 className="text-3xl font-bold text-gray-800">
+          📊 Tu Progreso IELTS
+        </h1>
+        <Link
+          to="/history/history-complete"
+          className="px-4 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition"
+        >
+          Ver Historial
+        </Link>
+      </div>
+
+      {/* Stats Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* Total Practices */}
+        <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl shadow-lg p-6 text-white">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-blue-100 text-sm font-medium">
+                Total de Prácticas
+              </p>
+              <p className="text-3xl font-bold mt-2">{stats.totalPractices}</p>
+            </div>
+            <ChartBarIcon className="h-12 w-12 text-blue-200" />
+          </div>
+        </div>
+
+        {/* Average Band */}
+        <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-xl shadow-lg p-6 text-white">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-green-100 text-sm font-medium">
+                Band Promedio
+              </p>
+              <p className="text-3xl font-bold mt-2">
+                {stats.averageBand ? stats.averageBand.toFixed(1) : "N/A"}
+              </p>
+            </div>
+            <TrophyIcon className="h-12 w-12 text-green-200" />
+          </div>
+        </div>
+
+        {/* Current Streak */}
+        <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl shadow-lg p-6 text-white">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-orange-100 text-sm font-medium">Racha</p>
+              <p className="text-3xl font-bold mt-2">
+                {stats.currentStreak} días
+              </p>
+            </div>
+            <FireIcon className="h-12 w-12 text-orange-200" />
+          </div>
+        </div>
+
+        {/* Recent Activity */}
+        <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl shadow-lg p-6 text-white">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-purple-100 text-sm font-medium">
+                Últimos 30 Días
+              </p>
+              <p className="text-3xl font-bold mt-2">
+                {stats.recentProgress.reduce((sum, day) => sum + day.count, 0)}{" "}
+                minutos
+              </p>
+            </div>
+            <ClockIcon className="h-12 w-12 text-purple-200" />
+          </div>
+        </div>
+      </div>
+
+      {/* Charts Row 1 */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Progress Over Time */}
+        <div className="bg-white p-6 rounded-xl shadow-md">
+          <h2 className="text-xl font-semibold text-gray-700 mb-4">
+            📈 Progreso (Últimos 30 Días)
+          </h2>
+          {progressData.length > 0 ? (
+            <ResponsiveContainer width="100%" height={300}>
+              <LineChart data={progressData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="date" />
+                <YAxis domain={[0, 9]} />
+                <Tooltip />
+                <Legend />
+                <Line
+                  type="monotone"
+                  dataKey="band"
+                  stroke="#0ea5e9"
+                  strokeWidth={2}
+                  name="Promedio de Band"
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          ) : (
+            <p className="text-gray-500 text-center py-12">
+              No hay datos de los últimos 30 días. ¡Sigue practicando!
+            </p>
+          )}
+        </div>
+
+        {/* Performance by Task */}
+        <div className="bg-white p-6 rounded-xl shadow-md">
+          <h2 className="text-xl font-semibold text-gray-700 mb-4">
+            🎯 Desempeño por tarea
+          </h2>
+          {taskData.length > 0 ? (
+            <ResponsiveContainer width="100%" height={300}>
+              <BarChart data={taskData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis domain={[0, 9]} />
+                <Tooltip />
+                <Legend />
+                <Bar dataKey="band" fill="#10b981" name="Promedio de Band" />
+              </BarChart>
+            </ResponsiveContainer>
+          ) : (
+            <p className="text-gray-500 text-center py-12">
+              Aún no hay datos de tareas. ¡Comienza a practicar!
+            </p>
+          )}
+        </div>
+      </div>
+
+      {/* Common Errors */}
+      {/*
+      <div className="bg-white p-6 rounded-xl shadow-md">
+        <h2 className="text-xl font-semibold text-gray-700 mb-4">
+          ⚠️ Principales áreas de mejora (Top 10)
+        </h2>
+        {stats.commonErrors.length > 0 ? (
+          <div className="space-y-3">
+            {stats.commonErrors.map((error, idx) => (
+              <div
+                key={idx}
+                className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition"
+              >
+                <div className="flex items-center gap-3">
+                  <span className="flex items-center justify-center w-8 h-8 bg-yellow-500 text-white rounded-full font-bold text-sm">
+                    {idx + 1}
+                  </span>
+                  <p className="text-gray-700">{error._id}</p>
+                </div>
+                <span className="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm font-medium">
+                  {error.count} times
+                </span>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="text-gray-500 text-center py-8">
+            Aún no se han registrado errores. ¡Completa más prácticas!
+          </p>
+        )}
+      </div>
+      */}
+
+      {/* Practice Distribution */}
+      {taskData.length > 0 && (
+        <div className="bg-white p-6 rounded-xl shadow-md">
+          <h2 className="text-xl font-semibold text-gray-700 mb-4">
+            📊 Resumen de práctica
+          </h2>
+          <ResponsiveContainer width="100%" height={300}>
+            <PieChart>
+              <Pie
+                data={taskData}
+                dataKey="practices"
+                nameKey="name"
+                cx="50%"
+                cy="50%"
+                outerRadius={100}
+                label
+              >
+                {taskData.map((entry, index) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={COLORS[index % COLORS.length]}
+                  />
+                ))}
+              </Pie>
+              <Tooltip />
+              <Legend />
+            </PieChart>
+          </ResponsiveContainer>
+        </div>
+      )}
+
+      {/* Motivational Card */}
+      <div className="bg-gradient-to-r from-sky-500 to-blue-600 rounded-xl shadow-lg p-8 text-white">
+        <h2 className="text-2xl font-bold mb-2">¡Tú puedes, sigue así! 💪</h2>
+        <p className="text-sky-100 mb-4">
+          Has completado {stats.totalPractices} práctica
+          {stats.totalPractices !== 1 ? "s" : ""}.
+          {stats.averageBand && stats.averageBand < 7
+            ? " ¡Estás progresando  hacia mejores niveles!"
+            : stats.averageBand && stats.averageBand >= 7
+            ? " ¡Tu desempeño es de alto nivel!"
+            : " ¡Sigue practicando para ver tu mejora!"}
+        </p>
+        {stats.currentStreak > 0 && (
+          <p className="text-sky-100">
+            🔥 ¡Llevas una racha de {stats.currentStreak} días! ¡No te detengas!
+          </p>
+        )}
+      </div>
+    </div>
+  );
+}

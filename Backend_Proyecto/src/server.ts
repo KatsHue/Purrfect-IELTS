@@ -5,7 +5,11 @@ import { corsConfig } from "./config/cors";
 import { connectDB } from "./config/db";
 import authRoutes from "./routes/authRoutes";
 import projectRoutes from "./routes/projectRoutes";
-import speakingTaskOneRoutes from "./routes/SpeakingTaskOneRoutes"; // Importa tus rutas existentes
+import speakingTaskOneRoutes from "./routes/SpeakingTaskOneRoutes";
+import speakingTaskTwoRoutes from "./routes/SpeakingTaskTwoRoutes";
+import writingTaskOneRoutes from "./routes/WritingTaskOneRoutes";
+import writingTaskTwoRoutes from "./routes/WritingTaskTwoRoutes";
+import analyticsRoutes from "./routes/AnalyticsRoutes";
 
 dotenv.config();
 
@@ -19,7 +23,15 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/projects", projectRoutes);
 
-// Nueva ruta para Speaking Task 1
+// Rutas Speaking Questions
 app.use("/api/speaking/task-one", speakingTaskOneRoutes);
+app.use("/api/speaking/task-two", speakingTaskTwoRoutes);
+
+// Rutas Writing Questions
+app.use("/api/writing/task-one", writingTaskOneRoutes);
+app.use("/api/writing/task-two", writingTaskTwoRoutes);
+
+// Rutas Historial
+app.use("/api/analytics", analyticsRoutes);
 
 export default app;

@@ -1,17 +1,15 @@
 import { useState, useRef, useEffect } from "react";
 import {
   ChevronRightIcon,
+  ChevronLeftIcon,
   MicrophoneIcon,
   PlayIcon,
   StopIcon,
-  ArrowPathIcon,
 } from "@heroicons/react/24/solid";
 import { SpeakingAPI } from "@/api/SpeakingTaskOneAPI";
 import { transcriptionAI } from "@/api/TranscriptionAI";
-import {generateTips} from "@/api/AIResponse" 
 
 export default function SpeakingView() {
-  // Estados
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [isRecording, setIsRecording] = useState(false);
   const [transcription, setTranscription] = useState("");
@@ -24,25 +22,24 @@ export default function SpeakingView() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Refs
+  const { mutate: saveResult } = useSavePracticeResult();
+
+  const [recordingStartTime, setRecordingStartTime] = useState(120);
+
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
 
-  // Obtener preguntas del backend al montar el componente
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        // Llamada al backend usando la función centralizada de Axios
         const data = await SpeakingAPI.getTaskOneQuestions();
         setQuestions(data);
         setIsLoading(false);
       } catch (err) {
         setError(err instanceof Error ? err.message : "Unknown error occurred");
         setIsLoading(false);
-
-        // Preguntas por defecto si falla la API
         setQuestions([
           "Describe your favorite vacation destination",
           "What are your career goals for the next 5 years?",
@@ -50,11 +47,9 @@ export default function SpeakingView() {
         ]);
       }
     };
-
     fetchQuestions();
   }, []);
 
-  // Iniciar grabación
   const startRecording = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -65,25 +60,72 @@ export default function SpeakingView() {
       };
 
       mediaRecorderRef.current.onstop = async () => {
-        const audioBlob = new Blob(audioChunksRef.current);
+        const audioBlob = new Blob(audioChunksRef.current, {
+          type: "audio/webm",
+        });
         setAudioUrl(URL.createObjectURL(audioBlob));
+        setIsRecording(false);
 
-        // Simular transcripción (en producción sería una API)
-        setIsProcessing(true);
-        setTimeout(() => {
-          setTranscription(
-            "Aquí va a estar la transcripción de la respuesta del usuario"
+        try {
+          setIsProcessing(true);
+          const text = await transcriptionAI(audioBlob);
+
+          if (text.trim() === "/ Please check the submitted text /") {
+            setTranscription("⚠️ Unable to process audio. Please try again.");
+            setIsProcessing(false);
+            return;
+          }
+
+          setTranscription(text);
+
+          const feedback = await getSpeakingFeedback(
+            text,
+            questions[currentQuestionIndex]
           );
-          generateImprovedVersion();
+
+          if (feedback.includes("/ Please check the submitted text /")) {
+            setTranscription(
+              "⚠️ The recording seems unclear or not in English. Try again."
+            );
+            setIsProcessing(false);
+            return;
+          }
+
+          const formatted = formatResponse(feedback);
+          setImprovedText(formatted);
+          setShowImproved(true);
+
+          const parsedFeedback = parseAIFeedback(feedback);
+          const recordingDuration = recordingStartTime - recordingTime; // Tiempo usado
+
+          saveResult({
+            type: "speaking",
+            task: "task-one",
+            question: questions[currentQuestionIndex],
+            userResponse: text,
+            aiFeedback: feedback,
+            estimatedBand: parsedFeedback.estimatedBand,
+            identifiedErrors: parsedFeedback.identifiedErrors,
+            metadata: {
+              taskRelevance: parsedFeedback.metadata?.taskRelevance,
+              recordingDuration: recordingDuration,
+            },
+          });
+        } catch (err) {
+          console.error("Error generando transcripción o feedback:", err);
+          setTranscription(
+            "⚠️ There was an issue processing your audio. Please record again."
+          );
+        } finally {
           setIsProcessing(false);
-        }, 2000);
+        }
       };
 
       mediaRecorderRef.current.start();
       setIsRecording(true);
       audioChunksRef.current = [];
 
-      // Temporizador de 2 minutos (120 segundos)
+      setRecordingStartTime(120);
       setRecordingTime(120);
       timerRef.current = setInterval(() => {
         setRecordingTime((prev) => {
@@ -99,7 +141,6 @@ export default function SpeakingView() {
     }
   };
 
-  // Detener grabación
   const stopRecording = () => {
     if (mediaRecorderRef.current) {
       mediaRecorderRef.current.stop();
@@ -113,12 +154,10 @@ export default function SpeakingView() {
 
   // Generar versión mejorada
   const generateImprovedVersion = () => {
-    /*
     const mockImproved = `Aquí va a ir la versión mejorada de la respuesta anterior:\n\n"${transcription}"\n\nSe mostrarán:\n• las correciones hechas\n• Los cambios\n• Tal vez una explicación`;
     console.log(audioUrl)
     setImprovedText(mockImproved);
     setShowImproved(true);
-    */
   };
 
   // Reproducir grabación
@@ -127,26 +166,26 @@ export default function SpeakingView() {
       const audioBlob = new Blob(audioChunksRef.current, { type: "audio/webm" });
       const text = await transcriptionAI(audioBlob);
       setTranscription(text);
-      const prompt = questions[currentQuestionIndex] + ' | ' + text
-      const result = await generateTips(prompt)
-      console.log(result)
-      setImprovedText(result)
-      setShowImproved(true)
     }
-
     if (audioRef.current) {
       audioRef.current.play();
     }
   };
 
-  // Siguiente pregunta
   const nextQuestion = () => {
     if (questions.length === 0) return;
     setCurrentQuestionIndex((prev) => (prev + 1) % questions.length);
     resetExercise();
   };
 
-  // Reiniciar ejercicio
+  const prevQuestion = () => {
+    if (questions.length === 0) return;
+    setCurrentQuestionIndex((prev) =>
+      prev === 0 ? questions.length - 1 : prev - 1
+    );
+    resetExercise();
+  };
+
   const resetExercise = () => {
     setTranscription("");
     setAudioUrl("");
@@ -154,9 +193,9 @@ export default function SpeakingView() {
     setShowImproved(false);
     setImprovedText("");
     setIsProcessing(false);
+    audioChunksRef.current = [];
   };
 
-  // Limpieza
   useEffect(() => {
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
@@ -168,7 +207,6 @@ export default function SpeakingView() {
     };
   }, []);
 
-  // Estados de carga y error
   if (isLoading) {
     return (
       <div className="max-w-3xl mx-auto p-6">
@@ -207,28 +245,34 @@ export default function SpeakingView() {
 
   return (
     <div className="max-w-3xl mx-auto p-6 space-y-6">
-      {/* Título */}
-      <h1 className="text-3xl font-bold text-gray-800">Speaking Practice</h1>
+      <h1 className="text-3xl font-bold text-gray-800">Speaking Practice </h1>
 
-      {/* Sección de Pregunta */}
+      {/* Pregunta */}
       <div className="bg-white p-6 rounded-xl shadow-md">
         <h2 className="text-xl font-semibold text-gray-700 mb-2">
           Question {currentQuestionIndex + 1}/{questions.length}
         </h2>
         <p className="text-lg mb-6">{questions[currentQuestionIndex]}</p>
 
-        <div className="flex justify-between items-center">
+        <div className="flex gap-3">
+          <button
+            onClick={prevQuestion}
+            className="flex items-center gap-2 px-4 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition"
+          >
+            <ChevronLeftIcon className="h-4 w-4" />
+            Previous Question
+          </button>
+
           <button
             onClick={nextQuestion}
             className="flex items-center gap-2 px-4 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition"
-            disabled={questions.length <= 1}
           >
             Next Question <ChevronRightIcon className="h-4 w-4" />
           </button>
         </div>
       </div>
 
-      {/* Sección de Grabación */}
+      {/* Grabación */}
       <div className="bg-white p-6 rounded-xl shadow-md space-y-4">
         <h2 className="text-xl font-semibold text-gray-700">
           Record Your Answer
@@ -277,9 +321,9 @@ export default function SpeakingView() {
                 className="flex items-center gap-2 px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition"
               >
                 <PlayIcon className="h-5 w-5" />
-                Analizar audio
+                Play Your Recording
               </button>
-            )}
+            </div>
           </div>
         )}
 
@@ -298,13 +342,9 @@ export default function SpeakingView() {
             <p className="mb-4 text-gray-700 whitespace-pre-line">
               {transcription}
             </p>
-          </div>
 
-          <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
-            <h3 className="font-medium text-blue-800 mb-2">Retro:</h3>
-            <p className="mb-4 text-gray-700 whitespace-pre-line">
-              {improvedText}
-            </p>
+            <h3 className="font-medium text-blue-800 mb-2">Improved:</h3>
+            <p className="text-blue-900 whitespace-pre-line">{improvedText}</p>
           </div>
 
           <div className="flex gap-3">
