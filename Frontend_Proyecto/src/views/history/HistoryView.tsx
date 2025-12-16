@@ -1,4 +1,4 @@
-import ProfileForm from "@/components/history/HistoryForm";
+import InformationCard from "@/components/InformationCard";
 import { useAuth } from "@/hooks/useAuth";
 
 export default function HistoryView() {
@@ -6,5 +6,5 @@ export default function HistoryView() {
 
   if (isLoading) return "Cargando...";
 
-  if (data) return <ProfileForm data={data} />;
+  if (data) return <InformationCard data={data} information="En este apartado podrás observar tu actividad dentro de la plataforma."/>;
 }

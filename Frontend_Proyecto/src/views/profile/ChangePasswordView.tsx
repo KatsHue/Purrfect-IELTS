@@ -4,6 +4,9 @@ import type { UpdateCurrentPasswordForm } from "@/types/index";
 import { useMutation } from "@tanstack/react-query";
 import { changePassword } from "@/api/ProfileAPI";
 import { toast } from "react-toastify";
+import AOS from 'aos'
+import 'aos/dist/aos.css'
+import { useEffect } from 'react'
 
 export default function ChangePasswordView() {
     const initialValues : UpdateCurrentPasswordForm = {
@@ -25,9 +28,19 @@ export default function ChangePasswordView() {
     })
     const handleChangePassword = (formData : UpdateCurrentPasswordForm) => { mutate(formData) }
 
+    useEffect(() => {
+                AOS.init({
+                    duration: 1500,
+                    once:true
+                })
+        })
+    
+
     return (
         <>
-        <div className="mx-auto max-w-3xl">
+        <div data-aos="fade-right"
+            data-aos-offset="200"
+            data-aos-easing="ease-in-sine" className="mx-auto max-w-3xl">
 
             <h1 className="text-5xl font-black ">Cambiar Password</h1>
             <p className="text-2xl font-light text-gray-500 mt-5">Utiliza este formulario para cambiar tu password</p>

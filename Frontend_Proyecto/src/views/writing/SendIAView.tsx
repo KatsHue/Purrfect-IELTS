@@ -42,6 +42,7 @@ export default function SendIAView() {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({ defaultValues: initialValues });
 
@@ -118,6 +119,7 @@ export default function SendIAView() {
     if (questions.length === 0) return;
     setCurrentQuestionIndex((prev) => (prev + 1) % questions.length);
     resetExercise();
+    reset({text : ''})
   };
 
   const prevQuestion = () => {
@@ -190,79 +192,85 @@ export default function SendIAView() {
 
   return (
     <>
-      <div className="mx-auto max-w-3xl p-6 space-y-6">
+      <div className="max-w-screen p-6 space-y-6">
         <h1 className="text-3xl font-bold text-gray-800">
           Writing Practice: Task 1 - Write a letter
         </h1>
 
-        {/* SECCIÓN DE LA PREGUNTA */}
-        <div className="bg-white p-6 rounded-xl shadow-md">
-          <h2 className="text-xl font-semibold text-gray-700 mb-2">
-            Question {currentQuestionIndex + 1}/{questions.length}
-          </h2>
-          <p className="text-lg mb-6 whitespace-pre-line">
-            {questions[currentQuestionIndex]}
-          </p>
-
-          <div className="flex gap-3">
-            <button
-              onClick={prevQuestion}
-              className="flex items-center gap-2 px-4 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition"
-            >
-              <ChevronLeftIcon className="h-4 w-4" />
-              Previous Question
-            </button>
-
-            <button
-              onClick={nextQuestion}
-              className="flex items-center gap-2 px-4 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition"
-            >
-              Next Question <ChevronRightIcon className="h-4 w-4" />
-            </button>
-          </div>
-        </div>
-
-        {/* Formulario */}
-        <form
-          onSubmit={handleSubmit(handleChangePassword)}
-          className="space-y-5 bg-white shadow-lg p-10 rounded-lg"
-          noValidate
-        >
-          <div className="mb-5 space-y-3">
-            <label className="text-sm uppercase font-bold" htmlFor="text">
-              Your Letter:
-            </label>
-            <textarea
-              id="text"
-              placeholder="Write your letter here..."
-              rows={10}
-              className="w-full p-3 border border-gray-200 rounded-lg resize-none"
-              {...register("text", {
-                required: "El texto es obligatorio",
-              })}
-            />
-            {errors.text && <ErrorMessage>{errors.text.message}</ErrorMessage>}
-          </div>
-
-          <input
-            type="submit"
-            value="Get Feedback"
-            className={`bg-sky-600 w-full p-3 text-white uppercase font-bold hover:bg-sky-700 cursor-pointer transition-colors rounded-md ${
-              ia.loading ? " opacity-70 cursor-not-allowed" : ""
-            }`}
-            disabled={ia.loading}
-          />
-        </form>
-
-        {/* spinner */}
-        {ia.loading && (
-          <div className="text-center py-12">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mx-auto mb-4"></div>
-            <p className="text-lg font-medium text-gray-600">
-              Processing your letter...
+        <div className="flex flex-col md:flex-row justify-between gap-4">
+          {/* SECCIÓN DE LA PREGUNTA */}
+          <div className="bg-white p-6 rounded-xl shadow-md">
+            <h2 className="text-xl font-semibold text-gray-700 mb-2">
+              Question {currentQuestionIndex + 1}/{questions.length}
+            </h2>
+            <p className="text-lg mb-6 whitespace-pre-line">
+              {questions[currentQuestionIndex]}
             </p>
+
+            <div className="flex gap-3">
+              <button
+                onClick={prevQuestion}
+                className="flex items-center gap-2 px-4 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition"
+              >
+                <ChevronLeftIcon className="h-4 w-4" />
+                Previous Question
+              </button>
+
+              <button
+                onClick={nextQuestion}
+                className={`flex items-center gap-2 px-4 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition ${!userSubmittedText ? 'opacity-10' : ''}`}
+                disabled={!userSubmittedText}
+              >
+                Next Question <ChevronRightIcon className="h-4 w-4" />
+              </button>
+            </div>
           </div>
-        )}
+
+          {/* Formulario */}
+          {!ia.loading &&
+            <form
+              onSubmit={handleSubmit(handleChangePassword)}
+              className="space-y-5 bg-white shadow-lg p-10 rounded-lg flex-grow"
+              noValidate
+            >
+              <div className="mb-5 space-y-3">
+                <label className="text-sm uppercase font-bold" htmlFor="text">
+                  Your Letter:
+                </label>
+                <textarea
+                  id="text"
+                  placeholder="Write your letter here..."
+                  rows={10}
+                  className="w-full p-3 border border-gray-200 rounded-lg resize-none"
+                  {...register("text", {
+                    required: "El texto es obligatorio",
+                  })}
+                />
+                {errors.text && <ErrorMessage>{errors.text.message}</ErrorMessage>}
+              </div>
+
+              <input
+                type="submit"
+                value="Get Feedback"
+                className={`bg-sky-600 w-full p-3 text-white uppercase font-bold hover:bg-sky-700 cursor-pointer transition-colors rounded-md ${
+                  ia.loading ? " opacity-70 cursor-not-allowed" : ""
+                }`}
+                disabled={ia.loading}
+              />
+            </form>
+          }
+
+          {/* spinner */}
+          {ia.loading && (
+            <div className="flex-grow text-center py-12">
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mx-auto mb-4"></div>
+              <p className="text-lg font-medium text-gray-600">
+                Processing your letter...
+              </p>
+            </div>
+          )}
+
+        </div>
 
         {/* Mostrar respuesta  */}
         {!ia.loading && ia.text && (

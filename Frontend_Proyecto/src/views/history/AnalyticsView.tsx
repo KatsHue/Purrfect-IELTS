@@ -17,11 +17,13 @@ import {
 } from "recharts";
 import {
   ChartBarIcon,
+  ChartBarSquareIcon,
   FireIcon,
   TrophyIcon,
   ClockIcon,
 } from "@heroicons/react/24/solid";
 import { Link } from "react-router-dom";
+import { DocumentTextIcon, PresentationChartBarIcon, PresentationChartLineIcon, RocketLaunchIcon } from "@heroicons/react/20/solid";
 
 export default function AnalyticsView() {
   const { data: stats, isLoading } = useQuery({
@@ -74,9 +76,12 @@ export default function AnalyticsView() {
     <div className="max-w-7xl mx-auto p-6 space-y-6">
       {/* Header */}
       <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold text-gray-800">
-          📊 Tu Progreso IELTS
-        </h1>
+        <div className="text-gray-800 flex justify-between items-center">
+          <ChartBarSquareIcon className=" w-12 h-12 mr-1.5"></ChartBarSquareIcon>
+          <h1 className="text-3xl font-bold text-gray-800">
+            Tu Progreso IELTS
+          </h1>
+        </div>
         <Link
           to="/history/history-complete"
           className="px-4 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition"
@@ -88,7 +93,7 @@ export default function AnalyticsView() {
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {/* Total Practices */}
-        <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl shadow-lg p-6 text-white">
+        <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl shadow-lg p-6 text-white hover:scale-105 transition-all">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-blue-100 text-sm font-medium">
@@ -101,7 +106,7 @@ export default function AnalyticsView() {
         </div>
 
         {/* Average Band */}
-        <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-xl shadow-lg p-6 text-white">
+        <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-xl shadow-lg p-6 text-white hover:scale-105 transition-all">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-green-100 text-sm font-medium">
@@ -116,7 +121,7 @@ export default function AnalyticsView() {
         </div>
 
         {/* Current Streak */}
-        <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl shadow-lg p-6 text-white">
+        <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl shadow-lg p-6 text-white hover:scale-105 transition-all">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-orange-100 text-sm font-medium">Racha</p>
@@ -129,7 +134,7 @@ export default function AnalyticsView() {
         </div>
 
         {/* Recent Activity */}
-        <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl shadow-lg p-6 text-white">
+        <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl shadow-lg p-6 text-white hover:scale-105 transition-all">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-purple-100 text-sm font-medium">
@@ -149,9 +154,12 @@ export default function AnalyticsView() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Progress Over Time */}
         <div className="bg-white p-6 rounded-xl shadow-md">
-          <h2 className="text-xl font-semibold text-gray-700 mb-4">
-            📈 Progreso (Últimos 30 Días)
-          </h2>
+          <div className="text-gray-800 flex items-center justify-center mb-3">
+            <PresentationChartLineIcon className=" w-6 h-6 mr-1.5"></PresentationChartLineIcon>
+            <h2 className="text-xl font-bold text-gray-800">
+              Progreso (Últimos 30 Días)
+            </h2>
+          </div>
           {progressData.length > 0 ? (
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={progressData}>
@@ -178,9 +186,13 @@ export default function AnalyticsView() {
 
         {/* Performance by Task */}
         <div className="bg-white p-6 rounded-xl shadow-md">
-          <h2 className="text-xl font-semibold text-gray-700 mb-4">
-            🎯 Desempeño por tarea
-          </h2>
+          <div className="text-gray-800 flex items-center justify-center mb-3">
+            <RocketLaunchIcon className=" w-6 h-6 mr-1.5"></RocketLaunchIcon>
+            <h2 className="text-xl font-bold text-gray-800">
+              Desempeño por tarea
+            </h2>
+          </div>
+          
           {taskData.length > 0 ? (
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={taskData}>
@@ -236,9 +248,12 @@ export default function AnalyticsView() {
       {/* Practice Distribution */}
       {taskData.length > 0 && (
         <div className="bg-white p-6 rounded-xl shadow-md">
-          <h2 className="text-xl font-semibold text-gray-700 mb-4">
-            📊 Resumen de práctica
-          </h2>
+          <div className="text-gray-800 flex items-center justify-center mb-3">
+            <DocumentTextIcon className=" w-6 h-6 mr-1.5"></DocumentTextIcon>
+            <h2 className="text-xl font-bold text-gray-800">
+              Resumen de práctica
+            </h2>
+          </div>
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
               <Pie
@@ -266,7 +281,7 @@ export default function AnalyticsView() {
 
       {/* Motivational Card */}
       <div className="bg-gradient-to-r from-sky-500 to-blue-600 rounded-xl shadow-lg p-8 text-white">
-        <h2 className="text-2xl font-bold mb-2">¡Tú puedes, sigue así! 💪</h2>
+        <h2 className="text-2xl font-bold mb-2 text-center">¡Tú puedes, sigue así! 💪</h2>
         <p className="text-sky-100 mb-4">
           Has completado {stats.totalPractices} práctica
           {stats.totalPractices !== 1 ? "s" : ""}.
@@ -277,8 +292,9 @@ export default function AnalyticsView() {
             : " ¡Sigue practicando para ver tu mejora!"}
         </p>
         {stats.currentStreak > 0 && (
-          <p className="text-sky-100">
-            🔥 ¡Llevas una racha de {stats.currentStreak} días! ¡No te detengas!
+          <p className="text-sky-100 flex items-center">
+            <FireIcon className="w-5 h-5 mr-1.5"></FireIcon>
+            ¡Llevas una racha de {stats.currentStreak} días! ¡No te detengas!
           </p>
         )}
       </div>

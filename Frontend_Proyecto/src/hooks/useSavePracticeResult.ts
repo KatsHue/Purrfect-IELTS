@@ -1,7 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { AnalyticsAPI } from "@/api/AnalyticsAPI";
-import { PracticeResultData } from "@/api/AnalyticsAPI";
-import { toast } from "react-toastify";
+import type { PracticeResultData } from "@/api/AnalyticsAPI";
 
 export function useSavePracticeResult() {
   return useMutation({

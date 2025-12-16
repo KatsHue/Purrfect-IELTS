@@ -4,6 +4,9 @@ import type { User, UserProfileForm } from "@/types/index"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { updateProfile } from "@/api/ProfileAPI"
 import { toast } from "react-toastify"
+import AOS from 'aos'
+import 'aos/dist/aos.css'
+import { useEffect } from 'react'
 
 type ProfileFormProps = {
     data: User
@@ -11,6 +14,13 @@ type ProfileFormProps = {
 
 export default function ProfileForm({ data } : ProfileFormProps) {
     const { register, handleSubmit, formState: { errors } } = useForm<UserProfileForm>({ defaultValues: data })
+
+    useEffect(() => {
+            AOS.init({
+                duration: 1500,
+                once:true
+            })
+    })
 
     const queryClient = useQueryClient()
     const {mutate} = useMutation({
@@ -25,7 +35,9 @@ export default function ProfileForm({ data } : ProfileFormProps) {
 
     return (
         <>
-            <div className="mx-auto max-w-3xl g">
+            <div data-aos="fade-right"
+                data-aos-offset="200"
+                data-aos-easing="ease-in-sine" className="mx-auto max-w-3xl g ">
                 <h1 className="text-5xl font-black ">Mi Perfil</h1>
                 <p className="text-2xl font-light text-gray-500 mt-5">Aquí puedes actualizar tu información</p>
 

@@ -1,4 +1,4 @@
-import ProfileForm from "@/components/speaking/SpeakingForm";
+import InformationCard from "@/components/InformationCard";
 import { useAuth } from "@/hooks/useAuth";
 
 export default function SpeakingView() {
@@ -6,5 +6,5 @@ export default function SpeakingView() {
 
   if (isLoading) return "Cargando...";
 
-  if (data) return <ProfileForm data={data} />;
+  if (data) return <InformationCard data={data} information="*Texto explicativo de la sección*"/>;
 }

@@ -3,11 +3,16 @@ import {
   ChevronRightIcon,
   ChevronLeftIcon,
   MicrophoneIcon,
+  ArrowPathIcon,
   PlayIcon,
   StopIcon,
 } from "@heroicons/react/24/solid";
 import { SpeakingAPI } from "@/api/SpeakingTaskOneAPI";
 import { transcriptionAI } from "@/api/TranscriptionAI";
+import { useSavePracticeResult } from "@/hooks/useSavePracticeResult";
+import { getSpeakingFeedback } from "@/api/AIAPI";
+import { formatResponse } from "@/utils/format";
+import { parseAIFeedback } from "@/utils/parseAIFeedback";
 
 export default function SpeakingView() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -16,7 +21,7 @@ export default function SpeakingView() {
   const [audioUrl, setAudioUrl] = useState("");
   const [recordingTime, setRecordingTime] = useState(0);
   const [showImproved, setShowImproved] = useState(false);
-  const [improvedText, setImprovedText] = useState("");
+  const [improvedText, setImprovedText] = useState<[string, string][]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
   const [questions, setQuestions] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -83,7 +88,7 @@ export default function SpeakingView() {
             questions[currentQuestionIndex]
           );
 
-          if (feedback.includes("/ Please check the submitted text /")) {
+          if (feedback!.includes("/ Please check the submitted text /")) {
             setTranscription(
               "⚠️ The recording seems unclear or not in English. Try again."
             );
@@ -91,11 +96,11 @@ export default function SpeakingView() {
             return;
           }
 
-          const formatted = formatResponse(feedback);
+          const formatted = formatResponse(feedback!);
           setImprovedText(formatted);
           setShowImproved(true);
 
-          const parsedFeedback = parseAIFeedback(feedback);
+          const parsedFeedback = parseAIFeedback(feedback!);
           const recordingDuration = recordingStartTime - recordingTime; // Tiempo usado
 
           saveResult({
@@ -103,7 +108,7 @@ export default function SpeakingView() {
             task: "task-one",
             question: questions[currentQuestionIndex],
             userResponse: text,
-            aiFeedback: feedback,
+            aiFeedback: feedback!,
             estimatedBand: parsedFeedback.estimatedBand,
             identifiedErrors: parsedFeedback.identifiedErrors,
             metadata: {
@@ -119,7 +124,7 @@ export default function SpeakingView() {
         } finally {
           setIsProcessing(false);
         }
-      };
+      }; 
 
       mediaRecorderRef.current.start();
       setIsRecording(true);
@@ -154,9 +159,9 @@ export default function SpeakingView() {
 
   // Generar versión mejorada
   const generateImprovedVersion = () => {
-    const mockImproved = `Aquí va a ir la versión mejorada de la respuesta anterior:\n\n"${transcription}"\n\nSe mostrarán:\n• las correciones hechas\n• Los cambios\n• Tal vez una explicación`;
+    // const mockImproved = `Aquí va a ir la versión mejorada de la respuesta anterior:\n\n"${transcription}"\n\nSe mostrarán:\n• las correciones hechas\n• Los cambios\n• Tal vez una explicación`;
     console.log(audioUrl)
-    setImprovedText(mockImproved);
+    
     setShowImproved(true);
   };
 
@@ -191,7 +196,7 @@ export default function SpeakingView() {
     setAudioUrl("");
     setRecordingTime(0);
     setShowImproved(false);
-    setImprovedText("");
+    setImprovedText([]);
     setIsProcessing(false);
     audioChunksRef.current = [];
   };
@@ -322,14 +327,11 @@ export default function SpeakingView() {
               >
                 <PlayIcon className="h-5 w-5" />
                 Play Your Recording
-              </button>
-            </div>
+              </button> )}
           </div>
         )}
-
-        <audio ref={audioRef} src={audioUrl} hidden />
       </div>
-
+      <audio ref={audioRef} src={audioUrl} hidden /><audio ref={audioRef} src={audioUrl} hidden />
       {/* Sección de Improved Version */}
       {showImproved && (
         <div className="bg-white p-6 rounded-xl shadow-md space-y-4">

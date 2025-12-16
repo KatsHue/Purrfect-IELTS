@@ -65,8 +65,8 @@ export default function Router() {
           <Route element={<WritingLayout></WritingLayout>}>
             <Route path="/writing/" element={<WritingView />} />
             <Route path="/writing/task-1" element={<SendIAView />} />
-            <Route path="/writing/task-2" element={<QuestionWritingView />} />
-            <Route path="/writing/task-3" element={<WritingEssayView />} />
+            {/* <Route path="/writing/task-2" element={<QuestionWritingView />} /> */}
+            <Route path="/writing/task-2" element={<WritingEssayView />} />
           </Route>
 
           <Route element={<HistoryLayout></HistoryLayout>}>

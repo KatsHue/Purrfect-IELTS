@@ -36,7 +36,7 @@ export async function getQuestionIA(text: string) {
 export async function getSpeakingFeedback(text: string, question?: string) {
   try {
     const data = await generateSpeakingFeedback(text, question);
-    return data;
+    return data ?? " ";
   } catch (error) {
     if (isAxiosError(error) && error.response) {
       throw new Error(error.response.data.error);
