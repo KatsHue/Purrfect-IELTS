@@ -4,7 +4,6 @@ import User from "../models/User"
 import { checkPassword, hashPassword } from "../utils/auth"
 import { generateToken } from "../utils/token"
 import Token from "../models/Token"
-import { transporter } from "../config/nodemailer"
 import { AuthEmail } from "../emails/AuthEmail"
 import { generateJWT } from "../utils/jwt"
 
@@ -32,7 +31,7 @@ export class AuthController {
             token.user = user.id
 
             // Enviar e-mail
-            AuthEmail.sendConfirmationEmail({
+            AuthEmail.sendConfirmationEmailResend({
                 email: user.email,
                 name: user.name,
                 token: token.token

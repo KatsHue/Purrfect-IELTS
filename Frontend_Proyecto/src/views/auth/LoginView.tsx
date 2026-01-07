@@ -12,7 +12,7 @@ export default function LoginView() {
         email: '',
         password: '',
     }
-    const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues: initialValues })
+    const {reset, register, handleSubmit, formState: { errors } } = useForm({ defaultValues: initialValues })
 
     const navigate = useNavigate()
 
@@ -20,6 +20,7 @@ export default function LoginView() {
         mutationFn: authenticateUser,
         onError: (error) => {
             toast.error(error.message)
+            reset()
         },
         onSuccess: () => {
             

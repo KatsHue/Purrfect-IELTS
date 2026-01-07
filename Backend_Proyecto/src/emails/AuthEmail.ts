@@ -1,4 +1,7 @@
 import { transporter } from "../config/nodemailer"
+import { Resend } from 'resend';
+
+const resend = new Resend(process.env.RESEND_KEY);
 
 interface IEmail {
     email: string
@@ -21,6 +24,26 @@ export class AuthEmail {
                 <p>Este token expira en 10 minutos</p>
             `
         })
+    }
+
+    static sendConfirmationEmailResend = async( user : IEmail) => {
+        // Enviar email
+        try {
+            const data = await resend.emails.send({
+                    from: "Proyecto IELTS <onboarding@resend.dev>",
+                    to: 'jnunesreyes@gmail.com',
+                    subject: 'UpTask - Confirma tu cuenta',
+                    html: `<p> Hola ${user.name}, has creado tu cuenta en UpTask, ya casi esta todo listo, solo debes confirmar tu cuenta </p>
+                        <p> Visita el siguiente enlace: </p>
+                        <a href="${process.env.FRONTEND_URL}/auth/confirm-account">Confirmar cuenta</a>
+                        <p>E ingresa el codigo: <b>${user.token}</b></p>
+                        <p>Este token expira en 10 minutos</p>
+                    `
+                });
+            console.log(data)
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     static sendPasswordResetToken = async( user : IEmail) => {
