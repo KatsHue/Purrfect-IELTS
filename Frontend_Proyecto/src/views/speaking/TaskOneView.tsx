@@ -68,12 +68,31 @@ export default function SpeakingView() {
         const audioBlob = new Blob(audioChunksRef.current, {
           type: "audio/webm",
         });
-        setAudioUrl(URL.createObjectURL(audioBlob));
+        const url = URL.createObjectURL(audioBlob);
+        setAudioUrl(url);
         setIsRecording(false);
 
         try {
           setIsProcessing(true);
+
+          // 🔍 DEBUG: Log del tamaño del blob
+          console.log("📦 Audio blob size:", audioBlob.size, "bytes");
+
           const text = await transcriptionAI(audioBlob);
+
+          // 🔍 DEBUG: Log de la transcripción cruda
+          console.log("📝 Transcripción recibida:", `"${text}"`);
+          console.log("📏 Longitud del texto:", text.length);
+
+          // ❌ CAMBIO: Verificar si el texto está vacío o es solo espacios
+          if (!text || text.trim().length === 0) {
+            console.warn("⚠️ Transcripción vacía recibida");
+            setTranscription(
+              "⚠️ No se pudo transcribir el audio. El audio podría estar vacío o inaudible."
+            );
+            setIsProcessing(false);
+            return;
+          }
 
           if (text.trim() === "/ Please check the submitted text /") {
             setTranscription("⚠️ Unable to process audio. Please try again.");
@@ -83,12 +102,13 @@ export default function SpeakingView() {
 
           setTranscription(text);
 
+          // Obtener feedback
           const feedback = await getSpeakingFeedback(
             text,
             questions[currentQuestionIndex]
           );
 
-          if (feedback!.includes("/ Please check the submitted text /")) {
+          if (feedback?.includes("/ Please check the submitted text /")) {
             setTranscription(
               "⚠️ The recording seems unclear or not in English. Try again."
             );
@@ -101,7 +121,7 @@ export default function SpeakingView() {
           setShowImproved(true);
 
           const parsedFeedback = parseAIFeedback(feedback!);
-          const recordingDuration = recordingStartTime - recordingTime; // Tiempo usado
+          const recordingDuration = recordingStartTime - recordingTime;
 
           saveResult({
             type: "speaking",
@@ -117,7 +137,7 @@ export default function SpeakingView() {
             },
           });
         } catch (err) {
-          console.error("Error generando transcripción o feedback:", err);
+          console.error("❌ Error generando transcripción o feedback:", err);
           setTranscription(
             "⚠️ There was an issue processing your audio. Please record again."
           );
@@ -142,12 +162,15 @@ export default function SpeakingView() {
         });
       }, 1000);
     } catch (error) {
-      console.error("Error accessing microphone:", error);
+      console.error("❌ Error accessing microphone:", error);
     }
   };
 
   const stopRecording = () => {
-    if (mediaRecorderRef.current) {
+    if (
+      mediaRecorderRef.current &&
+      mediaRecorderRef.current.state !== "inactive"
+    ) {
       mediaRecorderRef.current.stop();
       mediaRecorderRef.current.stream
         .getTracks()
@@ -157,24 +180,9 @@ export default function SpeakingView() {
     }
   };
 
-  // Generar versión mejorada
-  //const generateImprovedVersion = () => {
-  // const mockImproved = `Aquí va a ir la versión mejorada de la respuesta anterior:\n\n"${transcription}"\n\nSe mostrarán:\n• las correciones hechas\n• Los cambios\n• Tal vez una explicación`;
-  //console.log(audioUrl)
-
-  //setShowImproved(true);
-  //};
-
-  // Reproducir grabación
-  const playRecording = async () => {
-    if (audioChunksRef.current.length > 0) {
-      const audioBlob = new Blob(audioChunksRef.current, {
-        type: "audio/webm",
-      });
-      const text = await transcriptionAI(audioBlob);
-      setTranscription(text);
-    }
-    if (audioRef.current) {
+  // ✅ ARREGLADO: Reproducir grabación sin volver a transcribir
+  const playRecording = () => {
+    if (audioRef.current && audioUrl) {
       audioRef.current.play();
     }
   };
@@ -252,7 +260,7 @@ export default function SpeakingView() {
 
   return (
     <div className="max-w-3xl mx-auto p-6 space-y-6">
-      <h1 className="text-3xl font-bold text-gray-800">Speaking Practice </h1>
+      <h1 className="text-3xl font-bold text-gray-800">Speaking Practice</h1>
 
       {/* Pregunta */}
       <div className="bg-white p-6 rounded-xl shadow-md">
@@ -318,11 +326,9 @@ export default function SpeakingView() {
         ) : (
           <div className="space-y-4">
             <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
-              <h3 className="font-medium mb-2">
-                {transcription ? "Transcripción" : "Analiza primero tu audio"}
-              </h3>
+              <h3 className="font-medium mb-2">Transcription</h3>
               <p className="whitespace-pre-line">
-                {transcription ? transcription : " "}
+                {transcription || "No transcription available"}
               </p>
             </div>
 
@@ -338,8 +344,10 @@ export default function SpeakingView() {
           </div>
         )}
       </div>
+
+      {/* ✅ ARREGLADO: Solo un elemento audio */}
       <audio ref={audioRef} src={audioUrl} hidden />
-      <audio ref={audioRef} src={audioUrl} hidden />
+
       {/* Sección de Improved Version */}
       {showImproved && (
         <div className="bg-white p-6 rounded-xl shadow-md space-y-4">
@@ -354,7 +362,16 @@ export default function SpeakingView() {
             </p>
 
             <h3 className="font-medium text-blue-800 mb-2">Improved:</h3>
-            <p className="text-blue-900 whitespace-pre-line">{improvedText}</p>
+            <div className="text-blue-900 whitespace-pre-line">
+              {improvedText.map((item, idx) => (
+                <span key={idx}>
+                  {item[0]}
+                  {item[1] && (
+                    <strong className="bg-yellow-200">{item[1]}</strong>
+                  )}
+                </span>
+              ))}
+            </div>
           </div>
 
           <div className="flex gap-3">
