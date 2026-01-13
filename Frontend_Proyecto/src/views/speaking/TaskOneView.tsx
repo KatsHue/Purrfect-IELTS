@@ -21,7 +21,7 @@ export default function SpeakingView() {
   const [audioUrl, setAudioUrl] = useState("");
   const [recordingTime, setRecordingTime] = useState(0);
   const [showImproved, setShowImproved] = useState(false);
-  const [improvedText, setImprovedText] = useState<[string, string][]>([]);
+  const [improvedText, setImprovedText] = useState<string[][]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
   const [questions, setQuestions] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -229,7 +229,9 @@ export default function SpeakingView() {
 
   return (
     <div className="max-w-3xl mx-auto p-6 space-y-6">
-      <h1 className="text-3xl font-bold text-gray-800">Speaking Practice</h1>
+      <h1 className="text-3xl font-bold text-gray-800">
+        Speaking Practice: Part 1
+      </h1>
 
       {/* Question */}
       <div className="bg-white p-6 rounded-xl shadow-md">
@@ -293,60 +295,69 @@ export default function SpeakingView() {
         ) : (
           <div className="space-y-4">
             <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
-              <h3 className="font-medium mb-2">
-                {transcription ? "Transcripción" : "Analiza primero tu audio"}
-              </h3>
-              <p className="whitespace-pre-line">{transcription || " "}</p>
+              <h3 className="font-medium mb-2">Your transcription:</h3>
+              <p className="whitespace-pre-line">{transcription}</p>
             </div>
 
-            {audioUrl && (
+            <div className="flex flex-col sm:flex-row gap-3">
+              {audioUrl && (
+                <button
+                  onClick={playRecording}
+                  className="flex items-center justify-center gap-2 px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition w-full sm:w-auto"
+                >
+                  <PlayIcon className="h-5 w-5" />
+                  Play Your Recording
+                </button>
+              )}
+
               <button
-                onClick={playRecording}
-                className="flex items-center gap-2 px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition"
+                onClick={resetExercise}
+                className="flex items-center justify-center gap-2 px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition w-full sm:w-auto"
               >
-                <PlayIcon className="h-5 w-5" /> Play Your Recording
+                Retry
               </button>
-            )}
+            </div>
           </div>
         )}
       </div>
 
       <audio ref={audioRef} src={audioUrl} hidden />
 
-      {/* Improved Version */}
-      {showImproved && (
-        <div className="bg-white p-6 rounded-xl shadow-md space-y-4">
-          <h2 className="text-xl font-semibold text-gray-700">
-            Improved Version
-          </h2>
+      {/* Feedback Section - NUEVO FORMATO IGUAL A TASK TWO */}
+      {showImproved &&
+        Array.isArray(improvedText) &&
+        improvedText.length > 0 && (
+          <div className="space-y-6">
+            {improvedText.map((section: string[], idx: number) => (
+              <div key={idx} className="p-4 bg-gray-100 rounded-lg shadow">
+                <h2 className="font-bold text-lg mb-2 text-sky-600">
+                  {section[0]}
+                </h2>
+                <p className="whitespace-pre-line">
+                  {section.slice(1).join("\n")}
+                </p>
+              </div>
+            ))}
 
-          <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
-            <h3 className="font-medium text-blue-800 mb-2">Original:</h3>
-            <p className="mb-4 text-gray-700 whitespace-pre-line">
-              {transcription}
-            </p>
-
-            <h3 className="font-medium text-blue-800 mb-2">Improved:</h3>
-            <p className="text-blue-900 whitespace-pre-line">{improvedText}</p>
+            {/* Botones de acción */}
+            <div className="flex gap-3">
+              <button
+                onClick={resetExercise}
+                className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition"
+              >
+                <ArrowPathIcon className="h-5 w-5" />
+                Try Again
+              </button>
+              <button
+                onClick={nextQuestion}
+                className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+                disabled={questions.length <= 1}
+              >
+                Next Question <ChevronRightIcon className="h-4 w-4" />
+              </button>
+            </div>
           </div>
-
-          <div className="flex gap-3">
-            <button
-              onClick={resetExercise}
-              className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition"
-            >
-              <ArrowPathIcon className="h-5 w-5" /> Try Again
-            </button>
-            <button
-              onClick={nextQuestion}
-              className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
-              disabled={questions.length <= 1}
-            >
-              Next Question <ChevronRightIcon className="h-4 w-4" />
-            </button>
-          </div>
-        </div>
-      )}
+        )}
     </div>
   );
 }
