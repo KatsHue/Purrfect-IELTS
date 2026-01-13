@@ -23,7 +23,7 @@ import SendIAView from "./views/writing/SendIAView";
 import WritingLayout from "./layouts/WritingLayout";
 import WritingView from "./views/writing/WritingView";
 import DashboardMainView from "./views/DashboardMainView";
-import QuestionWritingView from "./views/writing/QuestionWritingView";
+//import QuestionWritingView from "./views/writing/QuestionWritingView";
 import WritingEssayView from "./views/writing/WritingEssayView";
 import HistoryLayout from "./layouts/HistoryLayout";
 import HistoryView from "./views/history/HistoryView";

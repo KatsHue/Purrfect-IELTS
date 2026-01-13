@@ -24,7 +24,8 @@ export default function SpeakingView() {
   const [audioUrl, setAudioUrl] = useState("");
   const [recordingTime, setRecordingTime] = useState(0);
   const [showImproved, setShowImproved] = useState(false);
-  const [improvedText, setImprovedText] = useState("");
+  //const [improvedText, setImprovedText] = useState("");
+  const [improvedText, setImprovedText] = useState<string[][]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
   const [questions, setQuestions] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -39,7 +40,10 @@ export default function SpeakingView() {
     string[]
   >([]);
   const [taskThreeAudioUrls, setTaskThreeAudioUrls] = useState<string[]>([]);
-  const [taskThreeFeedbacks, setTaskThreeFeedbacks] = useState<any[]>([]);
+  //const [taskThreeFeedbacks, setTaskThreeFeedbacks] = useState<any[]>([]);
+  const [taskThreeFeedbacks, setTaskThreeFeedbacks] = useState<string[][][]>(
+    []
+  );
   const [isRecordingTaskThree, setIsRecordingTaskThree] = useState(false);
 
   // para guardar resultados
@@ -113,7 +117,13 @@ export default function SpeakingView() {
               formattedCueCard
             );
 
-            if (feedback.includes("/ Please check the submitted text /")) {
+            if (!feedback) {
+              throw new Error("No feedback received from AI");
+            }
+
+            const safeFeedback = feedback;
+
+            if (safeFeedback.includes("/ Please check the submitted text /")) {
               setTranscription(
                 "⚠️ The recording seems unclear or not in English. Try again."
               );
@@ -121,12 +131,12 @@ export default function SpeakingView() {
               return;
             }
 
-            const formatted = formatResponse(feedback);
+            const formatted = formatResponse(safeFeedback);
             setImprovedText(formatted);
             setShowImproved(true);
 
             //  Guardar resultado de Task 2 en la base de datos
-            const parsedFeedback = parseAIFeedback(feedback);
+            const parsedFeedback = parseAIFeedback(safeFeedback);
             const recordingDuration = recordingStartTime - recordingTime; // Tiempo usado
 
             saveResult({
@@ -134,7 +144,7 @@ export default function SpeakingView() {
               task: "task-two",
               question: formattedCueCard,
               userResponse: text,
-              aiFeedback: feedback,
+              aiFeedback: safeFeedback,
               estimatedBand: parsedFeedback.estimatedBand,
               identifiedErrors: parsedFeedback.identifiedErrors,
               bulletPointsCovered: parsedFeedback.bulletPointsCovered,
@@ -191,13 +201,17 @@ export default function SpeakingView() {
               questions[currentQuestionIndex]
             );
 
-            const formatted = formatResponse(feedback);
+            if (!feedback) throw new Error("No feedback from AI");
+
+            const safeFeedback = feedback;
+
+            const formatted = formatResponse(safeFeedback);
             const newFeedbacks = [...taskThreeFeedbacks];
             newFeedbacks[currentTaskThreeIndex] = formatted;
             setTaskThreeFeedbacks(newFeedbacks);
 
             // Guardar resultado de Task 3 en la base de datos
-            const parsedFeedback = parseAIFeedback(feedback);
+            const parsedFeedback = parseAIFeedback(safeFeedback);
             const recordingDuration = recordingStartTime - recordingTime;
 
             saveResult({
@@ -205,7 +219,7 @@ export default function SpeakingView() {
               task: "task-three",
               question: taskThreeQuestions[currentTaskThreeIndex],
               userResponse: text,
-              aiFeedback: feedback,
+              aiFeedback: safeFeedback,
               estimatedBand: parsedFeedback.estimatedBand,
               identifiedErrors: parsedFeedback.identifiedErrors,
               metadata: {
@@ -281,7 +295,7 @@ export default function SpeakingView() {
     setAudioUrl("");
     setRecordingTime(0);
     setShowImproved(false);
-    setImprovedText("");
+    setImprovedText([]);
     setIsProcessing(false);
     audioChunksRef.current = [];
 

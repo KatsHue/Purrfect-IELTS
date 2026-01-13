@@ -124,7 +124,7 @@ export default function SpeakingView() {
         } finally {
           setIsProcessing(false);
         }
-      }; 
+      };
 
       mediaRecorderRef.current.start();
       setIsRecording(true);
@@ -158,17 +158,19 @@ export default function SpeakingView() {
   };
 
   // Generar versión mejorada
-  const generateImprovedVersion = () => {
-    // const mockImproved = `Aquí va a ir la versión mejorada de la respuesta anterior:\n\n"${transcription}"\n\nSe mostrarán:\n• las correciones hechas\n• Los cambios\n• Tal vez una explicación`;
-    console.log(audioUrl)
-    
-    setShowImproved(true);
-  };
+  //const generateImprovedVersion = () => {
+  // const mockImproved = `Aquí va a ir la versión mejorada de la respuesta anterior:\n\n"${transcription}"\n\nSe mostrarán:\n• las correciones hechas\n• Los cambios\n• Tal vez una explicación`;
+  //console.log(audioUrl)
+
+  //setShowImproved(true);
+  //};
 
   // Reproducir grabación
-  const playRecording = async() => {
+  const playRecording = async () => {
     if (audioChunksRef.current.length > 0) {
-      const audioBlob = new Blob(audioChunksRef.current, { type: "audio/webm" });
+      const audioBlob = new Blob(audioChunksRef.current, {
+        type: "audio/webm",
+      });
       const text = await transcriptionAI(audioBlob);
       setTranscription(text);
     }
@@ -316,8 +318,12 @@ export default function SpeakingView() {
         ) : (
           <div className="space-y-4">
             <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
-              <h3 className="font-medium mb-2">{transcription ? 'Transcripción' : 'Analiza primero tu audio'}</h3>
-              <p className="whitespace-pre-line">{transcription ? transcription : ' '}</p>
+              <h3 className="font-medium mb-2">
+                {transcription ? "Transcripción" : "Analiza primero tu audio"}
+              </h3>
+              <p className="whitespace-pre-line">
+                {transcription ? transcription : " "}
+              </p>
             </div>
 
             {audioUrl && (
@@ -327,11 +333,13 @@ export default function SpeakingView() {
               >
                 <PlayIcon className="h-5 w-5" />
                 Play Your Recording
-              </button> )}
+              </button>
+            )}
           </div>
         )}
       </div>
-      <audio ref={audioRef} src={audioUrl} hidden /><audio ref={audioRef} src={audioUrl} hidden />
+      <audio ref={audioRef} src={audioUrl} hidden />
+      <audio ref={audioRef} src={audioUrl} hidden />
       {/* Sección de Improved Version */}
       {showImproved && (
         <div className="bg-white p-6 rounded-xl shadow-md space-y-4">

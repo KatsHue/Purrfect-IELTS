@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import ErrorMessage from "@/components/ErrorMessage";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
-import { getResponseIA } from "@/api/AIAPI";
+//import { getResponseIA } from "@/api/AIAPI";
 import { useEffect, useState } from "react";
 import { formatResponse } from "@/utils/format";
 import { WritingAPI } from "@/api/WritingTaskTwoAPI";
@@ -120,7 +120,7 @@ export default function SendIAView() {
     if (questions.length === 0) return;
     setCurrentQuestionIndex((prev) => (prev + 1) % questions.length);
     resetExercise();
-    reset({text : ''})
+    reset({ text: "" });
   };
 
   const prevQuestion = () => {
@@ -219,7 +219,9 @@ export default function SendIAView() {
 
               <button
                 onClick={nextQuestion}
-                className={`flex items-center gap-2 px-4 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition ${!userSubmittedText ? 'opacity-10' : ''}`}
+                className={`flex items-center gap-2 px-4 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition ${
+                  !userSubmittedText ? "opacity-10" : ""
+                }`}
                 disabled={!userSubmittedText}
               >
                 Next Question <ChevronRightIcon className="h-4 w-4" />
@@ -228,8 +230,7 @@ export default function SendIAView() {
           </div>
 
           {/* Formulario */}
-          {
-            !ia.loading && 
+          {!ia.loading && (
             <form
               onSubmit={handleSubmit(handleChangePassword)}
               className="space-y-5 bg-white shadow-lg p-10 rounded-lg flex-grow"
@@ -248,7 +249,9 @@ export default function SendIAView() {
                     required: "El texto es obligatorio",
                   })}
                 />
-                {errors.text && <ErrorMessage>{errors.text.message}</ErrorMessage>}
+                {errors.text && (
+                  <ErrorMessage>{errors.text.message}</ErrorMessage>
+                )}
               </div>
 
               <input
@@ -260,8 +263,7 @@ export default function SendIAView() {
                 disabled={ia.loading}
               />
             </form>
-
-          }
+          )}
 
           {/* spinner */}
           {ia.loading && (

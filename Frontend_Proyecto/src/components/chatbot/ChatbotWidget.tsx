@@ -3,12 +3,15 @@ import { Send, X, Minus, MessageCircle } from "lucide-react";
 import { sendMessageToChatbot } from "../../api/ChatBotAPI";
 import ReactMarkdown from "react-markdown";
 
+type ChatMessage = {
+  sender: "user" | "bot";
+  text: string;
+};
+
 const ChatbotWidget = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
-  const [messages, setMessages] = useState<
-    { sender: "user" | "bot"; text: string }[]
-  >([]);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState("");
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
@@ -32,14 +35,16 @@ const ChatbotWidget = () => {
   const handleOpen = () => {
     setIsOpen(true);
     setIsMinimized(false);
+
     if (messages.length === 0) {
-      setMessages([
-        {
-          sender: "bot",
-          text: "¡Hola, soy Purry! 🐾. Estoy aquí para ayudarte con el IELTS General Training. ¿Sobre qué sección quieres saber: Listening, Reading, Writing o Speaking? O prefieres consejos para mejorar tus resultados",
-        },
-      ]);
+      const welcomeMsg: ChatMessage = {
+        sender: "bot",
+        text: "¡Hola, soy Purry! 🐾. Estoy aquí para ayudarte con el IELTS General Training. ¿Sobre qué sección quieres saber: Listening, Reading, Writing o Speaking? O prefieres consejos para mejorar tus resultados",
+      };
+
+      setMessages([welcomeMsg]);
     }
+
     requestAnimationFrame(() =>
       messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
     );
@@ -47,15 +52,23 @@ const ChatbotWidget = () => {
 
   const typeBotMessage = (fullText: string) => {
     let index = 0;
+
     const interval = setInterval(() => {
       setMessages((prev) => {
         const lastMsg = prev[prev.length - 1];
+
         if (lastMsg?.sender === "bot" && lastMsg.text !== fullText) {
-          const newMsg = { sender: "bot", text: fullText.slice(0, index + 1) };
+          const newMsg: ChatMessage = {
+            sender: "bot",
+            text: fullText.slice(0, index + 1),
+          };
+
           return [...prev.slice(0, -1), newMsg];
         }
+
         return prev;
       });
+
       index++;
       if (index >= fullText.length) clearInterval(interval);
     }, 25);
@@ -63,12 +76,16 @@ const ChatbotWidget = () => {
 
   const handleSend = async () => {
     if (!input.trim()) return;
-    const userMessage = { sender: "user" as const, text: input };
+
+    const userMessage: ChatMessage = { sender: "user", text: input };
     setMessages((prev) => [...prev, userMessage]);
     setInput("");
 
     const botReply = await sendMessageToChatbot(input);
-    setMessages((prev) => [...prev, { sender: "bot", text: "" }]);
+
+    const emptyBotMsg: ChatMessage = { sender: "bot", text: "" };
+    setMessages((prev) => [...prev, emptyBotMsg]);
+
     typeBotMessage(botReply);
   };
 
@@ -88,14 +105,14 @@ const ChatbotWidget = () => {
                 <span>Purry</span>
               </div>
               <div className="flex gap-2">
-                {/* Botón minimizar */}
+                {/* Minimizar */}
                 <button
                   onClick={() => setIsMinimized(true)}
                   className="p-1 hover:bg-[#FFECB3] rounded"
                 >
                   <Minus size={18} />
                 </button>
-                {/* Botón cerrar */}
+                {/* Cerrar */}
                 <button
                   onClick={() => {
                     setIsOpen(false);
@@ -121,13 +138,11 @@ const ChatbotWidget = () => {
                 >
                   <ReactMarkdown
                     components={{
-                      strong: ({ node, ...props }) => (
+                      strong: ({ ...props }) => (
                         <strong className="font-semibold" {...props} />
                       ),
-                      p: ({ node, ...props }) => (
-                        <p className="mb-1" {...props} />
-                      ),
-                      li: ({ node, ...props }) => (
+                      p: ({ ...props }) => <p className="mb-1" {...props} />,
+                      li: ({ ...props }) => (
                         <li className="list-disc ml-4" {...props} />
                       ),
                     }}
@@ -172,7 +187,7 @@ const ChatbotWidget = () => {
           </button>
         )
       ) : (
-        // Botón abrir chat desde cerrado
+        // Botón abrir
         <button
           onClick={handleOpen}
           className="bg-[#FFD54F] text-black rounded-full p-4 shadow-lg hover:bg-[#FFC107]"

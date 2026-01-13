@@ -23,7 +23,11 @@ import {
   ClockIcon,
 } from "@heroicons/react/24/solid";
 import { Link } from "react-router-dom";
-import { DocumentTextIcon, PresentationChartBarIcon, PresentationChartLineIcon, RocketLaunchIcon } from "@heroicons/react/20/solid";
+import {
+  DocumentTextIcon,
+  PresentationChartLineIcon,
+  RocketLaunchIcon,
+} from "@heroicons/react/20/solid";
 
 export default function AnalyticsView() {
   const { data: stats, isLoading } = useQuery({
@@ -192,7 +196,7 @@ export default function AnalyticsView() {
               Desempeño por tarea
             </h2>
           </div>
-          
+
           {taskData.length > 0 ? (
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={taskData}>
@@ -265,7 +269,7 @@ export default function AnalyticsView() {
                 outerRadius={100}
                 label
               >
-                {taskData.map((entry, index) => (
+                {taskData.map((_, index) => (
                   <Cell
                     key={`cell-${index}`}
                     fill={COLORS[index % COLORS.length]}
@@ -281,7 +285,9 @@ export default function AnalyticsView() {
 
       {/* Motivational Card */}
       <div className="bg-gradient-to-r from-sky-500 to-blue-600 rounded-xl shadow-lg p-8 text-white">
-        <h2 className="text-2xl font-bold mb-2 text-center">¡Tú puedes, sigue así! 💪</h2>
+        <h2 className="text-2xl font-bold mb-2 text-center">
+          ¡Tú puedes, sigue así! 💪
+        </h2>
         <p className="text-sky-100 mb-4">
           Has completado {stats.totalPractices} práctica
           {stats.totalPractices !== 1 ? "s" : ""}.
