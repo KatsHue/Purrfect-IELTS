@@ -71,7 +71,7 @@ export default function DashboardMainView() {
       <div className="max-w-6xl mx-auto relative z-10">
         {/* bienvenida   */}
         <section className="text-center mb-20" data-aos="fade-down">
-          <h1 className="text-6xl md:text-7xl font-black mb-6 bg-gradient-to-r from-amber-800 via-pink-700 to-amber-800 bg-clip-text text-transparent leading-tight">
+          <h1 className="text-5xl sm:text-6xl md:text-7xl font-black mb-6 bg-gradient-to-r from-amber-800 via-pink-700 to-amber-800 bg-clip-text text-transparent leading-tight px-4">
             ¡Bienvenido a<br />
             Purrfect IELTS!
           </h1>
