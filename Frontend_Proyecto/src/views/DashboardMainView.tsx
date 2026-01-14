@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { BookOpen, Mic, PenTool, MessageCircle } from "lucide-react";
+import { Mic, PenTool } from "lucide-react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
@@ -24,18 +24,6 @@ export default function DashboardMainView() {
       subtitle: "Mejora tu escritura",
       color: "bg-yellow-400 hover:bg-yellow-500",
     },
-    {
-      icon: <BookOpen className="w-6 h-6" />,
-      title: "Reading",
-      subtitle: "Comprensión lectora",
-      color: "bg-amber-300 hover:bg-amber-400",
-    },
-    {
-      icon: <MessageCircle className="w-6 h-6" />,
-      title: "Listening",
-      subtitle: "Ejercicios de audio",
-      color: "bg-yellow-300 hover:bg-yellow-400",
-    },
   ];
 
   return (
@@ -45,7 +33,7 @@ export default function DashboardMainView() {
         <section className="text-center mb-12" data-aos="fade-down">
           <div className="inline-block mb-6 animate-bounce">
             <img
-              src="/logo.png"
+              src="/Logo.png"
               alt="Purrfect IELTS Logo"
               className="w-32 h-32 mx-auto"
             />
