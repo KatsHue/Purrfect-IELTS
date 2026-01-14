@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/chat";
+const API_URL = import.meta.env.VITE_CHATBOT_API;
 
 export const sendMessageToChatbot = async (
   message: string
