@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Mic, PenTool, BarChart3, History } from "lucide-react";
+import { Mic, PenTool, BarChart3, History, Sparkles, Star } from "lucide-react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
@@ -13,34 +13,46 @@ export default function DashboardMainView() {
 
   const quickActions = [
     {
-      icon: <Mic className="w-8 h-8" />,
+      icon: <Mic className="w-10 h-10" />,
       title: "Speaking",
       subtitle: "Practica conversación",
-      color: "bg-amber-400 hover:bg-amber-500",
+      gradient: "from-pink-400 via-rose-400 to-pink-500",
+      bgColor: "bg-pink-50",
+      borderColor: "border-pink-200",
+      emoji: "🎤",
       link: "https://purrfect-ielts.onrender.com/speaking",
     },
     {
-      icon: <PenTool className="w-8 h-8" />,
+      icon: <PenTool className="w-10 h-10" />,
       title: "Writing",
       subtitle: "Mejora tu escritura",
-      color: "bg-yellow-400 hover:bg-yellow-500",
-      link: "https://purrfect-ielts.onrender.com/writing/",
+      gradient: "from-amber-400 via-yellow-400 to-amber-500",
+      bgColor: "bg-yellow-50",
+      borderColor: "border-yellow-200",
+      emoji: "✍️",
+      link: "https://purrfect-ielts.onrender.com/writing",
     },
   ];
 
   const historyActions = [
     {
-      icon: <BarChart3 className="w-8 h-8" />,
+      icon: <BarChart3 className="w-10 h-10" />,
       title: "Analíticos",
       subtitle: "Revisa tu progreso",
-      color: "bg-orange-400 hover:bg-orange-500",
+      gradient: "from-purple-400 via-violet-400 to-purple-500",
+      bgColor: "bg-purple-50",
+      borderColor: "border-purple-200",
+      emoji: "📊",
       link: "https://purrfect-ielts.onrender.com/history/analytics",
     },
     {
-      icon: <History className="w-8 h-8" />,
+      icon: <History className="w-10 h-10" />,
       title: "Historial",
       subtitle: "Tus prácticas anteriores",
-      color: "bg-amber-500 hover:bg-amber-600",
+      gradient: "from-orange-400 via-amber-400 to-orange-500",
+      bgColor: "bg-orange-50",
+      borderColor: "border-orange-200",
+      emoji: "📝",
       link: "https://purrfect-ielts.onrender.com/history/history-complete",
     },
   ];
@@ -50,50 +62,108 @@ export default function DashboardMainView() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-yellow-50 to-orange-50 py-8 px-4">
-      <div className="max-w-5xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-pink-50 to-yellow-50 py-12 px-4 relative overflow-hidden">
+      {/* Decorative floating elements */}
+      <div className="absolute top-20 left-10 w-32 h-32 bg-pink-200 rounded-full blur-3xl opacity-30 animate-pulse"></div>
+      <div className="absolute bottom-20 right-10 w-40 h-40 bg-yellow-200 rounded-full blur-3xl opacity-30 animate-pulse"></div>
+      <div className="absolute top-1/2 right-1/4 w-24 h-24 bg-purple-200 rounded-full blur-3xl opacity-20 animate-pulse"></div>
+
+      <div className="max-w-6xl mx-auto relative z-10">
         {/* Welcome Section con el logo */}
-        <section className="text-center mb-16" data-aos="fade-down">
-          <div className="inline-block mb-6 animate-bounce">
+        <section className="text-center mb-20" data-aos="fade-down">
+          <div className="relative inline-block mb-8">
+            {/* Glow effect con los colores de la mascota */}
+            <div className="absolute inset-0 bg-gradient-to-r from-pink-300 via-amber-300 to-yellow-300 rounded-full blur-3xl opacity-40 animate-pulse"></div>
+
+            {/* Paw prints decorations */}
+            <div className="absolute -top-8 -left-8 text-4xl opacity-30 rotate-12">
+              🐾
+            </div>
+            <div className="absolute -bottom-8 -right-8 text-4xl opacity-30 -rotate-12">
+              🐾
+            </div>
+
             <img
-              src="/assets/images/logoCabeza.svg"
+              src="/Logo.png"
               alt="Purrfect IELTS Logo"
-              className="w-40 h-40 mx-auto object-contain drop-shadow-lg"
+              className="w-52 h-52 mx-auto object-contain drop-shadow-2xl relative z-10 animate-bounce"
             />
           </div>
 
-          <h1 className="text-5xl md:text-6xl font-bold mb-4 text-amber-900">
-            ¡Bienvenido a Purrfect IELTS!
+          <h1 className="text-6xl md:text-7xl font-black mb-6 bg-gradient-to-r from-amber-800 via-pink-700 to-amber-800 bg-clip-text text-transparent leading-tight">
+            ¡Bienvenido a<br />
+            Purrfect IELTS! 🐱
           </h1>
-          <p className="text-lg md:text-xl text-amber-800 max-w-2xl mx-auto">
-            Prepárate para el IELTS con práctica interactiva y retroalimentación
-            instantánea
+          <p className="text-xl md:text-2xl text-amber-800 max-w-3xl mx-auto font-medium mb-8">
+            Prepárate para el IELTS con práctica interactiva, IA avanzada y
+            mucho <span className="text-pink-600 font-bold">amor gatuno</span>{" "}
+            💛
           </p>
+
+          {/* Fun badges with cat theme */}
+          <div className="flex justify-center gap-4 flex-wrap">
+            <span className="inline-flex items-center gap-2 bg-white px-6 py-3 rounded-full shadow-lg text-amber-900 font-semibold border-2 border-pink-200 hover:scale-105 transition-transform">
+              <Sparkles className="w-5 h-5 text-pink-500" />
+              IA Súper Inteligente
+            </span>
+            <span className="inline-flex items-center gap-2 bg-white px-6 py-3 rounded-full shadow-lg text-amber-900 font-semibold border-2 border-yellow-200 hover:scale-105 transition-transform">
+              <Star className="w-5 h-5 text-yellow-500" />
+              Feedback al Instante
+            </span>
+          </div>
         </section>
 
-        {/* Main Actions - Centrado y más grande */}
-        <section className="mb-16" data-aos="fade-up" data-aos-delay="200">
-          <h2 className="text-3xl font-bold text-amber-900 mb-8 text-center">
-            Comienza a practicar
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
+        {/* Main Actions Grid */}
+        <section className="mb-20" data-aos="fade-up" data-aos-delay="200">
+          <div className="flex items-center justify-center gap-3 mb-10">
+            <div className="text-3xl">✨</div>
+            <h2 className="text-4xl font-bold bg-gradient-to-r from-pink-600 to-amber-600 bg-clip-text text-transparent">
+              Comienza a practicar
+            </h2>
+            <div className="text-3xl">✨</div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {quickActions.map((action, index) => (
               <button
                 key={index}
                 onClick={() => handleNavigation(action.link)}
-                className={`${action.color} text-amber-900 rounded-2xl p-10 shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all duration-300`}
+                className={`group relative overflow-hidden ${action.bgColor} rounded-3xl p-8 shadow-xl hover:shadow-2xl transform hover:scale-105 hover:-rotate-1 transition-all duration-500 border-3 ${action.borderColor}`}
               >
-                <div className="flex flex-col items-center text-center gap-4">
-                  <div className="w-16 h-16 bg-white bg-opacity-30 rounded-full flex items-center justify-center">
+                {/* Animated background */}
+                <div
+                  className={`absolute inset-0 bg-gradient-to-br ${action.gradient} opacity-0 group-hover:opacity-20 transition-opacity duration-500`}
+                ></div>
+
+                {/* Fun decorative emoji */}
+                <div className="absolute -top-4 -right-4 text-7xl opacity-20 group-hover:opacity-40 group-hover:rotate-12 transition-all duration-500">
+                  {action.emoji}
+                </div>
+
+                {/* Sparkles on hover */}
+                <div className="absolute top-4 left-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  <Sparkles className="w-6 h-6 text-yellow-400 animate-pulse" />
+                </div>
+
+                <div className="relative z-10 flex flex-col items-start text-left gap-6">
+                  <div
+                    className={`w-20 h-20 bg-gradient-to-br ${action.gradient} rounded-2xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-all duration-300`}
+                  >
                     {action.icon}
                   </div>
                   <div>
-                    <div className="font-bold text-2xl mb-2">
+                    <h3 className="font-black text-3xl mb-2 text-amber-900 group-hover:text-pink-700 transition-colors">
                       {action.title}
-                    </div>
-                    <div className="text-base opacity-90">
+                    </h3>
+                    <p className="text-lg text-amber-700 font-medium">
                       {action.subtitle}
-                    </div>
+                    </p>
+                  </div>
+
+                  {/* Cute paw print indicator */}
+                  <div className="mt-2 text-pink-500 group-hover:translate-x-2 transition-transform duration-300 flex items-center gap-2">
+                    <span className="text-2xl font-bold">→</span>
+                    <span className="text-lg">¡Vamos!</span>
                   </div>
                 </div>
               </button>
@@ -102,28 +172,52 @@ export default function DashboardMainView() {
         </section>
 
         {/* History & Analytics Section */}
-        <section className="mb-16" data-aos="fade-up" data-aos-delay="300">
-          <h2 className="text-3xl font-bold text-amber-900 mb-8 text-center">
-            Tu progreso
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
+        <section className="mb-20" data-aos="fade-up" data-aos-delay="300">
+          <div className="flex items-center justify-center gap-3 mb-10">
+            <div className="text-3xl">📈</div>
+            <h2 className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-orange-600 bg-clip-text text-transparent">
+              Tu progreso
+            </h2>
+            <div className="text-3xl">🎯</div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {historyActions.map((action, index) => (
               <button
                 key={index}
                 onClick={() => handleNavigation(action.link)}
-                className={`${action.color} text-amber-900 rounded-2xl p-10 shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all duration-300`}
+                className={`group relative overflow-hidden ${action.bgColor} rounded-3xl p-8 shadow-xl hover:shadow-2xl transform hover:scale-105 hover:rotate-1 transition-all duration-500 border-3 ${action.borderColor}`}
               >
-                <div className="flex flex-col items-center text-center gap-4">
-                  <div className="w-16 h-16 bg-white bg-opacity-30 rounded-full flex items-center justify-center">
+                <div
+                  className={`absolute inset-0 bg-gradient-to-br ${action.gradient} opacity-0 group-hover:opacity-20 transition-opacity duration-500`}
+                ></div>
+
+                <div className="absolute -top-4 -right-4 text-7xl opacity-20 group-hover:opacity-40 group-hover:-rotate-12 transition-all duration-500">
+                  {action.emoji}
+                </div>
+
+                <div className="absolute top-4 left-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  <Sparkles className="w-6 h-6 text-purple-400 animate-pulse" />
+                </div>
+
+                <div className="relative z-10 flex flex-col items-start text-left gap-6">
+                  <div
+                    className={`w-20 h-20 bg-gradient-to-br ${action.gradient} rounded-2xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 group-hover:-rotate-6 transition-all duration-300`}
+                  >
                     {action.icon}
                   </div>
                   <div>
-                    <div className="font-bold text-2xl mb-2">
+                    <h3 className="font-black text-3xl mb-2 text-amber-900 group-hover:text-purple-700 transition-colors">
                       {action.title}
-                    </div>
-                    <div className="text-base opacity-90">
+                    </h3>
+                    <p className="text-lg text-amber-700 font-medium">
                       {action.subtitle}
-                    </div>
+                    </p>
+                  </div>
+
+                  <div className="mt-2 text-purple-500 group-hover:translate-x-2 transition-transform duration-300 flex items-center gap-2">
+                    <span className="text-2xl font-bold">→</span>
+                    <span className="text-lg">¡Ver más!</span>
                   </div>
                 </div>
               </button>
@@ -131,18 +225,54 @@ export default function DashboardMainView() {
           </div>
         </section>
 
-        {/* AI Chatbot Banner */}
+        {/* AI Chatbot Banner - Super fun */}
         <section data-aos="fade-up" data-aos-delay="400">
-          <div className="bg-gradient-to-r from-amber-600 to-yellow-500 rounded-3xl p-10 text-white shadow-xl hover:shadow-2xl transition-shadow duration-300">
-            <div className="text-center">
-              <div className="text-5xl mb-4">💬</div>
-              <h3 className="text-3xl md:text-4xl font-bold mb-4">
+          <div className="relative overflow-hidden bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 rounded-3xl p-12 text-white shadow-2xl hover:shadow-3xl transition-all duration-500 group border-4 border-pink-300">
+            {/* Playful background patterns */}
+            <div className="absolute inset-0 opacity-10">
+              <div className="absolute top-0 left-0 w-72 h-72 bg-white rounded-full blur-3xl group-hover:scale-150 transition-transform duration-1000"></div>
+              <div className="absolute bottom-0 right-0 w-96 h-96 bg-yellow-300 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-1000"></div>
+            </div>
+
+            {/* Floating paw prints */}
+            <div className="absolute top-8 right-8 text-5xl opacity-20 animate-bounce">
+              🐾
+            </div>
+            <div
+              className="absolute bottom-8 left-8 text-5xl opacity-20 animate-bounce"
+              style={{ animationDelay: "0.5s" }}
+            >
+              🐾
+            </div>
+
+            <div className="relative z-10 text-center">
+              <div className="inline-block mb-6">
+                <div className="text-8xl transform group-hover:scale-110 group-hover:rotate-12 transition-all duration-300">
+                  💬
+                </div>
+              </div>
+              <h3 className="text-5xl md:text-6xl font-black mb-4">
                 Chatbot con IA
               </h3>
-              <p className="text-lg md:text-xl opacity-95 max-w-2xl mx-auto">
-                Obtén estrategias personalizadas y resuelve tus dudas sobre el
-                examen IELTS en tiempo real
+              <p className="text-xl md:text-2xl opacity-95 max-w-3xl mx-auto leading-relaxed mb-6">
+                Tu asistente personal que{" "}
+                <span className="font-black underline decoration-wavy">
+                  siempre
+                </span>{" "}
+                está disponible para ayudarte con estrategias y resolver dudas
+                sobre el IELTS
               </p>
+
+              <div className="flex justify-center gap-4 flex-wrap">
+                <div className="inline-flex items-center gap-2 bg-white bg-opacity-20 px-6 py-3 rounded-full backdrop-blur-sm border-2 border-white border-opacity-30">
+                  <Sparkles className="w-5 h-5" />
+                  <span className="font-bold">24/7 Disponible</span>
+                </div>
+                <div className="inline-flex items-center gap-2 bg-white bg-opacity-20 px-6 py-3 rounded-full backdrop-blur-sm border-2 border-white border-opacity-30">
+                  <span className="text-xl">🤖</span>
+                  <span className="font-bold">Súper Inteligente</span>
+                </div>
+              </div>
             </div>
           </div>
         </section>
