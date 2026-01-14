@@ -33,8 +33,8 @@ export const AppLayout = () => {
         <header
           className={` sticky top-0 w-full transition-all z-50 ${
             isScrolled
-              ? "bg-white/95 backdrop-blur-lg shadow-lg shadow-pink-200/50 py-3"
-              : "bg-gradient-to-r from-pink-50 via-amber-50 to-yellow-50 py-4 border-b-2 border-amber-200/50"
+              ? "bg-white/95 backdrop-blur-lg shadow-lg shadow-pink-200/50 py-4"
+              : "bg-gradient-to-r from-pink-50 via-amber-50 to-yellow-50 py-5 border-b-2 border-amber-200/50"
           }`}
         >
           <div
