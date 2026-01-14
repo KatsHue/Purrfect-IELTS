@@ -30,7 +30,7 @@ export default function DashboardMainView() {
       bgColor: "bg-yellow-50",
       borderColor: "border-yellow-200",
       emoji: "✍️",
-      link: "https://purrfect-ielts.onrender.com/writing",
+      link: "https://purrfect-ielts.onrender.com/writing/",
     },
   ];
 
@@ -74,14 +74,6 @@ export default function DashboardMainView() {
           <div className="relative inline-block mb-8">
             {/* Glow effect con los colores de la mascota */}
             <div className="absolute inset-0 bg-gradient-to-r from-pink-300 via-amber-300 to-yellow-300 rounded-full blur-3xl opacity-40 animate-pulse"></div>
-
-            {/* Paw prints decorations */}
-            <div className="absolute -top-8 -left-8 text-4xl opacity-30 rotate-12">
-              🐾
-            </div>
-            <div className="absolute -bottom-8 -right-8 text-4xl opacity-30 -rotate-12">
-              🐾
-            </div>
 
             <img
               src="/assets/images/logoCabeza.svg"
