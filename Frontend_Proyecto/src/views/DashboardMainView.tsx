@@ -62,14 +62,14 @@ export default function DashboardMainView() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-pink-50 to-yellow-50 py-12 px-4 relative overflow-hidden">
-      {/* Decorative floating elements */}
+    <div className="min-h-screen bg-white py-12 px-4 relative overflow-hidden">
+      {/* elementos decorativos */}
       <div className="absolute top-20 left-10 w-32 h-32 bg-pink-200 rounded-full blur-3xl opacity-30 animate-pulse"></div>
       <div className="absolute bottom-20 right-10 w-40 h-40 bg-yellow-200 rounded-full blur-3xl opacity-30 animate-pulse"></div>
       <div className="absolute top-1/2 right-1/4 w-24 h-24 bg-purple-200 rounded-full blur-3xl opacity-20 animate-pulse"></div>
 
       <div className="max-w-6xl mx-auto relative z-10">
-        {/* Welcome   */}
+        {/* bienvenida   */}
         <section className="text-center mb-20" data-aos="fade-down">
           <h1 className="text-6xl md:text-7xl font-black mb-6 bg-gradient-to-r from-amber-800 via-pink-700 to-amber-800 bg-clip-text text-transparent leading-tight">
             ¡Bienvenido a<br />
@@ -85,7 +85,7 @@ export default function DashboardMainView() {
           <div className="flex justify-center gap-4 flex-wrap">
             <span className="inline-flex items-center gap-2 bg-white px-6 py-3 rounded-full shadow-lg text-amber-900 font-semibold border-2 border-pink-200 hover:scale-105 transition-transform">
               <Sparkles className="w-5 h-5 text-pink-500" />
-              IA Súper Inteligente
+              Chatbot Inteligente
             </span>
             <span className="inline-flex items-center gap-2 bg-white px-6 py-3 rounded-full shadow-lg text-amber-900 font-semibold border-2 border-yellow-200 hover:scale-105 transition-transform">
               <Star className="w-5 h-5 text-yellow-500" />
@@ -108,7 +108,7 @@ export default function DashboardMainView() {
               <button
                 key={index}
                 onClick={() => handleNavigation(action.link)}
-                className={`group relative overflow-hidden ${action.bgColor} rounded-3xl p-8 shadow-xl hover:shadow-2xl transform hover:scale-105 hover:-rotate-1 transition-all duration-500 border-3 ${action.borderColor}`}
+                className={`group relative overflow-hidden ${action.bgColor} rounded-3xl p-8 shadow-xl hover:shadow-2xl transform hover:scale-105 hover:-rotate-1 transition-all duration-500 border-3 ${action.borderColor} cursor-pointer`}
               >
                 <div
                   className={`absolute inset-0 bg-gradient-to-br ${action.gradient} opacity-0 group-hover:opacity-20 transition-opacity duration-500`}
@@ -161,7 +161,7 @@ export default function DashboardMainView() {
               <button
                 key={index}
                 onClick={() => handleNavigation(action.link)}
-                className={`group relative overflow-hidden ${action.bgColor} rounded-3xl p-8 shadow-xl hover:shadow-2xl transform hover:scale-105 hover:rotate-1 transition-all duration-500 border-3 ${action.borderColor}`}
+                className={`group relative overflow-hidden ${action.bgColor} rounded-3xl p-8 shadow-xl hover:shadow-2xl transform hover:scale-105 hover:rotate-1 transition-all duration-500 border-3 ${action.borderColor} cursor-pointer`}
               >
                 <div
                   className={`absolute inset-0 bg-gradient-to-br ${action.gradient} opacity-0 group-hover:opacity-20 transition-opacity duration-500`}
