@@ -84,9 +84,9 @@ export default function DashboardMainView() {
             </div>
 
             <img
-              src="/Logo.png"
+              src="/assets/images/logoCabeza.svg"
               alt="Purrfect IELTS Logo"
-              className="w-52 h-52 mx-auto object-contain drop-shadow-2xl relative z-10 animate-bounce"
+              className="w-40 h-40 mx-auto object-contain drop-shadow-2xl relative z-10 animate-bounce"
             />
           </div>
 
@@ -260,19 +260,8 @@ export default function DashboardMainView() {
                   siempre
                 </span>{" "}
                 está disponible para ayudarte con estrategias y resolver dudas
-                sobre el IELTS
+                sobre el IELTS en tiempo real
               </p>
-
-              <div className="flex justify-center gap-4 flex-wrap">
-                <div className="inline-flex items-center gap-2 bg-white bg-opacity-20 px-6 py-3 rounded-full backdrop-blur-sm border-2 border-white border-opacity-30">
-                  <Sparkles className="w-5 h-5" />
-                  <span className="font-bold">24/7 Disponible</span>
-                </div>
-                <div className="inline-flex items-center gap-2 bg-white bg-opacity-20 px-6 py-3 rounded-full backdrop-blur-sm border-2 border-white border-opacity-30">
-                  <span className="text-xl">🤖</span>
-                  <span className="font-bold">Súper Inteligente</span>
-                </div>
-              </div>
             </div>
           </div>
         </section>
