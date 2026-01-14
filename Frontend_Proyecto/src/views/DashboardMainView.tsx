@@ -24,7 +24,7 @@ export default function DashboardMainView() {
       title: "Writing",
       subtitle: "Mejora tu escritura",
       color: "bg-yellow-400 hover:bg-yellow-500",
-      link: "https://purrfect-ielts.onrender.com/writing",
+      link: "https://purrfect-ielts.onrender.com/writing/",
     },
   ];
 
