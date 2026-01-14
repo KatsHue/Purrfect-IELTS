@@ -69,19 +69,8 @@ export default function DashboardMainView() {
       <div className="absolute top-1/2 right-1/4 w-24 h-24 bg-purple-200 rounded-full blur-3xl opacity-20 animate-pulse"></div>
 
       <div className="max-w-6xl mx-auto relative z-10">
-        {/* Welcome Section con el logo */}
+        {/* Welcome   */}
         <section className="text-center mb-20" data-aos="fade-down">
-          <div className="relative inline-block mb-8">
-            {/* Glow effect con los colores de la mascota */}
-            <div className="absolute inset-0 bg-gradient-to-r from-pink-300 via-amber-300 to-yellow-300 rounded-full blur-3xl opacity-40 animate-pulse"></div>
-
-            <img
-              src="/assets/images/logoCabeza.svg"
-              alt="Purrfect IELTS Logo"
-              className="w-40 h-40 mx-auto object-contain drop-shadow-2xl relative z-10 animate-bounce"
-            />
-          </div>
-
           <h1 className="text-6xl md:text-7xl font-black mb-6 bg-gradient-to-r from-amber-800 via-pink-700 to-amber-800 bg-clip-text text-transparent leading-tight">
             ¡Bienvenido a<br />
             Purrfect IELTS!
@@ -92,7 +81,7 @@ export default function DashboardMainView() {
             💛
           </p>
 
-          {/* Fun badges with cat theme */}
+          {/* badges */}
           <div className="flex justify-center gap-4 flex-wrap">
             <span className="inline-flex items-center gap-2 bg-white px-6 py-3 rounded-full shadow-lg text-amber-900 font-semibold border-2 border-pink-200 hover:scale-105 transition-transform">
               <Sparkles className="w-5 h-5 text-pink-500" />
@@ -105,7 +94,6 @@ export default function DashboardMainView() {
           </div>
         </section>
 
-        {/* Main Actions Grid */}
         <section className="mb-20" data-aos="fade-up" data-aos-delay="200">
           <div className="flex items-center justify-center gap-3 mb-10">
             <div className="text-3xl">✨</div>
@@ -122,17 +110,14 @@ export default function DashboardMainView() {
                 onClick={() => handleNavigation(action.link)}
                 className={`group relative overflow-hidden ${action.bgColor} rounded-3xl p-8 shadow-xl hover:shadow-2xl transform hover:scale-105 hover:-rotate-1 transition-all duration-500 border-3 ${action.borderColor}`}
               >
-                {/* Animated background */}
                 <div
                   className={`absolute inset-0 bg-gradient-to-br ${action.gradient} opacity-0 group-hover:opacity-20 transition-opacity duration-500`}
                 ></div>
 
-                {/* Fun decorative emoji */}
                 <div className="absolute -top-4 -right-4 text-7xl opacity-20 group-hover:opacity-40 group-hover:rotate-12 transition-all duration-500">
                   {action.emoji}
                 </div>
 
-                {/* Sparkles on hover */}
                 <div className="absolute top-4 left-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                   <Sparkles className="w-6 h-6 text-yellow-400 animate-pulse" />
                 </div>
@@ -152,7 +137,6 @@ export default function DashboardMainView() {
                     </p>
                   </div>
 
-                  {/* Cute paw print indicator */}
                   <div className="mt-2 text-pink-500 group-hover:translate-x-2 transition-transform duration-300 flex items-center gap-2">
                     <span className="text-2xl font-bold">→</span>
                     <span className="text-lg">¡Vamos!</span>
@@ -163,7 +147,6 @@ export default function DashboardMainView() {
           </div>
         </section>
 
-        {/* History & Analytics Section */}
         <section className="mb-20" data-aos="fade-up" data-aos-delay="300">
           <div className="flex items-center justify-center gap-3 mb-10">
             <div className="text-3xl">📈</div>
@@ -217,16 +200,13 @@ export default function DashboardMainView() {
           </div>
         </section>
 
-        {/* AI Chatbot Banner - Super fun */}
         <section data-aos="fade-up" data-aos-delay="400">
           <div className="relative overflow-hidden bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 rounded-3xl p-12 text-white shadow-2xl hover:shadow-3xl transition-all duration-500 group border-4 border-pink-300">
-            {/* Playful background patterns */}
             <div className="absolute inset-0 opacity-10">
               <div className="absolute top-0 left-0 w-72 h-72 bg-white rounded-full blur-3xl group-hover:scale-150 transition-transform duration-1000"></div>
               <div className="absolute bottom-0 right-0 w-96 h-96 bg-yellow-300 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-1000"></div>
             </div>
 
-            {/* Floating paw prints */}
             <div className="absolute top-8 right-8 text-5xl opacity-20 animate-bounce">
               🐾
             </div>
