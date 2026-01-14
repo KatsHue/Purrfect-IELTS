@@ -82,11 +82,11 @@ export default function DashboardMainView() {
             />
           </div>
 
-          <h1 className="text-6xl md:text-7xl font-black mb-4 bg-gradient-to-r from-amber-800 via-amber-700 to-amber-800 bg-clip-text text-transparent leading-tight">
+          <h1 className="text-6xl md:text-7xl font-black mb-6 bg-gradient-to-r from-amber-800 via-pink-700 to-amber-800 bg-clip-text text-transparent leading-tight">
             ¡Bienvenido a<br />
             Purrfect IELTS!
           </h1>
-          <p className="text-xl md:text-2xl text-amber-800 max-w-3xl mx-auto font-medium mb-8">
+          <p className="text-xl md:text-2xl text-amber-800 max-w-3xl mx-auto font-medium mb-4">
             Prepárate para el IELTS con práctica interactiva, IA avanzada y
             mucho <span className="text-pink-600 font-bold">amor gatuno</span>{" "}
             💛
