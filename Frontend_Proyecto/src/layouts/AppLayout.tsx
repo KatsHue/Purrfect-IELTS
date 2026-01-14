@@ -33,14 +33,14 @@ export const AppLayout = () => {
         <header
           className={` sticky top-0 w-full transition-all z-50 ${
             isScrolled
-              ? "bg-white/95 backdrop-blur-lg shadow-lg shadow-pink-200/50 py-4"
-              : "bg-gradient-to-r from-pink-50 via-amber-50 to-yellow-50 py-5 border-b-2 border-amber-200/50"
+              ? "bg-white/95 backdrop-blur-lg shadow-lg shadow-orange-200/50 py-4"
+              : "bg-gradient-to-r from-orange-50 via-amber-50 to-yellow-50 py-5 border-b-2 border-orange-200/50"
           }`}
         >
           <div
-            className={`max-w-screen-2xl mx-auto flex flex-col lg:flex-row justify-between items-center`}
+            className={`max-w-screen-2xl mx-auto flex flex-col lg:flex-row justify-between items-center px-6`}
           >
-            <div className="w-16 m-3">
+            <div className="w-16 my-3">
               <Link to="/">
                 <Logo />
               </Link>
