@@ -106,18 +106,12 @@ export default function DashboardMainView() {
                 {/* Badge Superior */}
                 <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-pink-100 to-orange-100 rounded-full border border-pink-200/50 shadow-sm">
                   <Sparkles className="w-4 h-4 text-pink-600" />
-                  <span className="text-sm font-bold text-pink-800">
-                    Preparación con IA Avanzada
-                  </span>
                 </div>
 
                 {/* Título Principal */}
                 <h1 className="space-y-2">
                   <div className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black leading-tight">
-                    <span className="block text-pink-600">Domina el</span>
-                    <span className="block bg-gradient-to-r from-orange-600 via-pink-600 to-pink-700 bg-clip-text text-transparent">
-                      IELTS
-                    </span>
+                    <span className="block text-pink-600">Domina el IELTS</span>
                   </div>
                   <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-700">
                     con confianza 🎯
