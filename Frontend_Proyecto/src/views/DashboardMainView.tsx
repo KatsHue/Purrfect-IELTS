@@ -103,11 +103,6 @@ export default function DashboardMainView() {
                 className="space-y-8 text-center lg:text-left"
                 data-aos="fade-right"
               >
-                {/* Badge Superior */}
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-pink-100 to-orange-100 rounded-full border border-pink-200/50 shadow-sm">
-                  <Sparkles className="w-4 h-4 text-pink-600" />
-                </div>
-
                 {/* Título Principal */}
                 <h1 className="space-y-2">
                   <div className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black leading-tight">
