@@ -35,7 +35,7 @@ app.use("/api/writing/task-two", writingTaskTwoRoutes);
 app.use("/api/analytics", analyticsRoutes);
 
 app.get("/", (req, res) => {
-  res.send("✅ Better Essay API funcionando correctamente en Render 🚀");
+  res.send("✅ Purrfect IELTS API funcionando correctamente en Render 🚀");
 });
 
 export default app;

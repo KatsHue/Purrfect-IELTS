@@ -107,7 +107,7 @@ export default function DashboardMainView() {
               <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black leading-tight">
                 <span className="block text-ambar-600">Prepárate</span>
                 <span className="block text-ambar-600">para la</span>
-                <span className="block block text-ambar-600 bg-clip-text text-transparent">
+                <span className="block text-ambar-600">
                   certificación IELTS
                 </span>
               </h1>
@@ -158,7 +158,6 @@ export default function DashboardMainView() {
               data-aos-delay="200"
             >
               <div className="relative">
-                {/* Imagen SVG */}
                 <img
                   src="/assets/images/hero.svg"
                   alt="Purrfect IELTS Hero"
