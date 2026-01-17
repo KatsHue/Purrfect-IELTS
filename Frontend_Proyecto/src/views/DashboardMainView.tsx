@@ -73,18 +73,6 @@ export default function DashboardMainView() {
     window.location.href = link;
   };
 
-  const handleStartPractice = () => {
-    window.location.href = "https://purrfect-ielts.onrender.com/speaking";
-  };
-
-  const handleExploreAI = () => {
-    // Scroll suave al chatbot section
-    const chatbotSection = document.getElementById("chatbot-section");
-    if (chatbotSection) {
-      chatbotSection.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
   return (
     <div className="min-h-screen bg-white relative overflow-hidden">
       {/* Elementos decorativos de fondo */}
@@ -122,25 +110,6 @@ export default function DashboardMainView() {
                   con retroalimentación instantánea de IA. Mejora tu puntuación
                   con ejercicios personalizados.
                 </p>
-
-                <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-2">
-                  <button
-                    onClick={handleStartPractice}
-                    className="group px-8 py-4 bg-gradient-to-r from-pink-600 to-orange-600 text-white font-bold text-lg rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2"
-                  >
-                    <span>Comenzar Práctica</span>
-                    <span className="group-hover:translate-x-1 transition-transform">
-                      →
-                    </span>
-                  </button>
-
-                  <button
-                    onClick={handleExploreAI}
-                    className="px-8 py-4 bg-white text-orange-600 font-bold text-lg rounded-xl shadow-md hover:shadow-lg border-2 border-orange-200 hover:border-orange-300 hover:scale-105 transition-all duration-300"
-                  >
-                    Chatbot IA 💬
-                  </button>
-                </div>
 
                 {/* Stats Cards */}
                 <div className="grid grid-cols-3 gap-3 sm:gap-4 pt-6 max-w-lg mx-auto lg:mx-0">
@@ -201,7 +170,6 @@ export default function DashboardMainView() {
                 data-aos-delay="200"
               >
                 <div className="relative w-full max-w-lg mx-auto">
-                  {/* Contenedor de imagen con fallback */}
                   <div className="relative z-10">
                     {!imageError ? (
                       <img
