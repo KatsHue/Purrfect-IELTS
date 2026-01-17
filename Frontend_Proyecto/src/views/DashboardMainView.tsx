@@ -89,7 +89,7 @@ export default function DashboardMainView() {
     <div className="min-h-screen bg-white relative overflow-hidden">
       {/* Elementos decorativos de fondo */}
       <div className="max-w-7xl mx-auto relative z-10">
-        <section className="relative bg-gradient-to-b from-white via-orange-50/30 to-pink-50/30 py-12 sm:py-16 lg:py-20">
+        <section className="relative bg-gradient-to-b from-white via-orange-50/30 to-pink-50/30 pt-4 pb-12 sm:pt-6 sm:pb-16 lg:pt-8 lg:pb-20">
           <div className="absolute top-20 right-10 w-32 h-32 bg-pink-200 rounded-full blur-3xl opacity-20 animate-pulse"></div>
           <div
             className="absolute bottom-20 left-10 w-40 h-40 bg-orange-200 rounded-full blur-3xl opacity-20 animate-pulse"
