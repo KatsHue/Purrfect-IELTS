@@ -238,7 +238,7 @@ export default function DashboardMainView() {
                   </div>
 
                   {/* Elementos decorativos alrededor */}
-                  <div className="absolute -top-6 -left-6 w-20 h-20 bg-pink-300 rounded-full opacity-40 blur-xl animate-pulse"></div>
+                  <div className="absolute -bottom-6 -left-6 w-20 h-20 bg-pink-300 rounded-full opacity-40 blur-xl animate-pulse"></div>
                   <div
                     className="absolute -bottom-6 -right-6 w-28 h-28 bg-orange-300 rounded-full opacity-40 blur-xl animate-pulse"
                     style={{ animationDelay: "0.5s" }}
@@ -250,7 +250,7 @@ export default function DashboardMainView() {
 
                   {/* Floating badges */}
                   <div
-                    className="hidden lg:block absolute -top-8 -right-8 bg-white px-4 py-2 rounded-full shadow-xl border border-pink-200 animate-bounce"
+                    className="hidden lg:block absolute -bottom-8 -right-8 bg-white px-4 py-2 rounded-full shadow-xl border border-pink-200 animate-bounce"
                     style={{ animationDelay: "0.5s" }}
                   >
                     <span className="text-sm font-bold text-pink-600">
