@@ -105,7 +105,7 @@ export default function DashboardMainView() {
               >
                 {/* Título Principal */}
                 <h1 className="space-y-2">
-                  <div className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black leading-tight">
+                  <div className="text-4xl sm:text-5xl lg:text-6xl xl:text-6xl font-black leading-tight">
                     <span className="block text-pink-600">Domina el IELTS</span>
                   </div>
                   <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-700">
@@ -248,9 +248,8 @@ export default function DashboardMainView() {
                     style={{ animationDelay: "1s" }}
                   ></div>
 
-                  {/* Floating badges */}
                   <div
-                    className="hidden lg:block absolute -bottom-8 -right-8 bg-white px-4 py-2 rounded-full shadow-xl border border-pink-200 animate-bounce"
+                    className="hidden lg:block absolute -bottom-4 -right-8 bg-white px-4 py-2 rounded-full shadow-xl border border-pink-200 animate-bounce"
                     style={{ animationDelay: "0.5s" }}
                   >
                     <span className="text-sm font-bold text-pink-600">
