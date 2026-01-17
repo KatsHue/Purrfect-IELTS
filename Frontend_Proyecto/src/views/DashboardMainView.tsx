@@ -88,32 +88,8 @@ export default function DashboardMainView() {
   return (
     <div className="min-h-screen bg-white relative overflow-hidden">
       {/* Elementos decorativos de fondo */}
-      <div className="absolute top-20 left-10 text-6xl opacity-20 animate-bounce">
-        📚
-      </div>
-      <div
-        className="absolute top-40 right-20 text-5xl opacity-20 animate-bounce"
-        style={{ animationDelay: "0.3s" }}
-      >
-        ✨
-      </div>
-      <div
-        className="absolute bottom-40 left-20 text-7xl opacity-20 animate-bounce"
-        style={{ animationDelay: "0.6s" }}
-      >
-        🎯
-      </div>
-      <div
-        className="absolute bottom-20 right-40 text-6xl opacity-20 animate-bounce"
-        style={{ animationDelay: "0.9s" }}
-      >
-        💡
-      </div>
-
       <div className="max-w-7xl mx-auto relative z-10">
-        {/* HERO SECTION MEJORADO */}
         <section className="relative bg-gradient-to-b from-white via-orange-50/30 to-pink-50/30 py-12 sm:py-16 lg:py-20">
-          {/* Elementos decorativos sutiles */}
           <div className="absolute top-20 right-10 w-32 h-32 bg-pink-200 rounded-full blur-3xl opacity-20 animate-pulse"></div>
           <div
             className="absolute bottom-20 left-10 w-40 h-40 bg-orange-200 rounded-full blur-3xl opacity-20 animate-pulse"
@@ -158,7 +134,6 @@ export default function DashboardMainView() {
                   con ejercicios personalizados.
                 </p>
 
-                {/* CTAs */}
                 <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-2">
                   <button
                     onClick={handleStartPractice}
