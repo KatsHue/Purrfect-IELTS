@@ -100,15 +100,15 @@ export default function DashboardMainView() {
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Hero Section estilo moderno */}
-        <section className="mb-20" data-aos="fade-down">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-h-[600px]">
+        <section className="mb-16 mt-8" data-aos="fade-down">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             {/* Contenido Izquierdo */}
             <div className="space-y-8 px-4 lg:px-8">
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black leading-tight">
-                <span className="block text-ambar-600">Prepárate</span>
-                <span className="block text-ambar-600">para la</span>
-                <span className="block text-ambar-600">
-                  certificación IELTS
+              <h1 className="text-6xl sm:text-7xl lg:text-8xl font-black leading-tight">
+                <span className="block text-pink-600">PREPÁRATE</span>
+                <span className="block text-orange-600">PARA EL</span>
+                <span className="block bg-gradient-to-r from-amber-600 to-pink-600 bg-clip-text text-transparent">
+                  IELTS
                 </span>
               </h1>
 
@@ -125,6 +125,10 @@ export default function DashboardMainView() {
               <div className="flex flex-col sm:flex-row gap-4 pt-4">
                 <button className="px-10 py-5 bg-gradient-to-r from-orange-500 to-pink-500 text-white font-black text-xl rounded-2xl shadow-2xl hover:shadow-orange-300 hover:scale-105 transition-all duration-300 uppercase tracking-wide">
                   Comenzar Práctica
+                </button>
+
+                <button className="px-10 py-5 bg-white text-orange-600 font-bold text-xl rounded-2xl shadow-xl hover:shadow-pink-200 border-4 border-orange-200 hover:border-pink-300 hover:scale-105 transition-all duration-300 uppercase tracking-wide">
+                  Explorar IA
                 </button>
               </div>
 
@@ -158,11 +162,23 @@ export default function DashboardMainView() {
               data-aos-delay="200"
             >
               <div className="relative">
+                {/* Imagen SVG */}
                 <img
                   src="/assets/images/hero.svg"
                   alt="Purrfect IELTS Hero"
                   className="w-full h-auto relative z-10 drop-shadow-2xl"
                 />
+
+                {/* Elementos decorativos alrededor de la imagen */}
+                <div className="absolute -top-8 -left-8 w-24 h-24 bg-pink-400 rounded-full opacity-20 blur-2xl animate-pulse"></div>
+                <div
+                  className="absolute -bottom-8 -right-8 w-32 h-32 bg-orange-400 rounded-full opacity-20 blur-2xl animate-pulse"
+                  style={{ animationDelay: "0.5s" }}
+                ></div>
+                <div
+                  className="absolute top-1/2 -left-6 w-20 h-20 bg-yellow-400 rounded-full opacity-20 blur-2xl animate-pulse"
+                  style={{ animationDelay: "1s" }}
+                ></div>
               </div>
             </div>
           </div>
