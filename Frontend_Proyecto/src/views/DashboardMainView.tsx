@@ -87,14 +87,14 @@ export default function DashboardMainView() {
 
               <div className="relative z-10 grid md:grid-cols-2 gap-6 items-center">
                 <div className="space-y-4">
-                  <div className="inline-flex items-center gap-2 bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm font-semibold text-black">
-                    <span>✨</span>
-                    <span>Preparación con IA</span>
-                  </div>
-
                   <h2 className="text-3xl sm:text-4xl font-black leading-tight">
                     Alcanza tu mejor puntuación
                   </h2>
+
+                  <p className="text-white text-opacity-90 text-sm sm:text-base">
+                    Práctica personalizada con feedback instantáneo de IA
+                    avanzada
+                  </p>
 
                   <button
                     onClick={handleContinuePractice}
@@ -148,28 +148,6 @@ export default function DashboardMainView() {
                   </div>
                 </button>
               ))}
-            </div>
-
-            <div
-              className="relative overflow-hidden bg-gradient-to-br from-purple-500 to-indigo-600 rounded-2xl p-6 text-white shadow-lg hover:shadow-xl transition-all cursor-pointer group"
-              onClick={() => handleNavigation("/history/analytics")}
-            >
-              <div className="absolute top-0 right-0 text-7xl opacity-10">
-                📊
-              </div>
-              <div className="relative z-10 flex items-center justify-between">
-                <div>
-                  <h3 className="font-black text-2xl mb-2">
-                    Ver analíticos completos
-                  </h3>
-                  <p className="text-sm text-white text-opacity-90">
-                    Gráficos detallados, progreso y áreas de mejora
-                  </p>
-                </div>
-                <div className="text-4xl group-hover:scale-110 transition-transform">
-                  📈
-                </div>
-              </div>
             </div>
           </div>
 
