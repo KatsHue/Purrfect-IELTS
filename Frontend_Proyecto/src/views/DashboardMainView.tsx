@@ -22,7 +22,7 @@ export default function DashboardMainView() {
       subtitle: "Mejora tu escritura",
       bgColor: "bg-amber-50",
       iconBg: "bg-amber-500",
-      link: "/writing",
+      link: "/writing/",
     },
     {
       emoji: "📊",
@@ -56,7 +56,7 @@ export default function DashboardMainView() {
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-pink-600 mx-auto mb-4" />
           <p className="text-lg font-semibold text-gray-700">
-            Cargando tu dashboard...
+            Loading your dashboard...
           </p>
         </div>
       </div>
@@ -124,7 +124,7 @@ export default function DashboardMainView() {
               </div>
             </div>
 
-            {/* QUICK ACTIONS — CENTRADO */}
+            {/* quick-actions */}
             <div className="flex justify-center">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-3xl">
                 {quickActions.map((action, index) => {
@@ -180,8 +180,8 @@ export default function DashboardMainView() {
             </div>
           </div>
 
-          {/* RIGHT */}
-          <div className="space-y-6">
+          {/* derecha */}
+          <div className="space-y-4">
             <div className="bg-white rounded-2xl p-6 shadow-md border border-gray-100">
               <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
                 🎯 Tu progreso
