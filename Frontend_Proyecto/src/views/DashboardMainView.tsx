@@ -50,13 +50,6 @@ export default function DashboardMainView() {
     window.location.href = "/speaking";
   };
 
-  const getWeekPractices = () => {
-    if (!stats?.recentProgress) return 0;
-    return stats.recentProgress
-      .slice(-7)
-      .reduce((sum, day) => sum + day.count, 0);
-  };
-
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-orange-50 via-pink-50 to-purple-50 flex items-center justify-center">
@@ -186,7 +179,6 @@ export default function DashboardMainView() {
           </div>
 
           <div className="space-y-6">
-            {/* Stats principales */}
             <div className="bg-white rounded-2xl p-6 shadow-md border border-gray-100">
               <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
                 <span className="text-pink-600">🎯</span>
@@ -205,20 +197,6 @@ export default function DashboardMainView() {
                         {stats?.averageBand
                           ? stats.averageBand.toFixed(1)
                           : "N/A"}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between p-4 bg-orange-50 rounded-xl border border-orange-100">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center text-xl">
-                      📅
-                    </div>
-                    <div>
-                      <p className="text-sm text-gray-600">Esta semana</p>
-                      <p className="text-2xl font-black text-orange-600">
-                        {getWeekPractices()}
                       </p>
                     </div>
                   </div>
@@ -254,17 +232,6 @@ export default function DashboardMainView() {
               </div>
             </div>
 
-            {/* Mini gráfico */}
-            <div className="bg-white rounded-2xl p-6 shadow-md border border-gray-100">
-              <button
-                onClick={() => handleNavigation("/history/analytics")}
-                className="w-full mt-4 px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold rounded-lg hover:scale-105 transition-all duration-300 shadow-md text-sm"
-              >
-                Ver gráficos →
-              </button>
-            </div>
-
-            {/* Quick links to History */}
             <div className="grid grid-cols-2 gap-3">
               {quickActions.slice(2, 4).map((action, index) => (
                 <button
