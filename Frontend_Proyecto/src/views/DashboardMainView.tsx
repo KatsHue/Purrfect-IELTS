@@ -15,32 +15,32 @@ export default function DashboardMainView() {
       emoji: "🎤",
       title: "Speaking",
       subtitle: "Practica conversación",
-      bgColor: "bg-pink-50",
-      iconBg: "bg-pink-500",
+      bgColor: "bg-[#FFF1F2]",
+      iconBg: "bg-[#FF3D81]",
       link: "/speaking",
     },
     {
       emoji: "✍️",
       title: "Writing",
       subtitle: "Mejora tu escritura",
-      bgColor: "bg-amber-50",
-      iconBg: "bg-amber-500",
+      bgColor: "bg-[#FFF7ED]",
+      iconBg: "bg-[#FF7A00]",
       link: "/writing/",
     },
     {
       emoji: "📊",
       title: "Analíticos",
       subtitle: "Revisa tu progreso",
-      bgColor: "bg-purple-50",
-      iconBg: "bg-purple-500",
+      bgColor: "bg-[#FFFBEB]",
+      iconBg: "bg-[#FFB703]",
       link: "/history/analytics",
     },
     {
       emoji: "📝",
       title: "Historial",
       subtitle: "Prácticas anteriores",
-      bgColor: "bg-orange-50",
-      iconBg: "bg-orange-500",
+      bgColor: "bg-[#FFF1F2]",
+      iconBg: "bg-[#FF3D81]",
       link: "/history/history-complete",
     },
   ];
@@ -55,9 +55,9 @@ export default function DashboardMainView() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-50 via-pink-50 to-purple-50">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#FFF7ED] via-[#FFF1F2] to-[#FFFBEB]">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-pink-600 mx-auto mb-4" />
+          <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-[#FF3D81] mx-auto mb-4" />
           <p className="text-lg font-semibold text-gray-700">
             Loading your dashboard...
           </p>
@@ -67,13 +67,13 @@ export default function DashboardMainView() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-[#FFF7ED]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* header */}
+        {/* HEADER */}
         <div className="mb-8">
           <h1 className="text-3xl sm:text-4xl font-black text-gray-800 mb-2">
             Hola,{" "}
-            <span className="bg-gradient-to-r from-pink-600 to-orange-600 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[#FF3D81] to-[#FF7A00] bg-clip-text text-transparent">
               {authLoading ? "..." : user?.name || "estudiante"}
             </span>{" "}
             👋
@@ -85,12 +85,12 @@ export default function DashboardMainView() {
         </div>
 
         <div className="grid lg:grid-cols-3 gap-6">
-          {/* LEFT */}
+          {/* IZQUIERDA */}
           <div className="lg:col-span-2 space-y-8">
             {/* HERO */}
-            <div className="relative overflow-hidden bg-gradient-to-br from-pink-500 via-pink-600 to-orange-500 rounded-3xl p-8 text-white shadow-xl">
+            <div className="relative overflow-hidden bg-gradient-to-br from-[#FF7A00] via-[#FF3D81] to-[#FFB703] rounded-3xl p-8 text-white shadow-xl">
               <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl" />
-              <div className="absolute bottom-0 left-0 w-48 h-48 bg-orange-400/20 rounded-full blur-2xl" />
+              <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/20 rounded-full blur-2xl" />
 
               <div className="relative z-10 grid md:grid-cols-2 gap-6 items-center">
                 <div className="space-y-4">
@@ -109,14 +109,14 @@ export default function DashboardMainView() {
 
                   <button
                     onClick={handleContinuePractice}
-                    className="inline-flex items-center gap-2 bg-white text-pink-600 font-bold px-6 py-3 rounded-xl shadow-lg transition-all hover:scale-105"
+                    className="inline-flex items-center gap-2 bg-white text-[#FF3D81] font-bold px-6 py-3 rounded-xl shadow-lg transition-all hover:scale-105"
                   >
                     Comenzar práctica →
                   </button>
                 </div>
 
                 <div className="hidden md:flex justify-center">
-                  <div className="w-48 h-48 bg-white/10 rounded-3xl flex items-center justify-center rotate-6">
+                  <div className="w-48 h-48 bg-white/15 rounded-3xl flex items-center justify-center rotate-6">
                     <div className="text-center">
                       <div className="text-6xl mb-2">😺</div>
                       <div className="flex justify-center gap-3 text-3xl">
@@ -128,70 +128,62 @@ export default function DashboardMainView() {
               </div>
             </div>
 
-            {/* quick-actions */}
+            {/* QUICK ACTIONS */}
             <div className="flex justify-center">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-3xl">
-                {quickActions.map((action, index) => {
-                  const isSecondary = index >= 2;
-
-                  return (
-                    <button
-                      key={index}
-                      onClick={() => handleNavigation(action.link)}
-                      className={`
-                        ${action.bgColor}
-                        rounded-2xl
-                        ${isSecondary ? "p-4" : "p-5"}
-                        border border-gray-100
-                        transition-all duration-300
-                        hover:shadow-lg
-                        hover:-translate-y-1
-                      `}
-                    >
-                      <div className="flex items-center gap-4">
-                        <div
-                          className={`
-                            ${action.iconBg}
-                            ${
-                              isSecondary
-                                ? "w-11 h-11 text-lg"
-                                : "w-12 h-12 text-xl"
-                            }
-                            rounded-xl
-                            flex items-center justify-center
-                            text-white
-                            shadow-md
-                          `}
-                        >
-                          {action.emoji}
-                        </div>
-
-                        <div className="flex-1 text-left">
-                          <h4 className="font-black text-gray-800">
-                            {action.title}
-                          </h4>
-                          <p className="text-xs text-gray-500">
-                            {action.subtitle}
-                          </p>
-                        </div>
-
-                        <span className="text-gray-300 text-lg">→</span>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full max-w-4xl mx-auto">
+                {quickActions.map((action, index) => (
+                  <button
+                    key={index}
+                    onClick={() => handleNavigation(action.link)}
+                    className={`
+                      ${action.bgColor}
+                      rounded-2xl
+                      p-5
+                      border border-[#FFE4CC]
+                      transition-all duration-300
+                      hover:shadow-lg
+                      hover:-translate-y-1
+                    `}
+                  >
+                    <div className="flex items-center gap-4">
+                      <div
+                        className={`
+                          ${action.iconBg}
+                          w-12 h-12 text-xl
+                          rounded-xl
+                          flex items-center justify-center
+                          text-white
+                          shadow-md
+                        `}
+                      >
+                        {action.emoji}
                       </div>
-                    </button>
-                  );
-                })}
+
+                      <div className="flex-1 text-left">
+                        <h4 className="font-black text-gray-800">
+                          {action.title}
+                        </h4>
+                        <p className="text-sm text-gray-500">
+                          {action.subtitle}
+                        </p>
+                      </div>
+
+                      <span className="text-gray-300 text-lg">→</span>
+                    </div>
+                  </button>
+                ))}
               </div>
             </div>
           </div>
 
-          {/* derecha */}
+          {/* DERECHA */}
           <div className="space-y-6">
-            <div className="bg-white rounded-2xl p-6 shadow-md border border-gray-100">
+            <div className="bg-white rounded-2xl p-6 shadow-md border border-[#FFE4CC]">
               <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
                 🎯 Tu progreso
               </h3>
 
-              <div className="space-y-2">
+              <div className="space-y-3">
                 <StatCard
                   emoji="📈"
                   label="Banda promedio"
@@ -204,13 +196,13 @@ export default function DashboardMainView() {
                   emoji="⚡"
                   label="Racha actual"
                   value={`${stats?.currentStreak || 0} días`}
-                  color="purple"
+                  color="orange"
                 />
                 <StatCard
                   emoji="🎓"
                   label="Total prácticas"
                   value={stats?.totalPractices || 0}
-                  color="blue"
+                  color="yellow"
                 />
               </div>
             </div>
@@ -221,6 +213,10 @@ export default function DashboardMainView() {
   );
 }
 
+/* ========================= */
+/* ====== STAT CARD ======== */
+/* ========================= */
+
 function StatCard({
   emoji,
   label,
@@ -230,12 +226,12 @@ function StatCard({
   emoji: string;
   label: string;
   value: string | number;
-  color: "pink" | "purple" | "blue";
+  color: "pink" | "orange" | "yellow";
 }) {
   const colors = {
-    pink: "bg-pink-50 border-pink-100 text-pink-600",
-    purple: "bg-purple-50 border-purple-100 text-purple-600",
-    blue: "bg-blue-50 border-blue-100 text-blue-600",
+    pink: "bg-[#FFF1F2] border-[#FFD6E8] text-[#FF3D81]",
+    orange: "bg-[#FFF7ED] border-[#FFE4CC] text-[#FF7A00]",
+    yellow: "bg-[#FFFBEB] border-[#FFF1C1] text-[#FFB703]",
   };
 
   return (
