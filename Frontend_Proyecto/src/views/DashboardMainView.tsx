@@ -15,32 +15,32 @@ export default function DashboardMainView() {
       emoji: "🎤",
       title: "Speaking",
       subtitle: "Practica conversación",
-      bgColor: "bg-[#FFF1F2]",
-      iconBg: "bg-[#FF3D81]",
+      bgColor: "bg-[#ffffff]",
+      iconBg: "bg-[#f4bc3c]",
       link: "/speaking",
     },
     {
       emoji: "✍️",
       title: "Writing",
       subtitle: "Mejora tu escritura",
-      bgColor: "bg-[#FFF7ED]",
-      iconBg: "bg-[#FF7A00]",
+      bgColor: "bg-[#ffffff]",
+      iconBg: "bg-[#f4bc3c]",
       link: "/writing/",
     },
     {
       emoji: "📊",
       title: "Analíticos",
       subtitle: "Revisa tu progreso",
-      bgColor: "bg-[#FFFBEB]",
-      iconBg: "bg-[#FFB703]",
+      bgColor: "bg-[#ffffff]",
+      iconBg: "bg-[#f1d49a]",
       link: "/history/analytics",
     },
     {
       emoji: "📝",
       title: "Historial",
       subtitle: "Prácticas anteriores",
-      bgColor: "bg-[#FFF1F2]",
-      iconBg: "bg-[#FF3D81]",
+      bgColor: "bg-[#ffffff]",
+      iconBg: "bg-[#f1d49a]",
       link: "/history/history-complete",
     },
   ];
@@ -55,11 +55,11 @@ export default function DashboardMainView() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#FFF7ED] via-[#FFF1F2] to-[#FFFBEB]">
+      <div className="min-h-screen flex items-center justify-center bg-[#f9f8f6]">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-[#FF3D81] mx-auto mb-4" />
-          <p className="text-lg font-semibold text-gray-700">
-            Loading your dashboard...
+          <div className="animate-spin rounded-full h-14 w-14 border-t-4 border-b-4 border-[#f4bc3c] mx-auto mb-4" />
+          <p className="text-sm font-medium text-[#7f533b]">
+            Cargando dashboard…
           </p>
         </div>
       </div>
@@ -67,34 +67,33 @@ export default function DashboardMainView() {
   }
 
   return (
-    <div className="min-h-screen bg-[#FFF7ED]">
+    <div className="min-h-screen bg-[#f9f8f6]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* HEADER */}
-        <div className="mb-8">
-          <h1 className="text-3xl sm:text-4xl font-black text-gray-800 mb-2">
+        <div className="mb-10">
+          <h1 className="text-3xl sm:text-4xl font-black text-[#442e14] mb-2">
             Hola,{" "}
-            <span className="bg-gradient-to-r from-[#FF3D81] to-[#FF7A00] bg-clip-text text-transparent">
+            <span className="text-[#7f533b]">
               {authLoading ? "..." : user?.name || "estudiante"}
             </span>{" "}
             👋
           </h1>
 
-          <p className="text-gray-600 text-lg">
+          <p className="text-[#9a8f85] text-lg">
             ¿Listo para mejorar tu score en IELTS hoy?
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-6">
+        <div className="grid lg:grid-cols-3 gap-8">
           {/* IZQUIERDA */}
-          <div className="lg:col-span-2 space-y-8">
+          <div className="lg:col-span-2 space-y-10">
             {/* HERO */}
-            <div className="relative overflow-hidden bg-gradient-to-br from-[#FF7A00] via-[#FF3D81] to-[#FFB703] rounded-3xl p-8 text-white shadow-xl">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl" />
-              <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/20 rounded-full blur-2xl" />
+            <div className="relative bg-[#442e14] rounded-3xl p-8 text-white shadow-lg overflow-hidden">
+              <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_top_right,#f4bc3c,transparent_60%)]" />
 
-              <div className="relative z-10 grid md:grid-cols-2 gap-6 items-center">
+              <div className="relative grid md:grid-cols-2 gap-6 items-center">
                 <div className="space-y-4">
-                  <span className="inline-flex items-center gap-2 bg-white/20 px-3 py-1 rounded-full text-sm font-semibold">
+                  <span className="inline-flex items-center gap-2 bg-white/10 px-3 py-1 rounded-full text-xs font-semibold">
                     ✨ Preparación con IA
                   </span>
 
@@ -102,21 +101,20 @@ export default function DashboardMainView() {
                     Alcanza tu mejor puntuación
                   </h2>
 
-                  <p className="text-white/90 text-sm sm:text-base">
-                    Práctica personalizada con feedback instantáneo de IA
-                    avanzada
+                  <p className="text-white/80 text-sm sm:text-base">
+                    Práctica personalizada con feedback instantáneo y claro
                   </p>
 
                   <button
                     onClick={handleContinuePractice}
-                    className="inline-flex items-center gap-2 bg-white text-[#FF3D81] font-bold px-6 py-3 rounded-xl shadow-lg transition-all hover:scale-105"
+                    className="inline-flex items-center gap-2 bg-[#f4bc3c] text-[#442e14] font-bold px-6 py-3 rounded-xl shadow hover:scale-105 transition"
                   >
                     Comenzar práctica →
                   </button>
                 </div>
 
                 <div className="hidden md:flex justify-center">
-                  <div className="w-48 h-48 bg-white/15 rounded-3xl flex items-center justify-center rotate-6">
+                  <div className="w-44 h-44 bg-white/10 rounded-2xl flex items-center justify-center rotate-6">
                     <div className="text-center">
                       <div className="text-6xl mb-2">😺</div>
                       <div className="flex justify-center gap-3 text-3xl">
@@ -130,7 +128,7 @@ export default function DashboardMainView() {
 
             {/* QUICK ACTIONS */}
             <div className="flex justify-center">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full max-w-4xl mx-auto">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full max-w-4xl">
                 {quickActions.map((action, index) => (
                   <button
                     key={index}
@@ -139,8 +137,8 @@ export default function DashboardMainView() {
                       ${action.bgColor}
                       rounded-2xl
                       p-5
-                      border border-[#FFE4CC]
-                      transition-all duration-300
+                      border border-[#ece8e1]
+                      transition-all
                       hover:shadow-lg
                       hover:-translate-y-1
                     `}
@@ -149,26 +147,26 @@ export default function DashboardMainView() {
                       <div
                         className={`
                           ${action.iconBg}
-                          w-12 h-12 text-xl
+                          w-12 h-12
                           rounded-xl
                           flex items-center justify-center
-                          text-white
-                          shadow-md
+                          text-[#442e14]
+                          text-xl
                         `}
                       >
                         {action.emoji}
                       </div>
 
                       <div className="flex-1 text-left">
-                        <h4 className="font-black text-gray-800">
+                        <h4 className="font-black text-[#442e14]">
                           {action.title}
                         </h4>
-                        <p className="text-sm text-gray-500">
+                        <p className="text-sm text-[#9a8f85]">
                           {action.subtitle}
                         </p>
                       </div>
 
-                      <span className="text-gray-300 text-lg">→</span>
+                      <span className="text-[#bcb4ac] text-lg">→</span>
                     </div>
                   </button>
                 ))}
@@ -178,8 +176,8 @@ export default function DashboardMainView() {
 
           {/* DERECHA */}
           <div className="space-y-6">
-            <div className="bg-white rounded-2xl p-6 shadow-md border border-[#FFE4CC]">
-              <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+            <div className="bg-[#ffffff] rounded-2xl p-6 shadow border border-[#ece8e1]">
+              <h3 className="text-lg font-bold text-[#442e14] mb-4 flex items-center gap-2">
                 🎯 Tu progreso
               </h3>
 
@@ -190,19 +188,16 @@ export default function DashboardMainView() {
                   value={
                     stats?.averageBand ? stats.averageBand.toFixed(1) : "N/A"
                   }
-                  color="pink"
                 />
                 <StatCard
                   emoji="⚡"
                   label="Racha actual"
                   value={`${stats?.currentStreak || 0} días`}
-                  color="orange"
                 />
                 <StatCard
                   emoji="🎓"
                   label="Total prácticas"
                   value={stats?.totalPractices || 0}
-                  color="yellow"
                 />
               </div>
             </div>
@@ -221,31 +216,19 @@ function StatCard({
   emoji,
   label,
   value,
-  color,
 }: {
   emoji: string;
   label: string;
   value: string | number;
-  color: "pink" | "orange" | "yellow";
 }) {
-  const colors = {
-    pink: "bg-[#FFF1F2] border-[#FFD6E8] text-[#FF3D81]",
-    orange: "bg-[#FFF7ED] border-[#FFE4CC] text-[#FF7A00]",
-    yellow: "bg-[#FFFBEB] border-[#FFF1C1] text-[#FFB703]",
-  };
-
   return (
-    <div
-      className={`flex items-center gap-3 p-4 rounded-xl border ${colors[color]}`}
-    >
-      <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center text-xl shadow">
+    <div className="flex items-center gap-3 p-4 rounded-xl border border-[#ece8e1] bg-[#ffffff]">
+      <div className="w-10 h-10 bg-[#f1d49a] rounded-lg flex items-center justify-center text-xl">
         {emoji}
       </div>
       <div>
-        <p className="text-sm text-gray-600">{label}</p>
-        <p className={`text-2xl font-black ${colors[color].split(" ")[2]}`}>
-          {value}
-        </p>
+        <p className="text-sm text-[#9a8f85]">{label}</p>
+        <p className="text-2xl font-black text-[#442e14]">{value}</p>
       </div>
     </div>
   );
