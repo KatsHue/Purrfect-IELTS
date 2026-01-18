@@ -65,41 +65,32 @@ export default function DashboardMainView() {
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mb-8">
-          <h1 className="text-3xl sm:text-4xl font-black text-gray-800 mb-2">
-            Hola,{" "}
-            <span className="bg-gradient-to-r from-pink-600 to-orange-600 bg-clip-text text-transparent">
-              estudiante
-            </span>{" "}
-            👋
-          </h1>
-          <p className="text-gray-600 text-lg">
-            ¿Listo para mejorar tu score en IELTS hoy?
-          </p>
-        </div>
+      <div className="grid lg:grid-cols-3 gap-6 mb-8">
+        <div className="lg:col-span-2 space-y-6">
+          <div className="relative overflow-hidden bg-gradient-to-br from-pink-500 via-pink-600 to-orange-500 rounded-3xl p-8 text-white shadow-xl">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-white opacity-10 rounded-full blur-3xl"></div>
+            <div className="absolute bottom-0 left-0 w-48 h-48 bg-orange-400 opacity-20 rounded-full blur-2xl"></div>
 
-        <div className="grid lg:grid-cols-3 gap-6 mb-8">
-          <div className="lg:col-span-2 space-y-6">
-            <div className="relative overflow-hidden bg-gradient-to-br from-pink-500 via-pink-600 to-orange-500 rounded-3xl p-8 text-white shadow-xl">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-white opacity-10 rounded-full blur-3xl"></div>
-              <div className="absolute bottom-0 left-0 w-48 h-48 bg-orange-400 opacity-20 rounded-full blur-2xl"></div>
+            <div className="relative z-10 grid md:grid-cols-2 gap-6 items-center">
+              <div className="space-y-4">
+                <div className="inline-flex items-center gap-2 bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm font-semibold text-black">
+                  <span>✨</span>
+                  <span>Preparación con IA</span>
+                </div>
 
-              <div className="relative z-10 grid md:grid-cols-2 gap-6 items-center">
-                <div className="space-y-4">
-                  <div className="inline-flex items-center gap-2 bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm font-semibold text-black">
-                    <span>✨</span>
-                    <span>Preparación con IA</span>
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                  <div className="mb-8">
+                    <h1 className="text-3xl sm:text-4xl font-black text-gray-800 mb-2">
+                      Hola,{" "}
+                      <span className="bg-gradient-to-r from-pink-600 to-orange-600 bg-clip-text text-transparent">
+                        estudiante
+                      </span>{" "}
+                      👋
+                    </h1>
+                    <p className="text-gray-600 text-lg">
+                      ¿Listo para mejorar tu score en IELTS hoy?
+                    </p>
                   </div>
-
-                  <h2 className="text-3xl sm:text-4xl font-black leading-tight">
-                    Alcanza tu mejor puntuación
-                  </h2>
-
-                  <p className="text-white text-opacity-90 text-sm sm:text-base">
-                    Práctica personalizada con feedback instantáneo de IA
-                    avanzada
-                  </p>
 
                   <button
                     onClick={handleContinuePractice}
