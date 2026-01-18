@@ -15,24 +15,32 @@ export default function DashboardMainView() {
       emoji: "🎤",
       title: "Speaking",
       subtitle: "Practica conversación",
+      bgColor: "bg-white hover:bg-[#f9f8f6]",
+      iconBg: "bg-[#f4bc3c]",
       link: "/speaking",
     },
     {
       emoji: "✍️",
       title: "Writing",
       subtitle: "Mejora tu escritura",
-      link: "/writing",
+      bgColor: "bg-white hover:bg-[#f9f8f6]",
+      iconBg: "bg-[#f4bc3c]",
+      link: "/writing/",
     },
     {
       emoji: "📊",
       title: "Analíticos",
       subtitle: "Revisa tu progreso",
+      bgColor: "bg-white hover:bg-[#f9f8f6]",
+      iconBg: "bg-[#f1d49a]",
       link: "/history/analytics",
     },
     {
       emoji: "📝",
       title: "Historial",
       subtitle: "Prácticas anteriores",
+      bgColor: "bg-white hover:bg-[#f9f8f6]",
+      iconBg: "bg-[#f1d49a]",
       link: "/history/history-complete",
     },
   ];
@@ -41,128 +49,170 @@ export default function DashboardMainView() {
     window.location.href = link;
   };
 
-  if (isLoading || authLoading) {
+  const handleContinuePractice = () => {
+    window.location.href = "/speaking";
+  };
+
+  if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#FAFAF9]">
-        <p className="text-sm text-[#78716C]">Cargando dashboard…</p>
+      <div className="min-h-screen flex items-center justify-center bg-[#f9f8f6]">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-14 w-14 border-t-4 border-b-4 border-[#f4bc3c] mx-auto mb-4" />
+          <p className="text-sm font-medium text-[#7f533b]">
+            Cargando dashboard…
+          </p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#FAFAF9]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div className="min-h-screen bg-[#f9f8f6]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* HEADER */}
-        <header className="mb-10">
-          <h1 className="text-3xl font-semibold text-[#292524]">
+        <div className="mb-10">
+          <h1 className="text-3xl sm:text-4xl font-black text-[#442e14] mb-2">
             Hola,{" "}
-            <span className="font-bold">{user?.name || "estudiante"}</span>
+            <span className="text-[#7f533b]">
+              {authLoading ? "..." : user?.name || "estudiante"}
+            </span>{" "}
+            👋
           </h1>
-          <p className="text-[#78716C] mt-1">
-            Practica un poco cada día y mejora tu score en IELTS
+
+          <p className="text-[#9a8f85] text-lg">
+            ¿Listo para mejorar tu score en IELTS hoy?
           </p>
-        </header>
+        </div>
 
-        <div className="grid lg:grid-cols-3 gap-10">
+        <div className="grid lg:grid-cols-3 gap-8">
           {/* IZQUIERDA */}
-          <section className="lg:col-span-2 space-y-10">
-            {/* CTA */}
-            <div className="bg-white border border-[#E7E5E4] rounded-2xl p-8">
-              <h2 className="text-2xl font-semibold text-[#292524] mb-2">
-                Continúa practicando
-              </h2>
-              <p className="text-[#78716C] mb-6 max-w-lg">
-                La práctica constante es la forma más efectiva de subir tu
-                puntuación en el IELTS.
-              </p>
+          <div className="lg:col-span-2 space-y-10">
+            {/* HERO */}
+            <div className="relative bg-[#442e14] rounded-3xl p-8 text-white shadow-lg overflow-hidden">
+              <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_top_right,#f4bc3c,transparent_60%)]" />
 
-              <button
-                onClick={() => handleNavigation("/speaking")}
-                className="
-                  bg-[#F4BC3C]
-                  text-[#292524]
-                  font-medium
-                  px-6 py-3
-                  rounded-xl
-                  hover:bg-[#EAB308]
-                  transition
-                "
-              >
-                Comenzar práctica
-              </button>
+              <div className="relative grid md:grid-cols-2 gap-6 items-center">
+                <div className="space-y-4">
+                  <span className="inline-flex items-center gap-2 bg-white/10 px-3 py-1 rounded-full text-xs font-semibold">
+                    ✨ Preparación con IA
+                  </span>
+
+                  <h2 className="text-3xl sm:text-4xl font-black leading-tight">
+                    Alcanza tu mejor puntuación
+                  </h2>
+
+                  <p className="text-white/80 text-sm sm:text-base">
+                    Práctica personalizada con feedback instantáneo y claro
+                  </p>
+
+                  <button
+                    onClick={handleContinuePractice}
+                    className="
+                      inline-flex items-center gap-2
+                      bg-[#f4bc3c]
+                      text-[#442e14]
+                      font-black
+                      px-6 py-3
+                      rounded-xl
+                      shadow-lg
+                      hover:shadow-[0_10px_30px_rgba(244,188,60,0.4)]
+                      hover:scale-105
+                      transition
+                    "
+                  >
+                    Comenzar práctica →
+                  </button>
+                </div>
+
+                <div className="hidden md:flex justify-center">
+                  <div className="w-44 h-44 bg-white/10 rounded-2xl flex items-center justify-center rotate-6">
+                    <div className="text-center">
+                      <div className="text-6xl mb-2">😺</div>
+                      <div className="flex justify-center gap-3 text-3xl">
+                        🎤 ✍️
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
             {/* QUICK ACTIONS */}
-            <div className="grid sm:grid-cols-2 gap-6">
-              {quickActions.map((action, index) => (
-                <button
-                  key={index}
-                  onClick={() => handleNavigation(action.link)}
-                  className="
-                    bg-white
-                    border border-[#E7E5E4]
-                    rounded-2xl
-                    p-5
-                    text-left
-                    hover:border-[#D6D3D1]
-                    hover:shadow-sm
-                    transition
-                  "
-                >
-                  <div className="flex items-start gap-4">
-                    <div
-                      className="
-                      w-11 h-11
-                      rounded-xl
-                      bg-[#FEF3C7]
-                      flex items-center justify-center
-                      text-xl
-                    "
-                    >
-                      {action.emoji}
-                    </div>
+            <div className="flex justify-center">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full max-w-4xl">
+                {quickActions.map((action, index) => (
+                  <button
+                    key={index}
+                    onClick={() => handleNavigation(action.link)}
+                    className={`
+                      ${action.bgColor}
+                      rounded-2xl
+                      p-5
+                      border border-[#ece8e1]
+                      transition-all
+                      hover:shadow-[0_10px_30px_rgba(244,188,60,0.25)]
+                      hover:-translate-y-1
+                    `}
+                  >
+                    <div className="flex items-center gap-4">
+                      <div
+                        className={`
+                          ${action.iconBg}
+                          w-12 h-12
+                          rounded-xl
+                          flex items-center justify-center
+                          text-[#442e14]
+                          text-xl
+                        `}
+                      >
+                        {action.emoji}
+                      </div>
 
-                    <div className="flex-1">
-                      <h3 className="font-semibold text-[#292524]">
-                        {action.title}
-                      </h3>
-                      <p className="text-sm text-[#78716C]">
-                        {action.subtitle}
-                      </p>
-                    </div>
+                      <div className="flex-1 text-left">
+                        <h4 className="font-black text-[#442e14]">
+                          {action.title}
+                        </h4>
+                        <p className="text-sm text-[#9a8f85]">
+                          {action.subtitle}
+                        </p>
+                      </div>
 
-                    <span className="text-[#A8A29E]">→</span>
-                  </div>
-                </button>
-              ))}
+                      <span className="text-[#bcb4ac] text-lg">→</span>
+                    </div>
+                  </button>
+                ))}
+              </div>
             </div>
-          </section>
+          </div>
 
           {/* DERECHA */}
-          <aside className="space-y-6">
-            <div className="bg-white border border-[#E7E5E4] rounded-2xl p-6">
-              <h3 className="text-lg font-semibold text-[#292524] mb-4">
-                Tu progreso
+          <div className="space-y-6">
+            <div className="bg-[#f9f8f6] rounded-2xl p-6 shadow border border-[#ece8e1]">
+              <h3 className="text-lg font-bold text-[#442e14] mb-4 flex items-center gap-2">
+                🎯 Tu progreso
               </h3>
 
-              <div className="space-y-4">
+              <div className="space-y-3">
                 <StatCard
+                  emoji="📈"
                   label="Banda promedio"
                   value={
                     stats?.averageBand ? stats.averageBand.toFixed(1) : "N/A"
                   }
                 />
                 <StatCard
+                  emoji="⚡"
                   label="Racha actual"
                   value={`${stats?.currentStreak || 0} días`}
                 />
                 <StatCard
+                  emoji="🎓"
                   label="Total prácticas"
                   value={stats?.totalPractices || 0}
                 />
               </div>
             </div>
-          </aside>
+          </div>
         </div>
       </div>
     </div>
@@ -173,11 +223,24 @@ export default function DashboardMainView() {
 /* ====== STAT CARD ======== */
 /* ========================= */
 
-function StatCard({ label, value }: { label: string; value: string | number }) {
+function StatCard({
+  emoji,
+  label,
+  value,
+}: {
+  emoji: string;
+  label: string;
+  value: string | number;
+}) {
   return (
-    <div className="flex items-center justify-between">
-      <p className="text-sm text-[#78716C]">{label}</p>
-      <p className="text-lg font-semibold text-[#292524]">{value}</p>
+    <div className="flex items-center gap-3 p-4 rounded-xl border border-[#ece8e1] bg-white">
+      <div className="w-10 h-10 bg-[#f1d49a] text-[#442e14] rounded-lg flex items-center justify-center text-xl">
+        {emoji}
+      </div>
+      <div>
+        <p className="text-sm text-[#9a8f85]">{label}</p>
+        <p className="text-2xl font-black text-[#442e14]">{value}</p>
+      </div>
     </div>
   );
 }
