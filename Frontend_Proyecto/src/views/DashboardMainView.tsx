@@ -66,6 +66,19 @@ export default function DashboardMainView() {
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="mb-8">
+          <h1 className="text-3xl sm:text-4xl font-black text-gray-800 mb-2">
+            Hola,{" "}
+            <span className="bg-gradient-to-r from-pink-600 to-orange-600 bg-clip-text text-transparent">
+              estudiante
+            </span>{" "}
+            👋
+          </h1>
+          <p className="text-gray-600 text-lg">
+            ¿Listo para mejorar tu score en IELTS hoy?
+          </p>
+        </div>
+
         <div className="grid lg:grid-cols-3 gap-6 mb-8">
           <div className="lg:col-span-2 space-y-6">
             <div className="relative overflow-hidden bg-gradient-to-br from-pink-500 via-pink-600 to-orange-500 rounded-3xl p-8 text-white shadow-xl">
@@ -80,16 +93,8 @@ export default function DashboardMainView() {
                   </div>
 
                   <h2 className="text-3xl sm:text-4xl font-black leading-tight">
-                    Hola,{" "}
-                    <span className="bg-gradient-to-r from-pink-600 to-orange-600 bg-clip-text text-transparent">
-                      estudiante
-                    </span>{" "}
-                    👋
+                    Alcanza tu mejor puntuación
                   </h2>
-
-                  <p className="text-white text-opacity-90 text-sm sm:text-base">
-                    ¿Listo para mejorar tu score en IELTS hoy?
-                  </p>
 
                   <button
                     onClick={handleContinuePractice}
