@@ -75,61 +75,58 @@ export default function DashboardMainView() {
           {/* IZQUIERDA */}
           <div className="lg:col-span-2 space-y-10">
             {/* HERO */}
-            <div className="relative bg-[#f1d49a] rounded-3xl p-8 shadow-md overflow-visible">
+            <div className="relative bg-[#f1d49a] rounded-3xl p-8 shadow-md overflow-visible min-h-[260px]">
+              {/* fondo decorativo */}
               <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top_right,#f4bc3c,transparent_60%)]" />
 
-              <div className="relative grid md:grid-cols-2 items-center gap-6">
-                {/* TEXTO */}
-                <div className="space-y-4">
-                  <span className="inline-flex items-center gap-2 bg-white/60 px-3 py-1 rounded-full text-xs font-semibold">
-                    ✨ Preparación con IA
-                  </span>
+              <div className="relative z-10 max-w-xl space-y-4">
+                <span className="inline-flex items-center gap-2 bg-white/60 px-3 py-1 rounded-full text-xs font-semibold">
+                  ✨ Preparación con IA
+                </span>
 
-                  <h2 className="text-3xl sm:text-4xl font-black text-[#442e14] leading-tight">
-                    Aprende inglés sin estrés
-                  </h2>
+                <h2 className="text-3xl sm:text-4xl font-black text-[#442e14] leading-tight">
+                  Aprende inglés sin estrés
+                </h2>
 
-                  <p className="text-[#7f533b] text-sm sm:text-base">
-                    Práctica corta, clara y divertida todos los días
-                  </p>
+                <p className="text-[#7f533b] text-sm sm:text-base">
+                  Práctica corta, clara y divertida todos los días
+                </p>
 
-                  <button
-                    onClick={() => handleNavigation("/speaking")}
-                    className="
-                      inline-flex items-center gap-2
-                      bg-[#f4bc3c]
-                      text-[#442e14]
-                      font-black
-                      px-6 py-3
-                      rounded-full
-                      shadow
-                      hover:scale-105
-                      transition
-                    "
-                  >
-                    Comenzar práctica →
-                  </button>
-                </div>
-
-                {/* IMAGEN DECORATIVA */}
-                <div className="relative hidden md:flex justify-center">
-                  <img
-                    src="/assets/images/hero-1.svg"
-                    alt="English learning illustration"
-                    className="
-                      w-[320px]
-                      max-w-none
-                      drop-shadow-xl
-                      -rotate-2
-                      translate-y-6
-                      translate-x-6
-                      select-none
-                      pointer-events-none
-                      animate-float
-                    "
-                  />
-                </div>
+                <button
+                  onClick={() => handleNavigation("/speaking")}
+                  className="
+        inline-flex items-center gap-2
+        bg-[#f4bc3c]
+        text-[#442e14]
+        font-black
+        px-6 py-3
+        rounded-full
+        shadow
+        hover:scale-105
+        transition
+      "
+                >
+                  Comenzar práctica →
+                </button>
               </div>
+
+              {/* IMAGEN FUERA DEL FLUJO */}
+              <img
+                src="/images/hero-english.png"
+                alt="English learning illustration"
+                className="
+      hidden md:block
+      absolute
+      right-[-80px]
+      bottom-[-40px]
+      w-[360px]
+      max-w-none
+      drop-shadow-2xl
+      pointer-events-none
+      select-none
+      animate-float
+    "
+              />
             </div>
 
             {/* QUICK ACTIONS */}
