@@ -15,7 +15,7 @@ export default function DashboardMainView() {
       emoji: "🎤",
       title: "Speaking",
       subtitle: "Practica conversación",
-      bgColor: "bg-white hover:bg-[#f9f8f6]",
+      bgColor: "bg-[#f1d49a]/40 hover:bg-[#f1d49a]/70",
       iconBg: "bg-[#f4bc3c]",
       link: "/speaking",
     },
@@ -23,7 +23,7 @@ export default function DashboardMainView() {
       emoji: "✍️",
       title: "Writing",
       subtitle: "Mejora tu escritura",
-      bgColor: "bg-white hover:bg-[#f9f8f6]",
+      bgColor: "bg-[#f1d49a]/40 hover:bg-[#f1d49a]/70",
       iconBg: "bg-[#f4bc3c]",
       link: "/writing/",
     },
@@ -31,16 +31,16 @@ export default function DashboardMainView() {
       emoji: "📊",
       title: "Analíticos",
       subtitle: "Revisa tu progreso",
-      bgColor: "bg-white hover:bg-[#f9f8f6]",
-      iconBg: "bg-[#f1d49a]",
+      bgColor: "bg-[#f1d49a]/40 hover:bg-[#f1d49a]/70",
+      iconBg: "bg-[#f4bc3c]",
       link: "/history/analytics",
     },
     {
       emoji: "📝",
       title: "Historial",
       subtitle: "Prácticas anteriores",
-      bgColor: "bg-white hover:bg-[#f9f8f6]",
-      iconBg: "bg-[#f1d49a]",
+      bgColor: "bg-[#f1d49a]/40 hover:bg-[#f1d49a]/70",
+      iconBg: "bg-[#f4bc3c]",
       link: "/history/history-complete",
     },
   ];
@@ -59,7 +59,7 @@ export default function DashboardMainView() {
         <div className="text-center">
           <div className="animate-spin rounded-full h-14 w-14 border-t-4 border-b-4 border-[#f4bc3c] mx-auto mb-4" />
           <p className="text-sm font-medium text-[#7f533b]">
-            Cargando dashboard…
+            Preparando tu práctica ✨
           </p>
         </div>
       </div>
@@ -79,7 +79,7 @@ export default function DashboardMainView() {
             👋
           </h1>
 
-          <p className="text-[#9a8f85] text-lg">
+          <p className="text-[#7f533b] text-lg">
             ¿Listo para mejorar tu score en IELTS hoy?
           </p>
         </div>
@@ -88,21 +88,21 @@ export default function DashboardMainView() {
           {/* IZQUIERDA */}
           <div className="lg:col-span-2 space-y-10">
             {/* HERO */}
-            <div className="relative bg-[#442e14] rounded-3xl p-8 text-white shadow-lg overflow-hidden">
-              <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_top_right,#f4bc3c,transparent_60%)]" />
+            <div className="relative bg-[#f1d49a] rounded-3xl p-8 text-[#442e14] shadow-md overflow-hidden">
+              <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top_right,#f4bc3c,transparent_60%)]" />
 
               <div className="relative grid md:grid-cols-2 gap-6 items-center">
                 <div className="space-y-4">
-                  <span className="inline-flex items-center gap-2 bg-white/10 px-3 py-1 rounded-full text-xs font-semibold">
+                  <span className="inline-flex items-center gap-2 bg-white/60 px-3 py-1 rounded-full text-xs font-semibold">
                     ✨ Preparación con IA
                   </span>
 
                   <h2 className="text-3xl sm:text-4xl font-black leading-tight">
-                    Alcanza tu mejor puntuación
+                    Aprende inglés sin estrés
                   </h2>
 
-                  <p className="text-white/80 text-sm sm:text-base">
-                    Práctica personalizada con feedback instantáneo y claro
+                  <p className="text-[#7f533b] text-sm sm:text-base">
+                    Práctica corta, clara y divertida todos los días
                   </p>
 
                   <button
@@ -113,9 +113,8 @@ export default function DashboardMainView() {
                       text-[#442e14]
                       font-black
                       px-6 py-3
-                      rounded-xl
-                      shadow-lg
-                      hover:shadow-[0_10px_30px_rgba(244,188,60,0.4)]
+                      rounded-full
+                      shadow
                       hover:scale-105
                       transition
                     "
@@ -125,7 +124,7 @@ export default function DashboardMainView() {
                 </div>
 
                 <div className="hidden md:flex justify-center">
-                  <div className="w-44 h-44 bg-white/10 rounded-2xl flex items-center justify-center rotate-6">
+                  <div className="w-44 h-44 bg-white/60 rounded-2xl flex items-center justify-center rotate-6">
                     <div className="text-center">
                       <div className="text-6xl mb-2">😺</div>
                       <div className="flex justify-center gap-3 text-3xl">
@@ -148,9 +147,8 @@ export default function DashboardMainView() {
                       ${action.bgColor}
                       rounded-2xl
                       p-5
-                      border border-[#ece8e1]
+                      border border-[#f1d49a]
                       transition-all
-                      hover:shadow-[0_10px_30px_rgba(244,188,60,0.25)]
                       hover:-translate-y-1
                     `}
                   >
@@ -159,7 +157,7 @@ export default function DashboardMainView() {
                         className={`
                           ${action.iconBg}
                           w-12 h-12
-                          rounded-xl
+                          rounded-full
                           flex items-center justify-center
                           text-[#442e14]
                           text-xl
@@ -172,7 +170,7 @@ export default function DashboardMainView() {
                         <h4 className="font-black text-[#442e14]">
                           {action.title}
                         </h4>
-                        <p className="text-sm text-[#9a8f85]">
+                        <p className="text-sm text-[#7f533b]">
                           {action.subtitle}
                         </p>
                       </div>
@@ -187,7 +185,7 @@ export default function DashboardMainView() {
 
           {/* DERECHA */}
           <div className="space-y-6">
-            <div className="bg-[#f9f8f6] rounded-2xl p-6 shadow border border-[#ece8e1]">
+            <div className="bg-[#f1d49a]/30 rounded-2xl p-6 border border-[#f1d49a]">
               <h3 className="text-lg font-bold text-[#442e14] mb-4 flex items-center gap-2">
                 🎯 Tu progreso
               </h3>
@@ -233,12 +231,12 @@ function StatCard({
   value: string | number;
 }) {
   return (
-    <div className="flex items-center gap-3 p-4 rounded-xl border border-[#ece8e1] bg-white">
-      <div className="w-10 h-10 bg-[#f1d49a] text-[#442e14] rounded-lg flex items-center justify-center text-xl">
+    <div className="flex items-center gap-3 p-4 rounded-xl border border-[#f1d49a] bg-[#f9f8f6]">
+      <div className="w-10 h-10 bg-[#f4bc3c] text-[#442e14] rounded-full flex items-center justify-center text-xl">
         {emoji}
       </div>
       <div>
-        <p className="text-sm text-[#9a8f85]">{label}</p>
+        <p className="text-sm text-[#7f533b]">{label}</p>
         <p className="text-2xl font-black text-[#442e14]">{value}</p>
       </div>
     </div>
