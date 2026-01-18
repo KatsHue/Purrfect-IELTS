@@ -33,8 +33,13 @@ export const AppLayout = () => {
         <header
           className={`
     sticky top-0 z-50 w-full
+    border-b
     transition-all duration-300 ease-out
-    ${isScrolled ? "bg-[#f1d49a] shadow-md py-2" : "bg-[#f9f8f6] py-4"}
+    ${
+      isScrolled
+        ? "bg-[#f1d49a] border-[#f1d49a] shadow-md py-2"
+        : "bg-[#fff8ec] py-4 border-b border-orange-400/40"
+    }
   `}
         >
           <div
