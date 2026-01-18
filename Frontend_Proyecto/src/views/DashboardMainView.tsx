@@ -181,13 +181,13 @@ export default function DashboardMainView() {
           </div>
 
           {/* derecha */}
-          <div className="space-y-4">
+          <div className="space-y-6">
             <div className="bg-white rounded-2xl p-6 shadow-md border border-gray-100">
               <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
                 🎯 Tu progreso
               </h3>
 
-              <div className="space-y-4">
+              <div className="space-y-2">
                 <StatCard
                   emoji="📈"
                   label="Banda promedio"
