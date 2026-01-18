@@ -2,7 +2,10 @@ import { CorsOptions } from "cors";
 
 export const corsConfig: CorsOptions = {
   origin: function (origin, callback) {
-    const whitelist = ["https://purrfect-ielts.onrender.com"];
+    const whitelist = [
+      "https://purrfect-ielts.onrender.com",
+      "http://localhost:5173",
+    ];
 
     // Permitir peticiones sin origin (como health checks de Render)
     if (!origin) {

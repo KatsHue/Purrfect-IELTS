@@ -15,24 +15,32 @@ export default function DashboardMainView() {
       emoji: "🎤",
       title: "Speaking",
       subtitle: "Practica conversación",
+      bgColor: "bg-[#f1d49a]/40 hover:bg-[#f1d49a]/70",
+      iconBg: "bg-[#f4bc3c]",
       link: "/speaking",
     },
     {
       emoji: "✍️",
       title: "Writing",
       subtitle: "Mejora tu escritura",
-      link: "/writing",
+      bgColor: "bg-[#f1d49a]/40 hover:bg-[#f1d49a]/70",
+      iconBg: "bg-[#f4bc3c]",
+      link: "/writing/",
     },
     {
       emoji: "📊",
       title: "Analíticos",
       subtitle: "Revisa tu progreso",
+      bgColor: "bg-[#f1d49a]/40 hover:bg-[#f1d49a]/70",
+      iconBg: "bg-[#f4bc3c]",
       link: "/history/analytics",
     },
     {
       emoji: "📝",
       title: "Historial",
       subtitle: "Prácticas anteriores",
+      bgColor: "bg-[#f1d49a]/40 hover:bg-[#f1d49a]/70",
+      iconBg: "bg-[#f4bc3c]",
       link: "/history/history-complete",
     },
   ];
@@ -41,22 +49,21 @@ export default function DashboardMainView() {
     window.location.href = link;
   };
 
+  const handleContinuePractice = () => {
+    window.location.href = "/speaking";
+  };
+
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#f9f8f6]">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-14 w-14 border-t-4 border-b-4 border-[#f4bc3c] mx-auto mb-4" />
-          <p className="text-sm font-medium text-[#7f533b]">
-            Preparando tu práctica ✨
-          </p>
-        </div>
+      <div className="min-h-screen flex items-center justify-center bg-white">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-[#f4bc3c]" />
       </div>
     );
   }
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* HEADER */}
         <div className="mb-10">
           <h1 className="text-3xl sm:text-4xl font-black text-[#442e14] mb-2">
@@ -71,14 +78,27 @@ export default function DashboardMainView() {
           </p>
         </div>
 
+        {/* GRID PRINCIPAL */}
         <div className="grid lg:grid-cols-3 gap-8">
-          {/* IZQUIERDA */}
+          {/* COLUMNA IZQUIERDA */}
           <div className="lg:col-span-2 space-y-10">
             {/* HERO */}
-            <div className="relative bg-[#f1d49a] rounded-3xl p-8 shadow-md overflow-visible min-h-[260px]">
-              {/* fondo decorativo */}
+            <div
+              className="
+                relative
+                bg-[#f1d49a]
+                rounded-3xl
+                p-8
+                lg:pr-[220px]
+                shadow-md
+                min-h-[260px]
+                overflow-hidden
+              "
+            >
+              {/* Fondo decorativo */}
               <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top_right,#f4bc3c,transparent_60%)]" />
 
+              {/* Contenido */}
               <div className="relative z-10 max-w-xl space-y-4">
                 <span className="inline-flex items-center gap-2 bg-white/60 px-3 py-1 rounded-full text-xs font-semibold">
                   ✨ Preparación con IA
@@ -88,68 +108,75 @@ export default function DashboardMainView() {
                   Aprende inglés sin estrés
                 </h2>
 
-                <p className="text-[#7f533b] text-sm sm:text-base">
+                <p className="text-[#7f533b]">
                   Práctica corta, clara y divertida todos los días
                 </p>
 
                 <button
-                  onClick={() => handleNavigation("/speaking")}
+                  onClick={handleContinuePractice}
                   className="
-        inline-flex items-center gap-2
-        bg-[#f4bc3c]
-        text-[#442e14]
-        font-black
-        px-6 py-3
-        rounded-full
-        shadow
-        hover:scale-105
-        transition
-      "
+                    inline-flex items-center gap-2
+                    bg-[#f4bc3c]
+                    text-[#442e14]
+                    font-black
+                    px-6 py-3
+                    rounded-full
+                    shadow
+                    hover:scale-105
+                    transition
+                  "
                 >
                   Comenzar práctica →
                 </button>
               </div>
 
-              {/* IMAGEN FUERA DEL FLUJO */}
+              {/* Ilustración del hero */}
               <img
-                src="/images/hero-english.png"
+                src="/assets/images/hero-1.svg"
                 alt="English learning illustration"
                 className="
-      hidden md:block
-      absolute
-      right-[-80px]
-      bottom-[-40px]
-      w-[360px]
-      max-w-none
-      drop-shadow-2xl
-      pointer-events-none
-      select-none
-      animate-float
-    "
+                  hidden lg:block
+                  absolute
+                  right-[-5px]
+                  bottom-[-20px]
+                  w-[300px]
+                  max-w-none
+                  pointer-events-none
+                  select-none
+                  drop-shadow-2xl
+                  z-10
+                "
               />
             </div>
 
             {/* QUICK ACTIONS */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              {quickActions.map((action, index) => (
+            <div className="grid sm:grid-cols-2 gap-6">
+              {quickActions.map((action, i) => (
                 <button
-                  key={index}
+                  key={i}
                   onClick={() => handleNavigation(action.link)}
-                  className="
-                    bg-[#f1d49a]/40
-                    hover:bg-[#f1d49a]/70
+                  className={`
+                    ${action.bgColor}
                     rounded-2xl
                     p-5
                     border border-[#f1d49a]
-                    transition-all
+                    transition
                     hover:-translate-y-1
-                  "
+                  `}
                 >
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-[#f4bc3c] rounded-full flex items-center justify-center text-xl">
+                    <div
+                      className={`
+                        ${action.iconBg}
+                        w-12 h-12
+                        rounded-full
+                        flex items-center justify-center
+                        text-[#442e14]
+                        text-xl
+                      `}
+                    >
                       {action.emoji}
                     </div>
-
                     <div className="flex-1 text-left">
                       <h4 className="font-black text-[#442e14]">
                         {action.title}
@@ -158,7 +185,6 @@ export default function DashboardMainView() {
                         {action.subtitle}
                       </p>
                     </div>
-
                     <span className="text-[#bcb4ac] text-lg">→</span>
                   </div>
                 </button>
@@ -166,10 +192,10 @@ export default function DashboardMainView() {
             </div>
           </div>
 
-          {/* DERECHA */}
+          {/* COLUMNA DERECHA */}
           <div className="space-y-6">
             <div className="bg-[#f1d49a]/30 rounded-2xl p-6 border border-[#f1d49a]">
-              <h3 className="text-lg font-bold text-[#442e14] mb-4 flex items-center gap-2">
+              <h3 className="text-lg font-bold text-[#442e14] mb-4">
                 🎯 Tu progreso
               </h3>
 
@@ -200,10 +226,7 @@ export default function DashboardMainView() {
   );
 }
 
-/* ========================= */
-/* ====== STAT CARD ======== */
-/* ========================= */
-
+/* STAT CARD */
 function StatCard({
   emoji,
   label,
