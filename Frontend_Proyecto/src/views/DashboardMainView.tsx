@@ -2,7 +2,6 @@ import { useQuery } from "@tanstack/react-query";
 import { AnalyticsAPI } from "@/api/AnalyticsAPI";
 
 export default function DashboardMainView() {
-  // Fetch real user stats
   const { data: stats, isLoading } = useQuery({
     queryKey: ["userStats"],
     queryFn: AnalyticsAPI.getUserStats,
@@ -51,19 +50,6 @@ export default function DashboardMainView() {
     window.location.href = "/speaking";
   };
 
-  // Get last 5 scores from recent progress
-  const getRecentScores = () => {
-    if (!stats?.recentProgress || stats.recentProgress.length === 0) {
-      return [6.0, 6.2, 6.5, 6.8, 7.0]; // Default demo data
-    }
-    return stats.recentProgress
-      .slice(-5)
-      .map((item) => parseFloat(item.avgBand.toFixed(1)));
-  };
-
-  const recentScores = getRecentScores();
-
-  // Calculate practices this week (from last 7 days of recentProgress)
   const getWeekPractices = () => {
     if (!stats?.recentProgress) return 0;
     return stats.recentProgress
@@ -85,7 +71,7 @@ export default function DashboardMainView() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-pink-50 to-purple-50">
+    <div className="min-h-screen bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
           <h1 className="text-3xl sm:text-4xl font-black text-gray-800 mb-2">
@@ -96,20 +82,19 @@ export default function DashboardMainView() {
             👋
           </h1>
           <p className="text-gray-600 text-lg">
-            ¿Listo para mejorar tu IELTS hoy?
+            ¿Listo para mejorar tu score en IELTS hoy?
           </p>
         </div>
 
         <div className="grid lg:grid-cols-3 gap-6 mb-8">
           <div className="lg:col-span-2 space-y-6">
-            {/* Hero Card */}
             <div className="relative overflow-hidden bg-gradient-to-br from-pink-500 via-pink-600 to-orange-500 rounded-3xl p-8 text-white shadow-xl">
               <div className="absolute top-0 right-0 w-64 h-64 bg-white opacity-10 rounded-full blur-3xl"></div>
               <div className="absolute bottom-0 left-0 w-48 h-48 bg-orange-400 opacity-20 rounded-full blur-2xl"></div>
 
               <div className="relative z-10 grid md:grid-cols-2 gap-6 items-center">
                 <div className="space-y-4">
-                  <div className="inline-flex items-center gap-2 bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm font-semibold">
+                  <div className="inline-flex items-center gap-2 bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm font-semibold text-black">
                     <span>✨</span>
                     <span>Preparación con IA</span>
                   </div>
@@ -150,7 +135,6 @@ export default function DashboardMainView() {
               </div>
             </div>
 
-            {/* Quick Actions para Speaking y Writing */}
             <div className="grid sm:grid-cols-2 gap-4">
               {quickActions.slice(0, 2).map((action, index) => (
                 <button
@@ -178,7 +162,6 @@ export default function DashboardMainView() {
               ))}
             </div>
 
-            {/* CTA to Analytics */}
             <div
               className="relative overflow-hidden bg-gradient-to-br from-purple-500 to-indigo-600 rounded-2xl p-6 text-white shadow-lg hover:shadow-xl transition-all cursor-pointer group"
               onClick={() => handleNavigation("/history/analytics")}
@@ -202,7 +185,6 @@ export default function DashboardMainView() {
             </div>
           </div>
 
-          {/* Sidebar - Stats Preview */}
           <div className="space-y-6">
             {/* Stats principales */}
             <div className="bg-white rounded-2xl p-6 shadow-md border border-gray-100">
@@ -274,32 +256,11 @@ export default function DashboardMainView() {
 
             {/* Mini gráfico */}
             <div className="bg-white rounded-2xl p-6 shadow-md border border-gray-100">
-              <h3 className="text-lg font-bold text-gray-800 mb-4">
-                Últimas prácticas
-              </h3>
-
-              <div className="flex items-end justify-between h-32 gap-2">
-                {recentScores.map((score, i) => (
-                  <div
-                    key={i}
-                    className="flex-1 flex flex-col items-center gap-2"
-                  >
-                    <div
-                      className="w-full bg-gradient-to-t from-pink-500 to-orange-400 rounded-t-lg transition-all duration-500 hover:scale-105"
-                      style={{ height: `${(score / 9) * 100}%` }}
-                    ></div>
-                    <span className="text-xs font-bold text-gray-600">
-                      {score}
-                    </span>
-                  </div>
-                ))}
-              </div>
-
               <button
                 onClick={() => handleNavigation("/history/analytics")}
                 className="w-full mt-4 px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold rounded-lg hover:scale-105 transition-all duration-300 shadow-md text-sm"
               >
-                Ver gráficos completos →
+                Ver gráficos →
               </button>
             </div>
 
@@ -326,45 +287,6 @@ export default function DashboardMainView() {
             </div>
           </div>
         </div>
-
-        {/* Sección Chatbot */}
-        <section id="chatbot-section" className="mt-12">
-          <div className="relative overflow-hidden bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 rounded-3xl p-8 sm:p-12 text-white shadow-2xl hover:shadow-3xl transition-all duration-500 group border-4 border-pink-300">
-            <div className="absolute inset-0 opacity-10">
-              <div className="absolute top-0 left-0 w-72 h-72 bg-white rounded-full blur-3xl group-hover:scale-150 transition-transform duration-1000"></div>
-              <div className="absolute bottom-0 right-0 w-96 h-96 bg-yellow-300 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-1000"></div>
-            </div>
-
-            <div className="absolute top-8 right-8 text-5xl opacity-20 animate-bounce">
-              🐾
-            </div>
-            <div
-              className="absolute bottom-8 left-8 text-5xl opacity-20 animate-bounce"
-              style={{ animationDelay: "0.5s" }}
-            >
-              🐾
-            </div>
-
-            <div className="relative z-10 text-center">
-              <div className="inline-block mb-6">
-                <div className="text-6xl sm:text-8xl transform group-hover:scale-110 group-hover:rotate-12 transition-all duration-300">
-                  💬
-                </div>
-              </div>
-              <h3 className="text-4xl sm:text-5xl md:text-6xl font-black mb-4">
-                Chatbot con IA
-              </h3>
-              <p className="text-lg sm:text-xl md:text-2xl opacity-95 max-w-3xl mx-auto leading-relaxed mb-6 px-4">
-                Tu asistente personal que{" "}
-                <span className="font-black underline decoration-wavy">
-                  siempre
-                </span>{" "}
-                está disponible para ayudarte con estrategias y resolver dudas
-                sobre el IELTS en tiempo real
-              </p>
-            </div>
-          </div>
-        </section>
       </div>
     </div>
   );
