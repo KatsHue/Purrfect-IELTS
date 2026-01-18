@@ -35,8 +35,8 @@ export const AppLayout = () => {
     sticky top-0 w-full z-50 transition-all duration-300
     ${
       isScrolled
-        ? "bg-[#442e14]/95 backdrop-blur shadow-sm py-3"
-        : "bg-[#442e14] py-4"
+        ? "bg-white/90 backdrop-blur border-b border-[#E7E5E4] py-3"
+        : "bg-white py-4"
     }
   `}
         >
