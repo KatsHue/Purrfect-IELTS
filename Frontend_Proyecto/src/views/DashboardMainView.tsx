@@ -68,13 +68,13 @@ export default function DashboardMainView() {
         <div className="mb-10">
           <h1 className="text-3xl sm:text-4xl font-black text-[#442e14] mb-2">
             Hola,{" "}
-            <span className="text-[#7f533b]">
+            <span className="text-orange">
               {authLoading ? "..." : user?.name || "estudiante"}
             </span>{" "}
             👋
           </h1>
           <p className="text-[#7f533b] text-lg">
-            ¿Listo para mejorar tu score en IELTS hoy?
+            ¿Listo (a) para mejorar tu score en IELTS hoy?
           </p>
         </div>
 
