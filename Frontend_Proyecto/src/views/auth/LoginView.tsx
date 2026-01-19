@@ -44,7 +44,7 @@ export default function LoginView() {
       {/* SUBTEXTO */}
       <p className="text-lg sm:text-2xl text-[#7f533b] mt-4 sm:mt-5">
         Comienza a practicar inglés y mejora tu score en IELTS{" "}
-        <span className="text-[#f4bc3c] font-bold block sm:inline">
+        <span className="text-amber-500 font-bold block sm:inline">
           iniciando sesión en este formulario
         </span>
       </p>
