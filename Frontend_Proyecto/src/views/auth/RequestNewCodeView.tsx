@@ -32,10 +32,10 @@ export default function RequestNewCodeView() {
 
   return (
     <>
-      <h1 className="text-5xl font-black text-white">
+      <h1 className="text-5xl font-black text-[#7f533b]">
         Solicitar Código de Confirmación
       </h1>
-      <p className="text-2xl font-light text-white mt-5">
+      <p className="text-2xl font-light text-[#7f533b] mt-5">
         Coloca tu e-mail para recibir {""}
         <span className=" text-orange-500 font-bold"> un nuevo código</span>
       </p>
@@ -75,13 +75,13 @@ export default function RequestNewCodeView() {
       <nav className="mt-10 flex flex-col space-y-4">
         <Link
           to="/auth/login"
-          className="text-center text-gray-300 font-normal"
+          className="text-center text-[#7f533b] font-normal"
         >
           ¿Ya tienes cuenta? Iniciar Sesión
         </Link>
         <Link
           to="/auth/forgot-password"
-          className="text-center text-gray-300 font-normal"
+          className="text-center text-[#7f533b] font-normal"
         >
           ¿Olvidaste tu contraseña? Reestablecer
         </Link>
