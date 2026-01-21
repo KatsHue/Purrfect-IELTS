@@ -22,7 +22,6 @@ function classNames(...classes: string[]) {
 export default function Tabs() {
   const navigate = useNavigate();
   const location = useLocation();
-  // ⭐ ARREGLADO: Manejar cuando no se encuentra el tab
   const currentTab =
     tabs.find((tab) => {
       // Si estamos en /analytics/history/[id], considerarlo como /analytics/history

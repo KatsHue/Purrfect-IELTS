@@ -26,17 +26,11 @@ export default function SendIAView() {
   });
 
   const [sections, setSections] = useState<string[][]>([]);
-
-  // NUEVOS ESTADOS PARA LAS PREGUNTAS
   const [questions, setQuestions] = useState<string[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [isLoadingQuestions, setIsLoadingQuestions] = useState(true);
   const [questionsError, setQuestionsError] = useState<string | null>(null);
-
-  // para guardar resultados
   const { mutate: saveResult } = useSavePracticeResult();
-
-  // guardar el texto del usuario
   const [userSubmittedText, setUserSubmittedText] = useState("");
 
   const {
@@ -46,7 +40,6 @@ export default function SendIAView() {
     formState: { errors },
   } = useForm({ defaultValues: initialValues });
 
-  // CARGAR PREGUNTAS AL INICIAR
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
@@ -58,7 +51,6 @@ export default function SendIAView() {
           err instanceof Error ? err.message : "Unknown error occurred"
         );
         setIsLoadingQuestions(false);
-        // Preguntas por defecto en caso de error
         setQuestions([
           "Some people think that parents should teach children how to be good members of society. Others believe that school is the place to learn this. Discuss both views and give your own opinion.",
           "In some countries, young people are encouraged to work or travel for a year between finishing high school and starting university studies. Discuss the advantages and disadvantages for young people who decide to do this.",
@@ -80,14 +72,13 @@ export default function SendIAView() {
         loading: false,
       });
 
-      // Guardar resultado en la base de datos
       const parsedFeedback = parseAIFeedback(data!);
 
       saveResult({
         type: "writing",
-        task: "task-one", // Task 1 es para cartas
+        task: "task-one",
         question: questions[currentQuestionIndex],
-        userResponse: userSubmittedText, // El texto que envió el usuario
+        userResponse: userSubmittedText,
         aiFeedback: data!,
         estimatedBand: parsedFeedback.estimatedBand,
         identifiedErrors: parsedFeedback.identifiedErrors,
@@ -109,17 +100,15 @@ export default function SendIAView() {
 
   const handleChangePassword = (formData: IAForm) => {
     setIA({ ...ia, loading: true });
-    // Guardar el texto del usuario antes de enviarlo
     setUserSubmittedText(formData.text);
     mutate(formData);
   };
 
-  // FUNCIONES PARA NAVEGAR ENTRE PREGUNTAS
   const nextQuestion = () => {
     if (questions.length === 0) return;
     setCurrentQuestionIndex((prev) => (prev + 1) % questions.length);
     resetExercise();
-    reset({text : ''})
+    reset({ text: "" });
   };
 
   const prevQuestion = () => {
@@ -128,6 +117,7 @@ export default function SendIAView() {
       prev === 0 ? questions.length - 1 : prev - 1
     );
     resetExercise();
+    reset({ text: "" });
   };
 
   const resetExercise = () => {
@@ -146,13 +136,13 @@ export default function SendIAView() {
     if (lines.every((l) => /^(\d+\.\s|\-\s|\*\s)/.test(l.trim()))) {
       const isOrdered = lines.every((l) => /^\d+\./.test(l.trim()));
       return isOrdered ? (
-        <ol className="list-decimal list-inside space-y-1">
+        <ol className="list-decimal list-inside space-y-1 text-[#442e14]">
           {lines.map((line, i) => (
             <li key={i}>{line.replace(/^\d+\.\s/, "")}</li>
           ))}
         </ol>
       ) : (
-        <ul className="list-disc list-inside space-y-1">
+        <ul className="list-disc list-inside space-y-1 text-[#442e14]">
           {lines.map((line, i) => (
             <li key={i}>{line.replace(/^(\-|\*)\s/, "")}</li>
           ))}
@@ -160,132 +150,235 @@ export default function SendIAView() {
       );
     }
 
-    return <p className="whitespace-pre-line">{content}</p>;
+    return <p className="whitespace-pre-line text-[#442e14]">{content}</p>;
   }
 
-  // MOSTRAR LOADING DE PREGUNTAS
   if (isLoadingQuestions) {
     return (
-      <div className="max-w-3xl mx-auto p-6">
-        <div className="text-center py-8">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-sky-500 mx-auto mb-4"></div>
-          <p>Loading questions...</p>
+      <div className="min-h-screen flex items-center justify-center bg-white">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-[#f4bc3c] mx-auto mb-4" />
+          <p className="text-[#7f533b]">Loading questions...</p>
         </div>
       </div>
     );
   }
 
-  // MOSTRAR ERROR SI HAY
   if (questionsError) {
     return (
-      <div className="max-w-3xl mx-auto p-6">
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6">
-          <strong className="font-bold">Error!</strong>
-          <span className="block sm:inline">
-            {" "}
-            {questionsError} Using default questions.
-          </span>
+      <div className="min-h-screen bg-white p-6">
+        <div className="max-w-3xl mx-auto">
+          <div className="bg-red-50 border-2 border-red-300 text-red-800 px-6 py-4 rounded-2xl">
+            <strong className="font-bold">Error!</strong>
+            <span className="block sm:inline">
+              {" "}
+              {questionsError} Using default questions.
+            </span>
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <>
-      <div className="max-w-screen p-6 space-y-6">
-        <h1 className="text-3xl font-bold text-gray-800">
-          Writing Practice: Task 1 - Write a letter
-        </h1>
+    <div className="min-h-screen bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* HEADER */}
+        <div className="mb-8">
+          <h1 className="text-3xl sm:text-4xl font-black text-[#442e14] mb-2">
+            Writing Practice: Task 1 ✍️
+          </h1>
+          <p className="text-[#7f533b] text-lg">Write a letter</p>
+        </div>
 
-        <div className="flex flex-col md:flex-row justify-between gap-4">
+        {/* MAIN CONTENT GRID */}
+        <div className="grid lg:grid-cols-2 gap-6 mb-8">
           {/* SECCIÓN DE LA PREGUNTA */}
-          <div className="bg-white p-6 rounded-xl shadow-md">
-            <h2 className="text-xl font-semibold text-gray-700 mb-2">
-              Question {currentQuestionIndex + 1}/{questions.length}
-            </h2>
-            <p className="text-lg mb-6 whitespace-pre-line">
-              {questions[currentQuestionIndex]}
-            </p>
+          <div className="bg-[#f1d49a]/40 p-6 rounded-2xl border border-[#f1d49a]">
+            <div className="flex items-center gap-2 mb-4">
+              <div className="w-8 h-8 bg-[#f4bc3c] rounded-full flex items-center justify-center text-[#442e14] font-black text-sm">
+                {currentQuestionIndex + 1}
+              </div>
+              <h2 className="text-lg font-bold text-[#442e14]">
+                Question {currentQuestionIndex + 1} of {questions.length}
+              </h2>
+            </div>
+
+            {/* Instrucciones del examen */}
+            <div className="bg-[#f4bc3c]/20 border border-[#f4bc3c]/40 p-3 rounded-xl mb-4 flex items-center gap-3">
+              <div className="flex items-center gap-2 text-sm text-[#442e14]">
+                <span className="font-bold">⏱️ Time:</span>
+                <span>20 min</span>
+              </div>
+              <div className="w-px h-4 bg-[#f4bc3c]/40"></div>
+              <div className="flex items-center gap-2 text-sm text-[#442e14]">
+                <span className="font-bold">📝 Min words:</span>
+                <span>150</span>
+              </div>
+            </div>
+
+            {/* Pregunta */}
+            <div className="bg-white/80 p-4 rounded-xl mb-4">
+              <p className="text-[#442e14] whitespace-pre-line leading-relaxed">
+                {questions[currentQuestionIndex]}
+              </p>
+            </div>
+
+            {/* Key points */}
+            <div className="bg-white/60 p-4 rounded-xl mb-6">
+              <h4 className="font-bold text-[#442e14] text-sm mb-2 flex items-center gap-2">
+                <span>✓</span> Key points to cover:
+              </h4>
+              <ul className="text-sm text-[#7f533b] space-y-1.5">
+                <li className="flex items-start gap-2">
+                  <span className="text-[#f4bc3c] mt-0.5">•</span>
+                  <span>Address all bullet points from the prompt</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-[#f4bc3c] mt-0.5">•</span>
+                  <span>Use appropriate tone (formal/informal)</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-[#f4bc3c] mt-0.5">•</span>
+                  <span>Clear structure with paragraphs</span>
+                </li>
+              </ul>
+            </div>
 
             <div className="flex gap-3">
               <button
                 onClick={prevQuestion}
-                className="flex items-center gap-2 px-4 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition"
+                className="flex items-center gap-2 px-4 py-2.5 bg-[#f4bc3c] text-[#442e14] font-bold rounded-full hover:scale-105 transition shadow"
               >
                 <ChevronLeftIcon className="h-4 w-4" />
-                Previous Question
+                Previous
               </button>
 
               <button
                 onClick={nextQuestion}
-                className={`flex items-center gap-2 px-4 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition ${!userSubmittedText ? 'opacity-10' : ''}`}
-                disabled={!userSubmittedText}
+                className="flex items-center gap-2 px-4 py-2.5 bg-[#f4bc3c] text-[#442e14] font-bold rounded-full hover:scale-105 transition shadow"
               >
-                Next Question <ChevronRightIcon className="h-4 w-4" />
+                Next
+                <ChevronRightIcon className="h-4 w-4" />
               </button>
             </div>
           </div>
 
-          {/* Formulario */}
-          {!ia.loading &&
-            <form
-              onSubmit={handleSubmit(handleChangePassword)}
-              className="space-y-5 bg-white shadow-lg p-10 rounded-lg flex-grow"
-              noValidate
-            >
+          {/* FORMULARIO O LOADING */}
+          {!ia.loading && !ia.response && (
+            <div className="bg-white border-2 border-[#f1d49a] p-6 rounded-2xl">
               <div className="mb-5 space-y-3">
-                <label className="text-sm uppercase font-bold" htmlFor="text">
-                  Your Letter:
+                <label
+                  className="text-sm uppercase font-bold text-[#442e14]"
+                  htmlFor="text"
+                >
+                  📝 Your Letter:
                 </label>
                 <textarea
                   id="text"
                   placeholder="Write your letter here..."
-                  rows={10}
-                  className="w-full p-3 border border-gray-200 rounded-lg resize-none"
+                  rows={12}
+                  className="w-full p-4 border-2 border-[#f1d49a] rounded-xl resize-none focus:outline-none focus:border-[#f4bc3c] transition text-[#442e14]"
                   {...register("text", {
                     required: "El texto es obligatorio",
                   })}
                 />
-                {errors.text && <ErrorMessage>{errors.text.message}</ErrorMessage>}
+                {errors.text && (
+                  <ErrorMessage>{errors.text.message}</ErrorMessage>
+                )}
               </div>
 
-              <input
-                type="submit"
-                value="Get Feedback"
-                className={`bg-sky-600 w-full p-3 text-white uppercase font-bold hover:bg-sky-700 cursor-pointer transition-colors rounded-md ${
-                  ia.loading ? " opacity-70 cursor-not-allowed" : ""
-                }`}
+              <button
+                type="button"
+                onClick={handleSubmit(handleChangePassword)}
+                className="bg-[#f4bc3c] w-full py-3 px-6 text-[#442e14] uppercase font-black hover:scale-105 cursor-pointer transition rounded-full shadow-md disabled:opacity-70 disabled:cursor-not-allowed"
                 disabled={ia.loading}
-              />
-            </form>
-          }
-
-          {/* spinner */}
-          {ia.loading && (
-            <div className="flex-grow text-center py-12">
-              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mx-auto mb-4"></div>
-              <p className="text-lg font-medium text-gray-600">
-                Processing your letter...
-              </p>
+              >
+                Get AI Feedback
+              </button>
             </div>
           )}
 
+          {/* SPINNER */}
+          {ia.loading && (
+            <div className="bg-[#f1d49a]/30 border-2 border-[#f1d49a] rounded-2xl flex items-center justify-center p-12">
+              <div className="text-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-[#f4bc3c] mx-auto mb-4" />
+                <p className="text-lg font-bold text-[#442e14]">
+                  Processing your letter...
+                </p>
+                <p className="text-sm text-[#7f533b] mt-2">
+                  AI is analyzing your writing
+                </p>
+              </div>
+            </div>
+          )}
+
+          {/* PLACEHOLDER cuando hay respuesta */}
+          {!ia.loading && ia.response && (
+            <div className="bg-[#f1d49a]/20 border-2 border-dashed border-[#f4bc3c] rounded-2xl p-6 flex items-center justify-center">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-[#f4bc3c] rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">
+                  ✅
+                </div>
+                <p className="text-[#442e14] font-bold mb-2">
+                  Feedback received!
+                </p>
+                <p className="text-sm text-[#7f533b]">
+                  Scroll down to see your results
+                </p>
+              </div>
+            </div>
+          )}
         </div>
 
-        {/* Mostrar respuesta  */}
+        {/* MOSTRAR RESPUESTA DE IA */}
         {!ia.loading && ia.text && (
           <div className="space-y-6">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 bg-[#f4bc3c] rounded-full flex items-center justify-center text-xl">
+                🤖
+              </div>
+              <h2 className="text-2xl font-black text-[#442e14]">
+                AI Feedback & Analysis
+              </h2>
+            </div>
+
             {sections.map((section, idx) => (
-              <div key={idx} className="p-4 bg-gray-100 rounded-lg shadow">
-                <h1 className="font-bold text-lg mb-2 text-yellow-600">
+              <div
+                key={idx}
+                className="bg-[#f9f8f6] border-2 border-[#f1d49a] p-6 rounded-2xl"
+              >
+                <h3 className="font-black text-lg mb-3 text-[#f4bc3c] flex items-center gap-2">
+                  <span className="w-6 h-6 bg-[#f4bc3c] text-[#442e14] rounded-full flex items-center justify-center text-xs font-black">
+                    {idx + 1}
+                  </span>
                   {section[0]}
-                </h1>
-                {renderContent(section.slice(1).join("\n"))}
+                </h3>
+                <div className="text-[#442e14]">
+                  {renderContent(section.slice(1).join("\n"))}
+                </div>
               </div>
             ))}
+
+            {/* Botón para nueva práctica */}
+            <div className="bg-[#f1d49a]/40 border-2 border-[#f4bc3c] rounded-2xl p-6 text-center">
+              <p className="text-[#442e14] font-bold mb-4">
+                Ready for another practice?
+              </p>
+              <button
+                onClick={() => {
+                  resetExercise();
+                  reset({ text: "" });
+                }}
+                className="bg-[#f4bc3c] text-[#442e14] font-black px-8 py-3 rounded-full hover:scale-105 transition shadow-md"
+              >
+                Start New Practice →
+              </button>
+            </div>
           </div>
         )}
       </div>
-    </>
+    </div>
   );
 }

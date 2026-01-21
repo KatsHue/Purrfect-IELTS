@@ -34,8 +34,8 @@ export default function SpeakingView() {
   const audioChunksRef = useRef<Blob[]>([]);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
+  const feedbackRef = useRef<HTMLDivElement>(null);
 
-  // Fetch questions on mount
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
@@ -107,6 +107,14 @@ export default function SpeakingView() {
           const formatted = formatResponse(feedback);
           setImprovedText(formatted);
           setShowImproved(true);
+
+          // Auto-scroll al feedback después de un breve delay
+          setTimeout(() => {
+            feedbackRef.current?.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+          }, 300);
 
           const parsedFeedback = parseAIFeedback(feedback);
           const recordingDuration = recordingStartTime - recordingTime;
@@ -209,155 +217,258 @@ export default function SpeakingView() {
 
   if (isLoading)
     return (
-      <div className="max-w-3xl mx-auto p-6 text-center py-8">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-sky-500 mx-auto mb-4"></div>
-        <p>Loading questions...</p>
+      <div className="min-h-screen flex items-center justify-center bg-white">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-[#f4bc3c] mx-auto mb-4" />
+          <p className="text-[#7f533b]">Cargando preguntas...</p>
+        </div>
       </div>
     );
 
   if (error)
     return (
-      <div className="max-w-3xl mx-auto p-6">
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
-          <strong className="font-bold">Error!</strong>{" "}
-          <span className="block sm:inline">
-            {error}. Using default questions.
-          </span>
+      <div className="min-h-screen bg-white p-6">
+        <div className="max-w-3xl mx-auto">
+          <div className="bg-red-50 border-2 border-red-300 text-red-800 px-6 py-4 rounded-2xl">
+            <strong className="font-bold">Error!</strong>
+            <span className="block sm:inline">
+              {" "}
+              {error}. Using default questions.
+            </span>
+          </div>
         </div>
       </div>
     );
 
   return (
-    <div className="max-w-3xl mx-auto p-6 space-y-6">
-      <h1 className="text-3xl font-bold text-gray-800">
-        Speaking Practice: Part 1
-      </h1>
-
-      {/* Question */}
-      <div className="bg-white p-6 rounded-xl shadow-md">
-        <h2 className="text-xl font-semibold text-gray-700 mb-2">
-          Question {currentQuestionIndex + 1}/{questions.length}
-        </h2>
-        <p className="text-lg mb-6">{questions[currentQuestionIndex]}</p>
-
-        <div className="flex gap-3">
-          <button
-            onClick={prevQuestion}
-            className="flex items-center gap-2 px-4 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition"
-          >
-            <ChevronLeftIcon className="h-4 w-4" />
-            Previous Question
-          </button>
-          <button
-            onClick={nextQuestion}
-            className="flex items-center gap-2 px-4 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition"
-          >
-            Next Question <ChevronRightIcon className="h-4 w-4" />
-          </button>
+    <div className="min-h-screen bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* header */}
+        <div className="mb-8">
+          <h1 className="text-3xl sm:text-4xl font-black text-[#442e14] mb-2">
+            Speaking Practice: Part 1 🎤
+          </h1>
+          <p className="text-[#7f533b] text-lg">
+            Interview & General Questions
+          </p>
         </div>
-      </div>
 
-      {/* Recording */}
-      <div className="bg-white p-6 rounded-xl shadow-md space-y-4">
-        <h2 className="text-xl font-semibold text-gray-700">
-          Record Your Answer
-        </h2>
-
-        {isProcessing ? (
-          <div className="text-center py-8">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mx-auto mb-4"></div>
-            <p>Processing your recording...</p>
-          </div>
-        ) : !isRecording && !transcription ? (
-          <button
-            onClick={startRecording}
-            className="flex items-center justify-center gap-2 w-full py-3 bg-sky-600 text-white rounded-lg font-bold hover:bg-sky-700 transition"
-          >
-            <MicrophoneIcon className="h-5 w-5" /> Start Recording (Max 2
-            minutes)
-          </button>
-        ) : isRecording ? (
-          <div className="space-y-4">
-            <div className="flex items-center justify-center gap-3">
-              <div className="animate-pulse bg-red-500 rounded-full h-4 w-4"></div>
-              <span className="font-mono text-lg">
-                {Math.floor(recordingTime / 60)}:
-                {String(recordingTime % 60).padStart(2, "0")}
-              </span>
-            </div>
-            <button
-              onClick={stopRecording}
-              className="flex items-center justify-center gap-2 w-full py-3 bg-red-600 text-white rounded-lg font-bold hover:bg-red-700 transition"
-            >
-              <StopIcon className="h-5 w-5" /> Stop Recording
-            </button>
-          </div>
-        ) : (
-          <div className="space-y-4">
-            <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
-              <h3 className="font-medium mb-2">Your transcription:</h3>
-              <p className="whitespace-pre-line">{transcription}</p>
-            </div>
-
-            <div className="flex flex-col sm:flex-row gap-3">
-              {audioUrl && (
-                <button
-                  onClick={playRecording}
-                  className="flex items-center justify-center gap-2 px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition w-full sm:w-auto"
-                >
-                  <PlayIcon className="h-5 w-5" />
-                  Play Your Recording
-                </button>
-              )}
-
-              <button
-                onClick={resetExercise}
-                className="flex items-center justify-center gap-2 px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition w-full sm:w-auto"
-              >
-                Retry
-              </button>
-            </div>
-          </div>
-        )}
-      </div>
-
-      <audio ref={audioRef} src={audioUrl} hidden />
-
-      {/* Feedback Section - NUEVO FORMATO IGUAL A TASK TWO */}
-      {showImproved &&
-        Array.isArray(improvedText) &&
-        improvedText.length > 0 && (
-          <div className="space-y-6">
-            {improvedText.map((section: string[], idx: number) => (
-              <div key={idx} className="p-4 bg-gray-100 rounded-lg shadow">
-                <h2 className="font-bold text-lg mb-2 text-sky-600">
-                  {section[0]}
-                </h2>
-                <p className="whitespace-pre-line">
-                  {section.slice(1).join("\n")}
-                </p>
+        <div className="grid lg:grid-cols-2 gap-6 mb-8">
+          {/* Preguntas */}
+          <div className="bg-[#f1d49a]/40 p-6 rounded-2xl border border-[#f1d49a]">
+            <div className="flex items-center gap-2 mb-4">
+              <div className="w-8 h-8 bg-[#f4bc3c] rounded-full flex items-center justify-center text-[#442e14] font-black text-sm">
+                {currentQuestionIndex + 1}
               </div>
-            ))}
+              <h2 className="text-lg font-bold text-[#442e14]">
+                Question {currentQuestionIndex + 1} of {questions.length}
+              </h2>
+            </div>
 
-            {/* Botones de acción */}
+            {/* Instrucciones */}
+            <div className="bg-[#f4bc3c]/20 border border-[#f4bc3c]/40 p-3 rounded-xl mb-4 flex items-center gap-3">
+              <div className="flex items-center gap-2 text-sm text-[#442e14]">
+                <span className="font-bold">⏱️ Time:</span>
+                <span>Max 2 min</span>
+              </div>
+              <div className="w-px h-4 bg-[#f4bc3c]/40"></div>
+              <div className="flex items-center gap-2 text-sm text-[#442e14]">
+                <span className="font-bold">🎯 Task:</span>
+                <span>Speak naturally</span>
+              </div>
+            </div>
+
+            {/* Pregunta */}
+            <div className="bg-white/80 p-4 rounded-xl mb-4 min-h-[120px] flex items-center">
+              <p className="text-[#442e14] text-lg leading-relaxed">
+                {questions[currentQuestionIndex]}
+              </p>
+            </div>
+
             <div className="flex gap-3">
               <button
-                onClick={resetExercise}
-                className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition"
+                onClick={prevQuestion}
+                className="flex items-center gap-2 px-4 py-2.5 bg-[#f4bc3c] text-[#442e14] font-bold rounded-full hover:scale-105 transition shadow"
               >
-                <ArrowPathIcon className="h-5 w-5" />
-                Try Again
+                <ChevronLeftIcon className="h-4 w-4" />
+                Previous
               </button>
               <button
                 onClick={nextQuestion}
-                className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
-                disabled={questions.length <= 1}
+                className="flex items-center gap-2 px-4 py-2.5 bg-[#f4bc3c] text-[#442e14] font-bold rounded-full hover:scale-105 transition shadow"
               >
-                Next Question <ChevronRightIcon className="h-4 w-4" />
+                Next
+                <ChevronRightIcon className="h-4 w-4" />
               </button>
             </div>
           </div>
-        )}
+
+          {/* Grabar */}
+          <div className="bg-white border-2 border-[#f1d49a] p-6 rounded-2xl">
+            <h2 className="text-xl font-black text-[#442e14] mb-4 flex items-center gap-2">
+              <MicrophoneIcon className="h-6 w-6 text-[#f4bc3c]" />
+              Record Your Answer
+            </h2>
+
+            {/* TIPS */}
+            <div className="bg-[#f1d49a]/40 p-4 rounded-xl mb-6">
+              <h4 className="font-bold text-[#442e14] text-sm mb-2 flex items-center gap-2">
+                <span>✓</span> Tips for your answer:
+              </h4>
+              <ul className="text-sm text-[#7f533b] space-y-1.5">
+                <li className="flex items-start gap-2">
+                  <span className="text-[#f4bc3c] mt-0.5">•</span>
+                  <span>Answer directly and naturally</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-[#f4bc3c] mt-0.5">•</span>
+                  <span>Provide examples or details</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-[#f4bc3c] mt-0.5">•</span>
+                  <span>Keep your tone conversational</span>
+                </li>
+              </ul>
+            </div>
+
+            {isProcessing ? (
+              <div className="text-center py-12">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-[#f4bc3c] mx-auto mb-4" />
+                <p className="text-lg font-bold text-[#442e14]">
+                  Processing your recording...
+                </p>
+                <p className="text-sm text-[#7f533b] mt-2">
+                  Transcribing and analyzing
+                </p>
+              </div>
+            ) : !isRecording && !transcription ? (
+              <button
+                onClick={startRecording}
+                className="flex items-center justify-center gap-3 w-full py-4 bg-[#f4bc3c] text-[#442e14] rounded-full font-black hover:scale-105 transition shadow-md"
+              >
+                <MicrophoneIcon className="h-6 w-6" />
+                Start Recording
+              </button>
+            ) : isRecording ? (
+              <div className="space-y-6">
+                <div className="bg-[#f1d49a]/30 p-6 rounded-xl text-center">
+                  <div className="flex items-center justify-center gap-3 mb-4">
+                    <div className="animate-pulse bg-red-500 rounded-full h-4 w-4"></div>
+                    <span className="font-mono text-2xl font-black text-[#442e14]">
+                      {Math.floor(recordingTime / 60)}:
+                      {String(recordingTime % 60).padStart(2, "0")}
+                    </span>
+                  </div>
+                  <p className="text-sm text-[#7f533b]">
+                    Recording in progress...
+                  </p>
+                </div>
+                <button
+                  onClick={stopRecording}
+                  className="flex items-center justify-center gap-3 w-full py-4 bg-red-500 text-white rounded-full font-black hover:bg-red-600 transition shadow-md"
+                >
+                  <StopIcon className="h-6 w-6" />
+                  Stop Recording
+                </button>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                <div className="bg-[#f9f8f6] border-2 border-[#f1d49a] p-4 rounded-xl">
+                  <h3 className="font-bold text-[#442e14] mb-2 flex items-center gap-2">
+                    <span>📝</span> Your transcription:
+                  </h3>
+                  <p className="text-[#442e14] whitespace-pre-line leading-relaxed">
+                    {transcription}
+                  </p>
+                </div>
+
+                <div className="flex flex-col sm:flex-row gap-3">
+                  {audioUrl && (
+                    <button
+                      onClick={playRecording}
+                      className="flex items-center justify-center gap-2 px-4 py-2.5 bg-[#f4bc3c] text-[#442e14] font-bold rounded-full hover:scale-105 transition shadow"
+                    >
+                      <PlayIcon className="h-5 w-5" />
+                      Play Recording
+                    </button>
+                  )}
+                  <button
+                    onClick={resetExercise}
+                    className="flex items-center justify-center gap-2 px-4 py-2.5 bg-[#f1d49a] text-[#442e14] font-bold rounded-full hover:bg-[#f1d49a]/70 transition shadow"
+                  >
+                    <ArrowPathIcon className="h-5 w-5" />
+                    Retry
+                  </button>
+                </div>
+                <div className="bg-[#f1d49a]/40 p-4 rounded-xl mb-6">
+                  <h4 className="font-bold text-[#442e14] text-sm mb-2 flex items-center gap-2">
+                    <span>👇</span> Scroll down to see your feedback
+                  </h4>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+
+        <audio ref={audioRef} src={audioUrl} hidden />
+
+        {/* Feedback */}
+        {showImproved &&
+          Array.isArray(improvedText) &&
+          improvedText.length > 0 && (
+            <div className="space-y-6" ref={feedbackRef}>
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 bg-[#f4bc3c] rounded-full flex items-center justify-center text-xl">
+                  🤖
+                </div>
+                <h2 className="text-2xl font-black text-[#442e14]">
+                  AI Feedback & Analysis
+                </h2>
+              </div>
+
+              {improvedText.map((section: string[], idx: number) => (
+                <div
+                  key={idx}
+                  className="bg-[#f9f8f6] border-2 border-[#f1d49a] p-6 rounded-2xl"
+                >
+                  <h3 className="font-black text-lg mb-3 text-[#f4bc3c] flex items-center gap-2">
+                    <span className="w-6 h-6 bg-[#f4bc3c] text-[#442e14] rounded-full flex items-center justify-center text-xs font-black">
+                      {idx + 1}
+                    </span>
+                    {section[0]}
+                  </h3>
+                  <p className="whitespace-pre-line text-[#442e14] leading-relaxed">
+                    {section.slice(1).join("\n")}
+                  </p>
+                </div>
+              ))}
+
+              {/* Botones */}
+              <div className="bg-[#f1d49a]/40 border-2 border-[#f4bc3c] rounded-2xl p-6">
+                <p className="text-[#442e14] font-bold mb-4 text-center">
+                  Ready to continue?
+                </p>
+                <div className="flex gap-3">
+                  <button
+                    onClick={resetExercise}
+                    className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-[#f1d49a] text-[#442e14] rounded-full hover:bg-[#f1d49a]/70 transition font-bold shadow"
+                  >
+                    <ArrowPathIcon className="h-5 w-5" />
+                    Try Again
+                  </button>
+                  <button
+                    onClick={nextQuestion}
+                    className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-[#f4bc3c] text-[#442e14] rounded-full hover:scale-105 transition font-bold shadow"
+                    disabled={questions.length <= 1}
+                  >
+                    Next Question
+                    <ChevronRightIcon className="h-5 w-5" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+      </div>
     </div>
   );
 }

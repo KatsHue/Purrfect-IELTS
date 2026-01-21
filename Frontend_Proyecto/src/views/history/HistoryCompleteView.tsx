@@ -6,6 +6,7 @@ import {
   MicrophoneIcon,
   PencilSquareIcon,
   ChevronLeftIcon,
+  ClipboardDocumentListIcon,
 } from "@heroicons/react/24/solid";
 
 export default function HistoryView() {
@@ -38,8 +39,10 @@ export default function HistoryView() {
     return (
       <div className="max-w-5xl mx-auto p-6">
         <div className="text-center py-12">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-sky-500 mx-auto mb-4"></div>
-          <p>Loading history...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-[#f4bc3c] mx-auto mb-4"></div>
+          <p className="text-lg font-medium text-[#7f533b]">
+            Cargando historial...
+          </p>
         </div>
       </div>
     );
@@ -48,87 +51,124 @@ export default function HistoryView() {
   return (
     <div className="max-w-5xl mx-auto p-6 space-y-6">
       {/* Header */}
-      <div className="flex items-center gap-4">
-        <Link
-          to="/history/analytics"
-          className="p-2 hover:bg-gray-100 rounded-lg transition"
-        >
-          <ChevronLeftIcon className="h-6 w-6 text-gray-600" />
-        </Link>
-        <h1 className="text-3xl font-bold text-gray-800">Practice History</h1>
-      </div>
-
-      {/* Filters */}
-      <div className="bg-white p-4 rounded-xl shadow-md flex flex-wrap gap-4">
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Type
-          </label>
-          <select
-            value={filter.type || "all"}
-            onChange={(e) => handleFilterChange("type", e.target.value)}
-            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-transparent"
-          >
-            <option value="all">All</option>
-            <option value="speaking">Speaking</option>
-            <option value="writing">Writing</option>
-          </select>
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Task
-          </label>
-          <select
-            value={filter.task || "all"}
-            onChange={(e) => handleFilterChange("task", e.target.value)}
-            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-transparent"
-          >
-            <option value="all">All Tasks</option>
-            <option value="task-one">Task 1</option>
-            <option value="task-two">Task 2</option>
-            <option value="task-three">Task 3</option>
-          </select>
+      <div className="bg-[#f1d49a] to-white p-6 rounded-2xl border-2 border-[#f1d49a]">
+        <div className="flex items-center justify-between gap-4">
+          <div className="flex items-center gap-4">
+            <Link
+              to="/history/analytics"
+              className="p-2 hover:bg-[#f4bc3c]/20 rounded-lg transition"
+            >
+              <ChevronLeftIcon className="h-6 w-6 text-[#7f533b]" />
+            </Link>
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-[#f4bc3c] rounded-full flex items-center justify-center">
+                <ClipboardDocumentListIcon className="h-7 w-7 text-white" />
+              </div>
+              <div>
+                <h1 className="text-3xl font-black text-[#442e14]">
+                  Historial de Prácticas
+                </h1>
+                <p className="text-sm text-[#7f533b]">
+                  Revisa todas tus prácticas completadas
+                </p>
+              </div>
+            </div>
+          </div>
+          {data && (
+            <div className="hidden sm:block text-right">
+              <p className="text-2xl font-black text-[#442e14]">
+                {data.total || 0}
+              </p>
+              <p className="text-xs text-[#7f533b] font-medium">Prácticas</p>
+            </div>
+          )}
         </div>
       </div>
 
-      {/* Results */}
+      {/* Filtros */}
+      <div className="bg-gradient-to-br from-[#f9f8f6] to-white p-6 rounded-2xl shadow-lg border-2 border-[#f1d49a]">
+        <div className="flex flex-wrap gap-6">
+          <div className="flex-1 min-w-[200px]">
+            <label className="block text-sm font-bold text-[#442e14] mb-2 flex items-center gap-2">
+              <span className="w-6 h-6 bg-[#f4bc3c] rounded-full flex items-center justify-center text-xs text-white font-black">
+                1
+              </span>
+              Habilidad
+            </label>
+            <select
+              value={filter.type || "all"}
+              onChange={(e) => handleFilterChange("type", e.target.value)}
+              className="w-full px-4 py-3 border-2 border-[#f1d49a] rounded-xl focus:ring-2 focus:ring-[#f4bc3c] focus:border-[#f4bc3c] bg-white text-[#442e14] font-semibold shadow-sm hover:border-[#f4bc3c] transition cursor-pointer"
+            >
+              <option value="all">Todas</option>
+              <option value="speaking">Speaking</option>
+              <option value="writing">Writing</option>
+            </select>
+          </div>
+
+          <div className="flex-1 min-w-[200px]">
+            <label className="block text-sm font-bold text-[#442e14] mb-2 flex items-center gap-2">
+              <span className="w-6 h-6 bg-[#f4bc3c] rounded-full flex items-center justify-center text-xs text-white font-black">
+                2
+              </span>
+              Task
+            </label>
+            <select
+              value={filter.task || "all"}
+              onChange={(e) => handleFilterChange("task", e.target.value)}
+              className="w-full px-4 py-3 border-2 border-[#f1d49a] rounded-xl focus:ring-2 focus:ring-[#f4bc3c] focus:border-[#f4bc3c] bg-white text-[#442e14] font-semibold shadow-sm hover:border-[#f4bc3c] transition cursor-pointer"
+            >
+              <option value="all">Todas</option>
+              <option value="task-one">Task 1</option>
+              <option value="task-two">Task 2</option>
+              <option value="task-three">Task 3</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      {/* Resultados */}
+      {data && data.practices.length > 0 && (
+        <div className="flex items-center justify-between px-2">
+          <p className="text-sm text-[#7f533b] font-medium">
+            Mostrando {page * limit + 1}-
+            {Math.min((page + 1) * limit, data.total || 0)} de {data.total || 0}{" "}
+            prácticas
+          </p>
+        </div>
+      )}
+
+      {/* Resultados */}
       {data && data.practices.length > 0 ? (
         <div className="space-y-4">
           {data.practices.map((practice) => (
             <Link
               key={practice._id}
               to={`/history/history-complete/${practice._id}`}
-              className="block bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition"
+              className="block bg-white border-2 border-[#f1d49a] p-6 rounded-2xl shadow-md hover:shadow-xl hover:border-[#f4bc3c] transition-all hover:-translate-y-1"
             >
-              <div className="flex items-start justify-between">
+              <div className="flex items-start justify-between gap-4">
                 <div className="flex items-start gap-4 flex-1">
-                  {/* Icon */}
+                  {/* Iconos */}
                   <div
-                    className={`p-3 rounded-lg ${
+                    className={`p-3 rounded-xl shadow-sm ${
                       practice.type === "speaking"
                         ? "bg-blue-100"
                         : "bg-green-100"
                     }`}
                   >
                     {practice.type === "speaking" ? (
-                      <MicrophoneIcon
-                        className={`h-6 w-6 ${
-                          practice.type === "speaking"
-                            ? "text-blue-600"
-                            : "text-green-600"
-                        }`}
-                      />
+                      <MicrophoneIcon className="h-6 w-6 text-blue-600" />
                     ) : (
                       <PencilSquareIcon className="h-6 w-6 text-green-600" />
                     )}
                   </div>
 
-                  {/* Content */}
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-2">
+                  {/* Contenido */}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-2 flex-wrap">
                       <span
-                        className={`px-3 py-1 rounded-full text-xs font-medium ${
+                        className={`px-3 py-1 rounded-full text-xs font-bold ${
                           practice.type === "speaking"
                             ? "bg-blue-100 text-blue-800"
                             : "bg-green-100 text-green-800"
@@ -136,16 +176,16 @@ export default function HistoryView() {
                       >
                         {practice.type.toUpperCase()}
                       </span>
-                      <span className="px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-xs font-medium">
+                      <span className="px-3 py-1 bg-[#f1d49a] text-[#442e14] rounded-full text-xs font-bold">
                         {practice.task.toUpperCase().replace("-", " ")}
                       </span>
                     </div>
 
-                    <p className="text-gray-700 font-medium mb-2 line-clamp-2">
+                    <p className="text-[#442e14] font-semibold mb-2 line-clamp-2">
                       {practice.question}
                     </p>
 
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm text-[#7f533b]">
                       {new Date(practice.createdAt).toLocaleDateString(
                         "en-US",
                         {
@@ -162,19 +202,31 @@ export default function HistoryView() {
 
                 {/* Band Score */}
                 {practice.estimatedBand && (
-                  <div className="text-right">
-                    <p className="text-sm text-gray-500 mb-1">Band Score</p>
-                    <p
-                      className={`text-3xl font-bold ${
+                  <div className="text-right flex-shrink-0">
+                    <p className="text-sm text-[#7f533b] mb-1 font-medium">
+                      Band Score
+                    </p>
+                    <div
+                      className={`inline-flex items-center justify-center w-16 h-16 rounded-2xl ${
                         practice.estimatedBand >= 7
-                          ? "text-green-600"
+                          ? "bg-green-100"
                           : practice.estimatedBand >= 6
-                          ? "text-yellow-600"
-                          : "text-orange-600"
+                          ? "bg-yellow-100"
+                          : "bg-orange-100"
                       }`}
                     >
-                      {practice.estimatedBand.toFixed(1)}
-                    </p>
+                      <p
+                        className={`text-3xl font-black ${
+                          practice.estimatedBand >= 7
+                            ? "text-green-600"
+                            : practice.estimatedBand >= 6
+                            ? "text-yellow-600"
+                            : "text-orange-600"
+                        }`}
+                      >
+                        {practice.estimatedBand.toFixed(1)}
+                      </p>
+                    </div>
                   </div>
                 )}
               </div>
@@ -182,30 +234,45 @@ export default function HistoryView() {
           ))}
         </div>
       ) : (
-        <div className="bg-white p-12 rounded-xl shadow-md text-center">
-          <p className="text-gray-500">
-            No practices found with these filters.
+        <div className="bg-gradient-to-br from-[#f9f8f6] to-white border-2 border-[#f1d49a] p-12 rounded-2xl shadow-md text-center">
+          <div className="w-20 h-20 bg-[#f1d49a]/50 rounded-full flex items-center justify-center mx-auto mb-4">
+            <span className="text-5xl">📭</span>
+          </div>
+          <h3 className="text-xl font-bold text-[#442e14] mb-2">
+            No se encontraron prácticas
+          </h3>
+          <p className="text-[#7f533b] mb-6">
+            Ninguna práctica coincide con tus filtros actuales. Intenta ajustar
+            tu búsqueda o comienza una nueva práctica.
           </p>
+          <Link
+            to="/speaking/task-1"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-[#f4bc3c] text-[#442e14] rounded-full font-bold hover:bg-amber-500 hover:scale-105 transition shadow-md"
+          >
+            Inicia tu práctica →
+          </Link>
         </div>
       )}
 
-      {/* Pagination */}
+      {/* Paginacion */}
       {data && (data.hasMore || page > 0) && (
-        <div className="flex justify-center gap-4">
+        <div className="flex justify-center items-center gap-4">
           <button
             onClick={() => setPage((p) => Math.max(0, p - 1))}
             disabled={page === 0}
-            className="px-4 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition disabled:bg-gray-300 disabled:cursor-not-allowed"
+            className="px-6 py-3 bg-[#f4bc3c] text-[#442e14] rounded-full font-bold hover:bg-amber-500 hover:scale-105 transition shadow-md disabled:bg-[#f1d49a] disabled:cursor-not-allowed disabled:hover:scale-100 disabled:opacity-60"
           >
-            Previous
+            ← Anterior
           </button>
-          <span className="px-4 py-2 text-gray-700">Page {page + 1}</span>
+          <div className="px-4 py-2 bg-white border-2 border-[#f1d49a] rounded-full">
+            <span className="text-[#442e14] font-bold">Página {page + 1}</span>
+          </div>
           <button
             onClick={() => setPage((p) => p + 1)}
             disabled={!data.hasMore}
-            className="px-4 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition disabled:bg-gray-300 disabled:cursor-not-allowed"
+            className="px-6 py-3 bg-[#f4bc3c] text-[#442e14] rounded-full font-bold hover:bg-amber-500 hover:scale-105 transition shadow-md disabled:bg-[#f1d49a] disabled:cursor-not-allowed disabled:hover:scale-100 disabled:opacity-60"
           >
-            Next
+            Siguiente →
           </button>
         </div>
       )}

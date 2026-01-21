@@ -91,7 +91,7 @@ export default function SpeakingView() {
         const url = URL.createObjectURL(audioBlob);
 
         if (!showTaskThree) {
-          // ===== PROCESAMIENTO TASK 2
+          // PROCESAMIENTO TASK 2
           setAudioUrl(url);
           setIsRecording(false);
 
@@ -154,7 +154,7 @@ export default function SpeakingView() {
               },
             });
 
-            // ===== GENERA PREGUNTAS PRA LA TASK 3
+            // GENERA PREGUNTAS PRA LA TASK 3
             const t3Questions = await getTaskThreeQuestions(
               formattedCueCard,
               text
@@ -172,7 +172,7 @@ export default function SpeakingView() {
             setIsProcessing(false);
           }
         } else {
-          // ===== PROCESAMIENTO TASK 3
+          // PROCESAMIENTO TASK 3
           setIsRecordingTaskThree(false);
 
           try {
@@ -185,7 +185,7 @@ export default function SpeakingView() {
               return;
             }
 
-            // ===== Guardar transcripción y audio
+            // Guardar transcripción y audio
             const newTranscriptions = [...taskThreeTranscriptions];
             newTranscriptions[currentTaskThreeIndex] = text;
             setTaskThreeTranscriptions(newTranscriptions);
@@ -194,7 +194,7 @@ export default function SpeakingView() {
             newUrls[currentTaskThreeIndex] = url;
             setTaskThreeAudioUrls(newUrls);
 
-            // ===== Obtener feedback
+            // Obtener feedback
             const feedback = await getSpeakingTaskThreeFeedback(
               text,
               taskThreeQuestions[currentTaskThreeIndex],
@@ -296,6 +296,7 @@ export default function SpeakingView() {
     setRecordingTime(0);
     setShowImproved(false);
     setImprovedText([]);
+
     setIsProcessing(false);
     audioChunksRef.current = [];
 
@@ -348,7 +349,7 @@ export default function SpeakingView() {
       <div className="max-w-3xl mx-auto p-6">
         <div className="text-center py-8">
           <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-sky-500 mx-auto mb-4"></div>
-          <p>Loading questions...</p>
+          <p>Cargando preguntas...</p>
         </div>
       </div>
     );
@@ -372,290 +373,449 @@ export default function SpeakingView() {
     return (
       <div className="max-w-3xl mx-auto p-6">
         <div className="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded relative">
-          <strong className="font-bold">No questions available</strong>
-          <span className="block sm:inline"> Please try again later.</span>
+          <strong className="font-bold">Sin preguntas disponibles</strong>
+          <span className="block sm:inline"> Intente más tarde.</span>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="max-w-3xl mx-auto p-6 space-y-6">
-      <h1 className="text-3xl font-bold text-gray-800">
-        Speaking Practice: Part 2 {showTaskThree && "& Part 3"}
-      </h1>
+    <div className="min-h-screen bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* HEADER */}
+        <div className="mb-8">
+          <h1 className="text-3xl sm:text-4xl font-black text-[#442e14] mb-2">
+            Speaking Practice: Part 2 {showTaskThree && "& Part 3"} 🎤
+          </h1>
+          <p className="text-[#7f533b] text-lg">
+            Long turn & follow-up discussion
+          </p>
+        </div>
 
-      {/* ===== TASK 2: CUE CARD ===== */}
-      {!showTaskThree && (
-        <>
-          {/* Pregunta */}
-          <div className="bg-white p-6 rounded-xl shadow-md">
-            <h2 className="text-xl font-semibold text-gray-700 mb-2">
-              Part 2 - Question {currentQuestionIndex + 1}/{questions.length}
-            </h2>
-            <p className="text-lg mb-6 whitespace-pre-line">
-              {questions[currentQuestionIndex]}
-            </p>
-
-            <div className="flex gap-3">
-              <button
-                onClick={prevQuestion}
-                className="flex items-center gap-2 px-4 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition"
-              >
-                <ChevronLeftIcon className="h-4 w-4" />
-                Previous Question
-              </button>
-
-              <button
-                onClick={nextQuestion}
-                className="flex items-center gap-2 px-4 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition"
-              >
-                Next Question <ChevronRightIcon className="h-4 w-4" />
-              </button>
-            </div>
-          </div>
-
-          {/* Grabación Task 2 */}
-          <div className="bg-white p-6 rounded-xl shadow-md space-y-4">
-            <h2 className="text-xl font-semibold text-gray-700">
-              Record Your Answer (1-2 minutes)
-            </h2>
-
-            {isProcessing ? (
-              <div className="text-center py-8">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mx-auto mb-4"></div>
-                <p>Processing your recording...</p>
-              </div>
-            ) : !isRecording && !transcription ? (
-              <button
-                onClick={startRecording}
-                className="flex items-center justify-center gap-2 w-full py-3 bg-sky-600 text-white rounded-lg font-bold hover:bg-sky-700 transition"
-              >
-                <MicrophoneIcon className="h-5 w-5" />
-                Start Recording (Max 2 minutes)
-              </button>
-            ) : isRecording ? (
-              <div className="space-y-4">
-                <div className="flex items-center justify-center gap-3">
-                  <div className="animate-pulse bg-red-500 rounded-full h-4 w-4"></div>
-                  <span className="font-mono text-lg">
-                    {Math.floor(recordingTime / 60)}:
-                    {String(recordingTime % 60).padStart(2, "0")}
-                  </span>
-                </div>
-                <button
-                  onClick={stopRecording}
-                  className="flex items-center justify-center gap-2 w-full py-3 bg-red-600 text-white rounded-lg font-bold hover:bg-red-700 transition"
-                >
-                  <StopIcon className="h-5 w-5" />
-                  Stop Recording
-                </button>
-              </div>
-            ) : (
-              <div className="space-y-4">
-                <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
-                  <h3 className="font-medium mb-2">Your transcription:</h3>
-                  <p className="whitespace-pre-line">{transcription}</p>
+        {/* ===== TASK 2 ===== */}
+        {!showTaskThree && (
+          <>
+            {/* MAIN CONTENT - DOS COLUMNAS */}
+            <div className="grid lg:grid-cols-2 gap-6 mb-8">
+              {/* QUESTION CARD */}
+              <div className="bg-[#f1d49a]/40 p-6 rounded-2xl border border-[#f1d49a]">
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="w-8 h-8 bg-[#f4bc3c] rounded-full flex items-center justify-center text-[#442e14] font-black text-sm">
+                    {currentQuestionIndex + 1}
+                  </div>
+                  <h2 className="text-lg font-bold text-[#442e14]">
+                    Part 2 – Question {currentQuestionIndex + 1}/
+                    {questions.length}
+                  </h2>
                 </div>
 
-                <div className="flex flex-col sm:flex-row gap-3">
-                  {audioUrl && (
-                    <button
-                      onClick={playRecording}
-                      className="flex items-center justify-center gap-2 px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition w-full sm:w-auto"
-                    >
-                      <PlayIcon className="h-5 w-5" />
-                      Play Recording
-                    </button>
-                  )}
+                {/* Instrucciones del examen */}
+                <div className="bg-[#f4bc3c]/20 border border-[#f4bc3c]/40 p-3 rounded-xl mb-4 flex items-center gap-3">
+                  <div className="flex items-center gap-2 text-sm text-[#442e14]">
+                    <span className="font-bold">⏱️ Time:</span>
+                    <span>1-2 min</span>
+                  </div>
+                  <div className="w-px h-4 bg-[#f4bc3c]/40"></div>
+                  <div className="flex items-center gap-2 text-sm text-[#442e14]">
+                    <span className="font-bold">🎯 Task:</span>
+                    <span>Long turn</span>
+                  </div>
+                </div>
+
+                {/* Cue card */}
+                <div className="bg-white/80 p-5 rounded-xl mb-4 min-h-[200px] flex items-center">
+                  <p className="whitespace-pre-line text-[#442e14] text-lg leading-relaxed">
+                    {questions[currentQuestionIndex]}
+                  </p>
+                </div>
+
+                <div className="flex gap-3">
+                  <button
+                    onClick={prevQuestion}
+                    className="flex items-center gap-2 px-4 py-2.5 bg-[#f4bc3c] text-[#442e14] font-bold rounded-full hover:scale-105 transition shadow"
+                  >
+                    <ChevronLeftIcon className="h-4 w-4" />
+                    Previous
+                  </button>
 
                   <button
-                    onClick={resetExercise}
-                    className="flex items-center justify-center gap-2 px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition w-full sm:w-auto"
+                    onClick={nextQuestion}
+                    className="flex items-center gap-2 px-4 py-2.5 bg-[#f4bc3c] text-[#442e14] font-bold rounded-full hover:scale-105 transition shadow"
                   >
-                    Retry
+                    Next
+                    <ChevronRightIcon className="h-4 w-4" />
                   </button>
                 </div>
               </div>
-            )}
 
-            {audioUrl && <audio ref={audioRef} src={audioUrl} hidden />}
-          </div>
-
-          {/* Feedback Task 2 */}
-          {showImproved && Array.isArray(improvedText) && (
-            <div className="space-y-6">
-              {improvedText.map((section: string[], idx: number) => (
-                <div key={idx} className="p-4 bg-gray-100 rounded-lg shadow">
-                  <h2 className="font-bold text-lg mb-2 text-yellow-600">
-                    {section[0]}
-                  </h2>
-                  <p className="whitespace-pre-line">
-                    {section.slice(1).join("\n")}
-                  </p>
-                </div>
-              ))}
-            </div>
-          )}
-
-          {/* Botón para continuar a Task 3 */}
-          {taskThreeReady && !showTaskThree && (
-            <div className="bg-gradient-to-r from-yellow-100 to-amber-100 p-6 rounded-xl shadow-lg border-2 border-yellow-400">
-              <h3 className="text-xl font-bold text-amber-800 mb-3">
-                🎯 ¡Listo para la Parte 3!
-              </h3>
-              <p className="text-gray-700 mb-4">
-                ¡Buen trabajo en la Parte 2! Ahora pasemos a las preguntas de
-                seguimiento. (Parte 3).
-              </p>
-              <button
-                onClick={goToTaskThree}
-                className="w-full py-3 bg-gradient-to-r from-yellow-500 to-amber-600 text-white rounded-lg font-bold hover:from-yellow-600 hover:to-amber-700 transition shadow-md"
-              >
-                Continúa con la Parte 3 →
-              </button>
-            </div>
-          )}
-        </>
-      )}
-
-      {/* TASK 3: FOLLOW-UP QUESTIONS*/}
-      {showTaskThree && (
-        <>
-          <div className="bg-gradient-to-r from-yellow-50 to-amber-50 p-6 rounded-xl shadow-md border-2 border-yellow-300">
-            <h2 className="text-2xl font-bold text-yellow-500 mb-2">
-              Part 3 - Follow-up Discussion
-            </h2>
-            <p className="text-gray-700">
-              Ahora hablemos de algunas ideas abstractas relacionadas con tu
-              tema.
-            </p>
-          </div>
-
-          {/* Pregunta actual Task 3 */}
-          <div className="bg-white p-6 rounded-xl shadow-md">
-            <h3 className="text-xl font-semibold text-gray-700 mb-4">
-              Question {currentTaskThreeIndex + 1}/{taskThreeQuestions.length}
-            </h3>
-            <p className="text-lg mb-6">
-              {taskThreeQuestions[currentTaskThreeIndex]}
-            </p>
-
-            <div className="flex gap-3">
-              <button
-                onClick={prevTaskThreeQuestion}
-                disabled={currentTaskThreeIndex === 0}
-                className="flex items-center gap-2 px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition disabled:bg-gray-300 disabled:cursor-not-allowed"
-              >
-                <ChevronLeftIcon className="h-4 w-4" />
-                Previous
-              </button>
-
-              <button
-                onClick={nextTaskThreeQuestion}
-                disabled={
-                  currentTaskThreeIndex === taskThreeQuestions.length - 1
-                }
-                className="flex items-center gap-2 px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition disabled:bg-gray-300 disabled:cursor-not-allowed"
-              >
-                Next <ChevronRightIcon className="h-4 w-4" />
-              </button>
-
-              <button
-                onClick={resetExercise}
-                className="ml-auto px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition"
-              >
-                Back
-              </button>
-            </div>
-          </div>
-
-          {/* Grabación Task 3 */}
-          <div className="bg-white p-6 rounded-xl shadow-md space-y-4">
-            <h2 className="text-xl font-semibold text-gray-700">
-              Record Your Answer
-            </h2>
-
-            {isProcessing ? (
-              <div className="text-center py-8">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-amber-600 mx-auto mb-4"></div>
-                <p>Processing your recording...</p>
-              </div>
-            ) : !isRecordingTaskThree &&
-              !taskThreeTranscriptions[currentTaskThreeIndex] ? (
-              <button
-                onClick={startRecording}
-                className="flex items-center justify-center gap-2 w-full py-3 bg-yellow-500 text-white rounded-lg font-bold hover:bg-yellow-600 transition"
-              >
-                <MicrophoneIcon className="h-5 w-5" />
-                Start Recording
-              </button>
-            ) : isRecordingTaskThree ? (
-              <div className="space-y-4">
-                <div className="flex items-center justify-center gap-3">
-                  <div className="animate-pulse bg-red-500 rounded-full h-4 w-4"></div>
-                  <span className="font-mono text-lg">
-                    {Math.floor(recordingTime / 60)}:
-                    {String(recordingTime % 60).padStart(2, "0")}
-                  </span>
-                </div>
-                <button
-                  onClick={stopRecording}
-                  className="flex items-center justify-center gap-2 w-full py-3 bg-red-600 text-white rounded-lg font-bold hover:bg-red-700 transition"
-                >
-                  <StopIcon className="h-5 w-5" />
-                  Stop Recording
-                </button>
-              </div>
-            ) : (
-              <div className="space-y-4">
-                <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
-                  <h3 className="font-medium mb-2">Your transcription:</h3>
-                  <p className="whitespace-pre-line">
-                    {taskThreeTranscriptions[currentTaskThreeIndex]}
-                  </p>
+              {/* Grabación */}
+              <div className="bg-white border-2 border-[#f1d49a] p-6 rounded-2xl">
+                <h2 className="text-xl font-black text-[#442e14] mb-4 flex items-center gap-2">
+                  <MicrophoneIcon className="h-6 w-6 text-[#f4bc3c]" />
+                  Record Your Answer
+                </h2>
+                {/* Tips */}
+                <div className="bg-[#f1d49a]/40 p-4 rounded-xl mb-6">
+                  <h4 className="font-bold text-[#442e14] text-sm mb-2 flex items-center gap-2">
+                    <span>✓</span> Tips for your answer:
+                  </h4>
+                  <ul className="text-sm text-[#7f533b] space-y-1.5">
+                    <li className="flex items-start gap-2">
+                      <span className="text-[#f4bc3c] mt-0.5">•</span>
+                      <span>Cover all bullet points</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-[#f4bc3c] mt-0.5">•</span>
+                      <span>Speak for 1-2 minutes</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-[#f4bc3c] mt-0.5">•</span>
+                      <span>Use detailed examples</span>
+                    </li>
+                  </ul>
                 </div>
 
-                <div className="flex flex-col sm:flex-row gap-3">
-                  {taskThreeAudioUrls[currentTaskThreeIndex] && (
+                {isProcessing ? (
+                  <div className="text-center py-12">
+                    <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-[#f4bc3c] mx-auto mb-4" />
+                    <p className="text-lg font-bold text-[#442e14]">
+                      Processing your recording...
+                    </p>
+                    <p className="text-sm text-[#7f533b] mt-2">
+                      Transcribing and analyzing
+                    </p>
+                  </div>
+                ) : !isRecording && !transcription ? (
+                  <button
+                    onClick={startRecording}
+                    className="flex items-center justify-center gap-3 w-full py-4 bg-[#f4bc3c] text-[#442e14] rounded-full font-black hover:scale-105 transition shadow-md"
+                  >
+                    <MicrophoneIcon className="h-6 w-6" />
+                    Start Recording
+                  </button>
+                ) : isRecording ? (
+                  <div className="space-y-6">
+                    <div className="bg-[#f1d49a]/30 p-6 rounded-xl text-center">
+                      <div className="flex items-center justify-center gap-3 mb-4">
+                        <div className="animate-pulse bg-red-500 rounded-full h-4 w-4"></div>
+                        <span className="font-mono text-2xl font-black text-[#442e14]">
+                          {Math.floor(recordingTime / 60)}:
+                          {String(recordingTime % 60).padStart(2, "0")}
+                        </span>
+                      </div>
+                      <p className="text-sm text-[#7f533b]">
+                        Recording in progress...
+                      </p>
+                    </div>
+
                     <button
-                      onClick={() =>
-                        playTaskThreeRecording(currentTaskThreeIndex)
-                      }
-                      className="flex items-center justify-center gap-2 px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition w-full sm:w-auto"
+                      onClick={stopRecording}
+                      className="flex items-center justify-center gap-3 w-full py-4 bg-red-500 text-white rounded-full font-black hover:bg-red-600 transition shadow-md"
                     >
-                      <PlayIcon className="h-5 w-5" />
-                      Play Recording
+                      <StopIcon className="h-6 w-6" />
+                      Stop Recording
                     </button>
-                  )}
-                </div>
-              </div>
-            )}
-          </div>
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    <div className="bg-[#f9f8f6] border-2 border-[#f1d49a] p-4 rounded-xl">
+                      <h3 className="font-bold text-[#442e14] mb-2 flex items-center gap-2">
+                        <span>📝</span> Your transcription:
+                      </h3>
+                      <p className="whitespace-pre-line text-[#442e14] leading-relaxed">
+                        {transcription}
+                      </p>
+                    </div>
 
-          {/* Feedback Task 3 */}
-          {taskThreeFeedbacks[currentTaskThreeIndex] &&
-            Array.isArray(taskThreeFeedbacks[currentTaskThreeIndex]) && (
-              <div className="space-y-6">
-                {taskThreeFeedbacks[currentTaskThreeIndex].map(
-                  (section: string[], idx: number) => (
+                    <div className="flex flex-col sm:flex-row gap-3">
+                      {audioUrl && (
+                        <button
+                          onClick={playRecording}
+                          className="flex items-center justify-center gap-2 px-4 py-2.5 bg-[#f4bc3c] text-[#442e14] font-bold rounded-full hover:scale-105 transition shadow"
+                        >
+                          <PlayIcon className="h-5 w-5" />
+                          Play Recording
+                        </button>
+                      )}
+
+                      <button
+                        onClick={resetExercise}
+                        className="flex items-center justify-center gap-2 px-4 py-2.5 bg-[#f1d49a] text-[#442e14] font-bold rounded-full hover:bg-[#f1d49a]/70 transition shadow"
+                      >
+                        Retry
+                      </button>
+                    </div>
+                    <div className="bg-[#f1d49a]/40 p-4 rounded-xl mb-6">
+                      <h4 className="font-bold text-[#442e14] text-sm mb-2 flex items-center gap-2">
+                        <span>👇</span> Scroll down to see your feedback
+                      </h4>
+                    </div>
+                  </div>
+                )}
+
+                {audioUrl && <audio ref={audioRef} src={audioUrl} hidden />}
+              </div>
+            </div>
+
+            {/* FEEDBACK TASK 2 */}
+            {showImproved &&
+              Array.isArray(improvedText) &&
+              improvedText.length > 0 && (
+                <div className="space-y-6 mb-8">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-10 h-10 bg-[#f4bc3c] rounded-full flex items-center justify-center text-xl">
+                      🤖
+                    </div>
+                    <h2 className="text-2xl font-black text-[#442e14]">
+                      AI Feedback & Analysis
+                    </h2>
+                  </div>
+
+                  {improvedText.map((section, idx) => (
                     <div
                       key={idx}
-                      className="p-4 bg-amber-50 rounded-lg shadow border border-yellow-200"
+                      className="bg-[#f9f8f6] border-2 border-[#f1d49a] p-6 rounded-2xl"
                     >
-                      <h2 className="font-bold text-lg mb-2 text-amber-800">
+                      <h3 className="font-black text-lg mb-3 text-[#f4bc3c] flex items-center gap-2">
+                        <span className="w-6 h-6 bg-[#f4bc3c] text-[#442e14] rounded-full flex items-center justify-center text-xs font-black">
+                          {idx + 1}
+                        </span>
                         {section[0]}
-                      </h2>
-                      <p className="whitespace-pre-line">
+                      </h3>
+                      <p className="whitespace-pre-line text-[#442e14] leading-relaxed">
                         {section.slice(1).join("\n")}
                       </p>
                     </div>
-                  )
-                )}
+                  ))}
+                </div>
+              )}
+
+            {/* TASK 3 */}
+            {taskThreeReady && !showTaskThree && (
+              <div className="bg-[#f1d49a]/40 border-2 border-[#f4bc3c] rounded-2xl p-6">
+                <h3 className="text-xl font-black text-[#442e14] mb-2">
+                  🎯 Ready for Part 3?
+                </h3>
+                <p className="text-[#7f533b] mb-4">
+                  Now let's move to follow-up questions.
+                </p>
+                <button
+                  onClick={goToTaskThree}
+                  className="w-full py-4 bg-[#f4bc3c] text-[#442e14] rounded-full font-black hover:scale-105 transition shadow"
+                >
+                  Continue to Part 3 →
+                </button>
               </div>
             )}
-        </>
-      )}
+          </>
+        )}
+
+        {/* ===== TASK 3 ===== */}
+        {showTaskThree && (
+          <>
+            {/* MAIN CONTENT - DOS COLUMNAS */}
+            <div className="grid lg:grid-cols-2 gap-6 mb-8">
+              {/* QUESTION CARD */}
+              <div className="bg-[#f1d49a]/40 p-6 rounded-2xl border border-[#f1d49a]">
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="w-8 h-8 bg-[#f4bc3c] rounded-full flex items-center justify-center text-[#442e14] font-black text-sm">
+                    {currentTaskThreeIndex + 1}
+                  </div>
+                  <h2 className="text-lg font-bold text-[#442e14]">
+                    Part 3 – Question {currentTaskThreeIndex + 1} of{" "}
+                    {taskThreeQuestions.length}
+                  </h2>
+                </div>
+
+                {/* Instrucciones del examen */}
+                <div className="bg-[#f4bc3c]/20 border border-[#f4bc3c]/40 p-3 rounded-xl mb-4 flex items-center gap-3">
+                  <div className="flex items-center gap-2 text-sm text-[#442e14]">
+                    <span className="font-bold">⏱️ Time:</span>
+                    <span>4-5 min total</span>
+                  </div>
+                  <div className="w-px h-4 bg-[#f4bc3c]/40"></div>
+                  <div className="flex items-center gap-2 text-sm text-[#442e14]">
+                    <span className="font-bold">🎯 Task:</span>
+                    <span>Discussion</span>
+                  </div>
+                </div>
+
+                {/* Pregunta */}
+                <div className="bg-white/80 p-5 rounded-xl mb-4 min-h-[120px] flex items-center">
+                  <p className="text-[#442e14] text-lg leading-relaxed">
+                    {taskThreeQuestions[currentTaskThreeIndex]}
+                  </p>
+                </div>
+
+                <div className="flex gap-3">
+                  <button
+                    onClick={prevTaskThreeQuestion}
+                    disabled={currentTaskThreeIndex === 0}
+                    className="flex items-center gap-2 px-4 py-2.5 bg-[#f4bc3c] text-[#442e14] font-bold rounded-full hover:scale-105 transition shadow disabled:opacity-40 disabled:hover:scale-100"
+                  >
+                    <ChevronLeftIcon className="h-4 w-4" />
+                    Previous
+                  </button>
+
+                  <button
+                    onClick={nextTaskThreeQuestion}
+                    disabled={
+                      currentTaskThreeIndex === taskThreeQuestions.length - 1
+                    }
+                    className="flex items-center gap-2 px-4 py-2.5 bg-[#f4bc3c] text-[#442e14] font-bold rounded-full hover:scale-105 transition shadow disabled:opacity-40 disabled:hover:scale-100"
+                  >
+                    Next
+                    <ChevronRightIcon className="h-4 w-4" />
+                  </button>
+
+                  <button
+                    onClick={resetExercise}
+                    className="ml-auto px-4 py-2.5 bg-[#f1d49a] text-[#442e14] font-bold rounded-full hover:bg-[#f1d49a]/70 transition shadow"
+                  >
+                    Back
+                  </button>
+                </div>
+              </div>
+
+              {/* Grabación TS3 */}
+              <div className="bg-white border-2 border-[#f1d49a] p-6 rounded-2xl">
+                <h2 className="text-xl font-black text-[#442e14] mb-4 flex items-center gap-2">
+                  <MicrophoneIcon className="h-6 w-6 text-[#f4bc3c]" />
+                  Record Your Answer
+                </h2>
+
+                {/* Tips */}
+                <div className="bg-white/60 p-4 rounded-xl mb-6">
+                  <h4 className="font-bold text-[#442e14] text-sm mb-2 flex items-center gap-2">
+                    <span>✓</span> Tips for your answer:
+                  </h4>
+                  <ul className="text-sm text-[#7f533b] space-y-1.5">
+                    <li className="flex items-start gap-2">
+                      <span className="text-[#f4bc3c] mt-0.5">•</span>
+                      <span>Give detailed explanations</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-[#f4bc3c] mt-0.5">•</span>
+                      <span>Discuss abstract concepts</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-[#f4bc3c] mt-0.5">•</span>
+                      <span>Support with examples</span>
+                    </li>
+                  </ul>
+                </div>
+
+                {isProcessing ? (
+                  <div className="text-center py-12">
+                    <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-[#f4bc3c] mx-auto mb-4" />
+                    <p className="text-lg font-bold text-[#442e14]">
+                      Processing your recording...
+                    </p>
+                    <p className="text-sm text-[#7f533b] mt-2">
+                      Transcribing and analyzing
+                    </p>
+                  </div>
+                ) : !isRecordingTaskThree &&
+                  !taskThreeTranscriptions[currentTaskThreeIndex] ? (
+                  <button
+                    onClick={startRecording}
+                    className="flex items-center justify-center gap-3 w-full py-4 bg-[#f4bc3c] text-[#442e14] rounded-full font-black hover:scale-105 transition shadow-md"
+                  >
+                    <MicrophoneIcon className="h-6 w-6" />
+                    Start Recording
+                  </button>
+                ) : isRecordingTaskThree ? (
+                  <div className="space-y-6">
+                    <div className="bg-[#f1d49a]/30 p-6 rounded-xl text-center">
+                      <div className="flex items-center justify-center gap-3 mb-4">
+                        <div className="animate-pulse bg-red-500 rounded-full h-4 w-4" />
+                        <span className="font-mono text-2xl font-black text-[#442e14]">
+                          {Math.floor(recordingTime / 60)}:
+                          {String(recordingTime % 60).padStart(2, "0")}
+                        </span>
+                      </div>
+                      <p className="text-sm text-[#7f533b]">
+                        Recording in progress...
+                      </p>
+                    </div>
+
+                    <button
+                      onClick={stopRecording}
+                      className="flex items-center justify-center gap-3 w-full py-4 bg-red-500 text-white rounded-full font-black hover:bg-red-600 transition shadow-md"
+                    >
+                      <StopIcon className="h-6 w-6" />
+                      Stop Recording
+                    </button>
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    <div className="bg-[#f9f8f6] border-2 border-[#f1d49a] p-4 rounded-xl">
+                      <h3 className="font-bold text-[#442e14] mb-2 flex items-center gap-2">
+                        <span>📝</span> Your transcription:
+                      </h3>
+                      <p className="whitespace-pre-line text-[#442e14] leading-relaxed">
+                        {taskThreeTranscriptions[currentTaskThreeIndex]}
+                      </p>
+                    </div>
+
+                    {taskThreeAudioUrls[currentTaskThreeIndex] && (
+                      <button
+                        onClick={() =>
+                          playTaskThreeRecording(currentTaskThreeIndex)
+                        }
+                        className="flex items-center justify-center gap-2 px-4 py-2.5 bg-[#f4bc3c] text-[#442e14] font-bold rounded-full hover:scale-105 transition shadow"
+                      >
+                        <PlayIcon className="h-5 w-5" />
+                        Play Recording
+                      </button>
+                    )}
+                    <div className="bg-[#f1d49a]/40 p-4 rounded-xl mb-6">
+                      <h4 className="font-bold text-[#442e14] text-sm mb-2 flex items-center gap-2">
+                        <span>👇</span> Scroll down to see your feedback
+                      </h4>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* FEEDBACK TASK 3 */}
+            {taskThreeFeedbacks[currentTaskThreeIndex] &&
+              Array.isArray(taskThreeFeedbacks[currentTaskThreeIndex]) && (
+                <div className="space-y-6">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-10 h-10 bg-[#f4bc3c] rounded-full flex items-center justify-center text-xl">
+                      🤖
+                    </div>
+                    <h2 className="text-2xl font-black text-[#442e14]">
+                      AI Feedback & Analysis
+                    </h2>
+                  </div>
+
+                  {taskThreeFeedbacks[currentTaskThreeIndex].map(
+                    (section, idx) => (
+                      <div
+                        key={idx}
+                        className="bg-[#f9f8f6] border-2 border-[#f1d49a] p-6 rounded-2xl"
+                      >
+                        <h3 className="font-black text-lg mb-3 text-[#f4bc3c] flex items-center gap-2">
+                          <span className="w-6 h-6 bg-[#f4bc3c] text-[#442e14] rounded-full flex items-center justify-center text-xs font-black">
+                            {idx + 1}
+                          </span>
+                          {section[0]}
+                        </h3>
+                        <p className="whitespace-pre-line text-[#442e14] leading-relaxed">
+                          {section.slice(1).join("\n")}
+                        </p>
+                      </div>
+                    )
+                  )}
+                </div>
+              )}
+          </>
+        )}
+      </div>
     </div>
   );
 }

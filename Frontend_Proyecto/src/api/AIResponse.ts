@@ -17,7 +17,7 @@ Recibirás:
 
 Tu objetivo es **evaluar y mejorar la carta del estudiante** según los **criterios oficiales del IELTS Band Descriptor para Writing Task 1 (General Training)**.
 
-Si el texto no está en inglés o no es comprensible, responde únicamente con:
+Si el texto no está en inglés, responde únicamente con:
 "/ Please check the submitted text /"
 
 **IMPORTANTE:**
@@ -501,10 +501,10 @@ Recibirás:
 
 Tu objetivo es **evaluar y mejorar el ensayo del estudiante** según los **criterios oficiales del IELTS Band Descriptor**.
 
-Si el texto no está en inglés o no es comprensible, responde únicamente con:
+Si el texto no está en inglés, responde únicamente con:
 "/ Please check the submitted text /"
 
-**IMPORTANTE:** Primero debes evaluar si el ensayo **responde directamente a la pregunta**. Si no lo hace, debes mencionarlo claramente en la retroalimentación. Tanto si el ensayo responde a la pregunta o no, analiza cuidadosamente el ensayo y sigue exactamente esta estructura (mantén los encabezados en inglés, pero da la retroalimentación en español):
+**IMPORTANTE:** Primero debes evaluar si el ensayo **es adecuado para la pregunta**. Si no lo es, debes mencionarlo claramente en la retroalimentación. Tanto si el ensayo responde a la pregunta o no, analiza cuidadosamente el texto y sigue exactamente esta estructura (mantén los encabezados en inglés, pero da la retroalimentación en español):
 
 |
 ***Question***
@@ -570,15 +570,17 @@ Mantén un tono académico, alentador y profesional, como si dieras una retroali
 }
 
 export async function generateTips(text: string) {
-        
-        const result = await generateText({
-            model: openrouter('moonshotai/kimi-k2:free'),
-            messages: [
-                {"role": "system", "content": 'Eres un profesor de ingles avanzado y tu respuesta es en inglés, se te proporcionara un texto el cual tendra en primer lugar el texto original y separado por |  despues la transcripcion del audio del usuario, a partir de esto deberás de brindar retroalimentación al usuario, indicando consejos de pronunciacion, además si observas que las palabras son distintas señalar cuales son.'
-                },
-                {"role": "user", "content": text}
-            ]
-        })
-        
-        return result.text
+  const result = await generateText({
+    model: openrouter("moonshotai/kimi-k2:free"),
+    messages: [
+      {
+        role: "system",
+        content:
+          "Eres un profesor de ingles avanzado y tu respuesta es en inglés, se te proporcionara un texto el cual tendra en primer lugar el texto original y separado por |  despues la transcripcion del audio del usuario, a partir de esto deberás de brindar retroalimentación al usuario, indicando consejos de pronunciacion, además si observas que las palabras son distintas señalar cuales son.",
+      },
+      { role: "user", content: text },
+    ],
+  });
+
+  return result.text;
 }

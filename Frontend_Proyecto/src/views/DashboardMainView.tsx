@@ -1,6 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { AnalyticsAPI } from "@/api/AnalyticsAPI";
 import { useAuth } from "@/hooks/useAuth";
+import { useEffect } from "react";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 export default function DashboardMainView() {
   const { data: user, isLoading: authLoading } = useAuth();
@@ -9,6 +12,14 @@ export default function DashboardMainView() {
     queryKey: ["userStats"],
     queryFn: AnalyticsAPI.getUserStats,
   });
+
+  useEffect(() => {
+    AOS.init({
+      duration: 600,
+      once: true,
+      easing: "ease-out-cubic",
+    });
+  }, []);
 
   const quickActions = [
     {
@@ -65,7 +76,7 @@ export default function DashboardMainView() {
     <div className="min-h-screen bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* HEADER */}
-        <div className="mb-10">
+        <div className="mb-10" data-aos="fade-up">
           <h1 className="text-3xl sm:text-4xl font-black text-[#442e14] mb-2">
             Hola,{" "}
             <span className="text-orange">
@@ -78,9 +89,9 @@ export default function DashboardMainView() {
           </p>
         </div>
 
-        {/* GRID PRINCIPAL */}
+        {/* Grid principal */}
         <div className="grid lg:grid-cols-3 gap-8">
-          {/* COLUMNA IZQUIERDA */}
+          {/* Columna izquierda */}
           <div className="lg:col-span-2 space-y-10">
             {/* HERO */}
             <div
@@ -94,6 +105,7 @@ export default function DashboardMainView() {
                 min-h-[260px]
                 overflow-hidden
               "
+              data-aos="fade-up"
             >
               {/* Fondo decorativo */}
               <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top_right,#f4bc3c,transparent_60%)]" />
@@ -105,7 +117,7 @@ export default function DashboardMainView() {
                 </span>
 
                 <h2 className="text-3xl sm:text-4xl font-black text-[#442e14] leading-tight">
-                  Aprende inglés sin estrés
+                  Mejora tu inglés sin estrés
                 </h2>
 
                 <p className="text-[#7f533b]">
@@ -149,8 +161,8 @@ export default function DashboardMainView() {
               />
             </div>
 
-            {/* QUICK ACTIONS */}
-            <div className="grid sm:grid-cols-2 gap-6">
+            {/* Botones de secciones */}
+            <div className="grid sm:grid-cols-2 gap-6" data-aos="fade-up">
               {quickActions.map((action, i) => (
                 <button
                   key={i}
@@ -192,8 +204,8 @@ export default function DashboardMainView() {
             </div>
           </div>
 
-          {/* COLUMNA DERECHA */}
-          <div className="space-y-6">
+          {/* Col derecha */}
+          <div className="space-y-6" data-aos="fade-up">
             <div className="bg-[#f1d49a]/30 rounded-2xl p-6 border border-[#f1d49a]">
               <h3 className="text-lg font-bold text-[#442e14] mb-4">
                 🎯 Tu progreso
@@ -202,7 +214,7 @@ export default function DashboardMainView() {
               <div className="space-y-3">
                 <StatCard
                   emoji="📈"
-                  label="Banda promedio"
+                  label="Band promedio"
                   value={
                     stats?.averageBand ? stats.averageBand.toFixed(1) : "N/A"
                   }
@@ -226,7 +238,6 @@ export default function DashboardMainView() {
   );
 }
 
-/* STAT CARD */
 function StatCard({
   emoji,
   label,

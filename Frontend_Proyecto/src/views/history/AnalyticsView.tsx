@@ -39,8 +39,8 @@ export default function AnalyticsView() {
     return (
       <div className="max-w-7xl mx-auto p-6">
         <div className="text-center py-12">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-sky-500 mx-auto mb-4"></div>
-          <p className="text-lg font-medium text-gray-600">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#f4bc3c] mx-auto mb-4"></div>
+          <p className="text-lg font-medium text-[#7f533b]">
             Loading your statistics...
           </p>
         </div>
@@ -51,7 +51,7 @@ export default function AnalyticsView() {
   if (!stats) {
     return (
       <div className="max-w-7xl mx-auto p-6">
-        <div className="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded">
+        <div className="bg-amber-100 border border-amber-400 text-amber-800 px-4 py-3 rounded">
           No statistics available yet. Start practicing!
         </div>
       </div>
@@ -74,21 +74,21 @@ export default function AnalyticsView() {
     count: item.count,
   }));
 
-  const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#8884D8"];
+  const COLORS = ["#f59e0b", "#10b981", "#3b82f6", "#ec4899", "#8b5cf6"];
 
   return (
     <div className="max-w-7xl mx-auto p-6 space-y-6">
       {/* Header */}
       <div className="flex justify-between items-center">
-        <div className="text-gray-800 flex justify-between items-center">
-          <ChartBarSquareIcon className=" w-12 h-12 mr-1.5"></ChartBarSquareIcon>
-          <h1 className="text-3xl font-bold text-gray-800">
+        <div className="text-[#442e14] flex justify-between items-center">
+          <ChartBarSquareIcon className="w-12 h-12 mr-1.5"></ChartBarSquareIcon>
+          <h1 className="text-3xl font-bold text-[#442e14]">
             Tu Progreso IELTS
           </h1>
         </div>
         <Link
           to="/history/history-complete"
-          className="px-4 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition"
+          className="px-4 py-2 bg-[#f4bc3c] text-[#442e14] rounded-lg hover:bg-amber-500 transition font-bold"
         >
           Ver Historial
         </Link>
@@ -97,30 +97,30 @@ export default function AnalyticsView() {
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {/* Total Practices */}
-        <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl shadow-lg p-6 text-white hover:scale-105 transition-all">
+        <div className="bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-xl shadow-lg p-6 text-white hover:scale-105 transition-all">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-blue-100 text-sm font-medium">
+              <p className="text-amber-100 text-sm font-medium">
                 Total de Prácticas
               </p>
               <p className="text-3xl font-bold mt-2">{stats.totalPractices}</p>
             </div>
-            <ChartBarIcon className="h-12 w-12 text-blue-200" />
+            <ChartBarIcon className="h-12 w-12 text-amber-200" />
           </div>
         </div>
 
         {/* Average Band */}
-        <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-xl shadow-lg p-6 text-white hover:scale-105 transition-all">
+        <div className="bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl shadow-lg p-6 text-white hover:scale-105 transition-all">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-green-100 text-sm font-medium">
+              <p className="text-emerald-100 text-sm font-medium">
                 Band Promedio
               </p>
               <p className="text-3xl font-bold mt-2">
                 {stats.averageBand ? stats.averageBand.toFixed(1) : "N/A"}
               </p>
             </div>
-            <TrophyIcon className="h-12 w-12 text-green-200" />
+            <TrophyIcon className="h-12 w-12 text-emerald-200" />
           </div>
         </div>
 
@@ -138,10 +138,10 @@ export default function AnalyticsView() {
         </div>
 
         {/* Recent Activity */}
-        <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl shadow-lg p-6 text-white hover:scale-105 transition-all">
+        <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl shadow-lg p-6 text-white hover:scale-105 transition-all">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-purple-100 text-sm font-medium">
+              <p className="text-blue-100 text-sm font-medium">
                 Últimos 30 Días
               </p>
               <p className="text-3xl font-bold mt-2">
@@ -149,7 +149,7 @@ export default function AnalyticsView() {
                 minutos
               </p>
             </div>
-            <ClockIcon className="h-12 w-12 text-purple-200" />
+            <ClockIcon className="h-12 w-12 text-blue-200" />
           </div>
         </div>
       </div>
@@ -157,10 +157,10 @@ export default function AnalyticsView() {
       {/* Charts Row 1 */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Progress Over Time */}
-        <div className="bg-white p-6 rounded-xl shadow-md">
-          <div className="text-gray-800 flex items-center justify-center mb-3">
-            <PresentationChartLineIcon className=" w-6 h-6 mr-1.5"></PresentationChartLineIcon>
-            <h2 className="text-xl font-bold text-gray-800">
+        <div className="bg-white p-6 rounded-xl shadow-md border border-[#f1d49a]">
+          <div className="text-[#442e14] flex items-center justify-center mb-3">
+            <PresentationChartLineIcon className="w-6 h-6 mr-1.5"></PresentationChartLineIcon>
+            <h2 className="text-xl font-bold text-[#442e14]">
               Progreso (Últimos 30 Días)
             </h2>
           </div>
@@ -175,24 +175,24 @@ export default function AnalyticsView() {
                 <Line
                   type="monotone"
                   dataKey="band"
-                  stroke="#0ea5e9"
+                  stroke="#3b82f6"
                   strokeWidth={2}
                   name="Promedio de Band"
                 />
               </LineChart>
             </ResponsiveContainer>
           ) : (
-            <p className="text-gray-500 text-center py-12">
+            <p className="text-[#7f533b] text-center py-12">
               No hay datos de los últimos 30 días. ¡Sigue practicando!
             </p>
           )}
         </div>
 
         {/* Performance by Task */}
-        <div className="bg-white p-6 rounded-xl shadow-md">
-          <div className="text-gray-800 flex items-center justify-center mb-3">
-            <RocketLaunchIcon className=" w-6 h-6 mr-1.5"></RocketLaunchIcon>
-            <h2 className="text-xl font-bold text-gray-800">
+        <div className="bg-white p-6 rounded-xl shadow-md border border-[#f1d49a]">
+          <div className="text-[#442e14] flex items-center justify-center mb-3">
+            <RocketLaunchIcon className="w-6 h-6 mr-1.5"></RocketLaunchIcon>
+            <h2 className="text-xl font-bold text-[#442e14]">
               Desempeño por tarea
             </h2>
           </div>
@@ -209,52 +209,19 @@ export default function AnalyticsView() {
               </BarChart>
             </ResponsiveContainer>
           ) : (
-            <p className="text-gray-500 text-center py-12">
+            <p className="text-[#7f533b] text-center py-12">
               Aún no hay datos de tareas. ¡Comienza a practicar!
             </p>
           )}
         </div>
       </div>
 
-      {/* Common Errors */}
-      {/*
-      <div className="bg-white p-6 rounded-xl shadow-md">
-        <h2 className="text-xl font-semibold text-gray-700 mb-4">
-          ⚠️ Principales áreas de mejora (Top 10)
-        </h2>
-        {stats.commonErrors.length > 0 ? (
-          <div className="space-y-3">
-            {stats.commonErrors.map((error, idx) => (
-              <div
-                key={idx}
-                className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition"
-              >
-                <div className="flex items-center gap-3">
-                  <span className="flex items-center justify-center w-8 h-8 bg-yellow-500 text-white rounded-full font-bold text-sm">
-                    {idx + 1}
-                  </span>
-                  <p className="text-gray-700">{error._id}</p>
-                </div>
-                <span className="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm font-medium">
-                  {error.count} times
-                </span>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <p className="text-gray-500 text-center py-8">
-            Aún no se han registrado errores. ¡Completa más prácticas!
-          </p>
-        )}
-      </div>
-      */}
-
       {/* Practice Distribution */}
       {taskData.length > 0 && (
-        <div className="bg-white p-6 rounded-xl shadow-md">
-          <div className="text-gray-800 flex items-center justify-center mb-3">
-            <DocumentTextIcon className=" w-6 h-6 mr-1.5"></DocumentTextIcon>
-            <h2 className="text-xl font-bold text-gray-800">
+        <div className="bg-white p-6 rounded-xl shadow-md border border-[#f1d49a]">
+          <div className="text-[#442e14] flex items-center justify-center mb-3">
+            <DocumentTextIcon className="w-6 h-6 mr-1.5"></DocumentTextIcon>
+            <h2 className="text-xl font-bold text-[#442e14]">
               Resumen de práctica
             </h2>
           </div>
@@ -284,11 +251,11 @@ export default function AnalyticsView() {
       )}
 
       {/* Motivational Card */}
-      <div className="bg-gradient-to-r from-sky-500 to-blue-600 rounded-xl shadow-lg p-8 text-white">
+      <div className="bg-gradient-to-r from-amber-500 to-orange-500 rounded-xl shadow-lg p-8 text-white">
         <h2 className="text-2xl font-bold mb-2 text-center">
           ¡Tú puedes, sigue así! 💪
         </h2>
-        <p className="text-sky-100 mb-4">
+        <p className="text-amber-50 mb-4">
           Has completado {stats.totalPractices} práctica
           {stats.totalPractices !== 1 ? "s" : ""}.
           {stats.averageBand && stats.averageBand < 7
@@ -298,7 +265,7 @@ export default function AnalyticsView() {
             : " ¡Sigue practicando para ver tu mejora!"}
         </p>
         {stats.currentStreak > 0 && (
-          <p className="text-sky-100 flex items-center">
+          <p className="text-amber-50 flex items-center">
             <FireIcon className="w-5 h-5 mr-1.5"></FireIcon>
             ¡Llevas una racha de {stats.currentStreak} días! ¡No te detengas!
           </p>
