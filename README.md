@@ -25,6 +25,7 @@ Plataforma web interactiva con inteligencia artificial para la preparación del 
 - ✅ Chatbot especializado con información sobre el examen
 - ✅ Seguimiento detallado del progreso del usuario
 
+> La retroalimentación generada tiene fines educativos y no representa una evaluación oficial del examen IELTS.
 ---
 
 ## ✨ Características
