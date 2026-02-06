@@ -1,2 +1,78 @@
-# Purrfect-IELTS
-Proyecto Modular 
+<div align="center">
+
+<h2 align="center"> 🐱 Purrfect IELTS </h2>
+
+Plataforma web interactiva con inteligencia artificial para la preparación del examen de certificación IELTS General
+
+> 💡 El sitio está desplegado en render free tier por lo que tardará unos segundos en iniciar.
+
+<br>
+
+<a href="https://purrfect-ielts.onrender.com/" target="_blank"><strong>💻 Purrfect IELTS</strong></a> <br>
+
+<br><br>
+📚 <strong>Proyecto Modular 2026A</strong>
+</div>
+
+---
+## 📖 Descripción
+
+**Purrfect IELTS** es una aplicación web orientada a la preparación del examen de certificación IELTS General, con énfasis en las secciones de **Speaking** y **Writing**. La plataforma ofrece:
+
+- ✅ Simulaciones interactivas de las tareas del examen
+- ✅ Retroalimentación automatizada mediante inteligencia artificial
+- ✅ Evaluación de fluidez, gramática, coherencia y vocabulario
+- ✅ Chatbot especializado con información sobre el examen
+- ✅ Seguimiento detallado del progreso del usuario
+
+---
+
+## ✨ Características
+
+### 🎤 Módulo de Speaking
+- **Task 1:** Entrevista personal (4-5 minutos)
+- **Task 2:** Discurso individual (3-4 minutos)
+- **Task 3:** Discusión guiada (4-5 minutos)
+- Transcripción automática (AssemblyAI)
+- Evaluación con IA (GPT-4o-mini)
+
+### ✍️ Módulo de Writing
+- **Task 1:** Redacción funcional (carta formal/informal/semi-formal)
+- **Task 2:** Ensayo argumentativo
+- Análisis automático de gramática y coherencia
+
+### 📊 Analíticos y Progreso
+- Historial completo de prácticas
+- Banda promedio obtenida
+- Racha de práctica
+- Minutos acumulados (últimos 30 días)
+- Gráficas interactivas de desempeño
+
+### 🤖 Chatbot Inteligente
+- Red neuronal entrenada con 29 intenciones IELTS
+- Información oficial (Cambridge, British Council)
+- Disponible 24/7
+- Respuestas contextuales y estrategias de estudio
+- 83.8% de precisión en validación
+
+---
+
+### Distribución de Componentes
+
+| Componente | Tecnología | Infraestructura | Responsabilidad |
+|------------|------------|-----------------|-----------------|
+| **Frontend** | React + TypeScript | Render Cloud | Interfaz de usuario |
+| **Backend** | Node.js + Express | Render Cloud | Autenticación JWT, gestión de usuarios, analíticos |
+| **Base de Datos** | MongoDB | Atlas (Cloud) | Persistencia de datos |
+| **Chatbot** | Flask + PyTorch | Hugging Face Spaces | Clasificación de intenciones, respuestas IELTS |
+| **Transcripción** | AssemblyAI API | External Service | Conversión audio → texto |
+| **Evaluación IA** | OpenRouter + GPT | External Service | Análisis lingüístico automático |
+| **Email** | SendGrid | External Service | Verificación de cuentas |
+
+---
+
+## 👥 Autores
+
+- **Katia Salcedo** 
+- **Manuel Nuñez** 
+- **Paloma Beltrán** 
