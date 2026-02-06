@@ -53,7 +53,7 @@ Plataforma web interactiva con inteligencia artificial para la preparación del 
 - Información oficial (Cambridge, British Council)
 - Disponible 24/7
 - Respuestas contextuales y estrategias de estudio
-- 83.8% de precisión en validación
+- 84.5% de precisión en validación
 
 ---
 
