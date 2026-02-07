@@ -10,7 +10,6 @@
 
 <a href="https://purrfect-ielts.onrender.com/" target="_blank"><strong>💻 Purrfect IELTS</strong></a> <br>
 
-<br>
 📚 <strong>Proyecto Modular 2026A</strong>
 </div>
 
