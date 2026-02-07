@@ -2,7 +2,7 @@
 
 <h2 align="center"> 🐱 Purrfect IELTS </h2>
 
-Plataforma web interactiva con inteligencia artificial para la preparación del examen de certificación IELTS General
+Purrfect IELTS es una plataforma diseñada para apoyar la preparación del examen IELTS mediante un entorno de práctica estructurado que simula las condiciones reales de evaluación. La aplicación integra módulos de Speaking y Writing. El sistema incorpora herramientas de retroalimentación automatizada basadas en inteligencia artificial para analizar aspectos como gramática, coherencia, vocabulario y fluidez, además de funcionalidades de grabación y transcripción de audio para prácticas orales. Como componente central, la plataforma incluye un chatbot basado en una red neuronal entrenada con información oficial y material especializado del examen, el cual proporciona orientación, resuelve dudas frecuentes y sugiere estrategias de estudio. Finalmente, el sistema cuenta con un módulo de seguimiento que registra el progreso del usuario mediante métricas y visualizaciones que facilitan el análisis del desempeño a lo largo del tiempo.
 
 > 💡 El sitio está desplegado en render free tier por lo que tardará unos segundos en iniciar.
 
