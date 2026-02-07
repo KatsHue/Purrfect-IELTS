@@ -6,10 +6,9 @@
 
 <div align ="center"> 
   
-> 💡 El sitio está desplegado en render free tier por lo que tardará unos segundos en iniciar.
+> 💡 El sitio está desplegado en render free tier por lo que tardará unos segundos en iniciar.<br>
 
-
-<br><br><a href="https://purrfect-ielts.onrender.com/" target="_blank"><strong>💻 Purrfect IELTS</strong></a> <br>
+<a href="https://purrfect-ielts.onrender.com/" target="_blank"><strong>💻 Purrfect IELTS</strong></a> <br>
 
 <br>
 📚 <strong>Proyecto Modular 2026A</strong>
