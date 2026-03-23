@@ -30,7 +30,7 @@
 > La retroalimentación generada tiene fines educativos y no representa una evaluación oficial del examen IELTS.
 ---
 
-##  Características
+## ⭐ Características
 
 ### 🎤 Módulo de Speaking
 - **Task 1:** Entrevista personal (4-5 minutos)
@@ -60,7 +60,7 @@
 
 ---
 
-### Distribución de Componentes
+### 🧰 Distribución de Componentes
 
 | Componente | Tecnología | Infraestructura | Responsabilidad |
 |------------|------------|-----------------|-----------------|
