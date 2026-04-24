@@ -3,6 +3,8 @@ import { openrouter } from "@/lib/ai";
 import { generateText } from "ai";
 
 export async function generateResponse(text: string, question?: string) {
+  console.log("📥 TEXTO RECIBIDO:", text);
+  console.log("📥 PREGUNTA HECHA:", question);
   const result = await generateText({
     model: openrouter("gpt-4o-mini"),
     messages: [
