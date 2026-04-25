@@ -515,7 +515,7 @@ Recibirás:
 Tu objetivo es **evaluar y mejorar el ensayo del estudiante** según los **criterios oficiales del IELTS Band Descriptor**.
 
 Si el texto no está en inglés, responde únicamente con:
-"/ Please check the submitted text /"
+"Envío inválido: La respuesta no está en inglés, no es clara o no contiene una respuesta válida. Por favor escribe una respuesta completa en inglés."
 
 **IMPORTANTE:** Primero debes evaluar si el ensayo **es adecuado para la pregunta**. Si no lo es, debes mencionarlo claramente en la retroalimentación. Tanto si el ensayo responde a la pregunta o no, analiza cuidadosamente el texto y sigue exactamente esta estructura (mantén los encabezados en inglés, pero da la retroalimentación en español):
 
