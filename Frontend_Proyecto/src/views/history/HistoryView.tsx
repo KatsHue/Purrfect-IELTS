@@ -189,32 +189,26 @@ export default function MiActividadView() {
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             <TipCard
-              emoji="📊"
               title="Revisa tus analíticos"
               description="Identifica patrones y áreas que necesitan más práctica"
             />
             <TipCard
-              emoji="🔄"
               title="Repasa tu historial"
               description="Vuelve a leer el feedback de prácticas anteriores"
             />
             <TipCard
-              emoji="🎯"
               title="Establece metas"
               description="Usa tus datos para crear objetivos de mejora específicos"
             />
             <TipCard
-              emoji="📈"
               title="Mide tu progreso"
               description="Compara tus bands actuales con las de semanas anteriores"
             />
             <TipCard
-              emoji="💪"
               title="Mantén la constancia"
               description="La práctica regular es clave para mejorar tu puntuación"
             />
             <TipCard
-              emoji="🤖"
               title="Confía en la IA"
               description="El feedback automático mejora con cada práctica que realizas"
             />
@@ -248,11 +242,9 @@ export default function MiActividadView() {
 }
 
 function TipCard({
-  emoji,
   title,
   description,
 }: {
-  emoji: string;
   title: string;
   description: string;
 }) {

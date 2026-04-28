@@ -224,7 +224,6 @@ export default function SpeakingView() {
 }
 
 function TipCard({
-  emoji,
   title,
   description,
 }: {

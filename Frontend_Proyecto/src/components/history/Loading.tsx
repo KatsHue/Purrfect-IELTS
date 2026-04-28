@@ -24,7 +24,7 @@ const STAGES = [
   "Almost ready!",
 ];
  
-const COLOR_MAP = {
+const COLOR_MAP: { [key: string]: string } = {
   blue:   "bg-blue-100   border-blue-300   text-blue-900",
   teal:   "bg-teal-100   border-teal-300   text-teal-900",
   amber:  "bg-amber-100  border-amber-300  text-amber-900",
