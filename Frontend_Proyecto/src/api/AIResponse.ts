@@ -3,6 +3,8 @@ import { openrouter } from "@/lib/ai";
 import { generateText } from "ai";
 
 export async function generateResponse(text: string, question?: string) {
+  console.log("📥 TEXTO RECIBIDO:", text);
+  console.log("📥 PREGUNTA HECHA:", question);
   const result = await generateText({
     model: openrouter("gpt-4o-mini"),
     messages: [
@@ -18,7 +20,18 @@ Recibirás:
 Tu objetivo es **evaluar y mejorar la carta del estudiante** según los **criterios oficiales del IELTS Band Descriptor para Writing Task 1 (General Training)**.
 
 Si el texto no está en inglés, responde únicamente con:
-"/ Please check the submitted text /"
+"Envío inválido: La respuesta no está en inglés, no es clara, es muy corta o no contiene una respuesta válida. Por favor escribe una respuesta completa en inglés."
+
+**IMPORTANTE:**
+- SIEMPRE debes seguir exactamente la estructura indicada
+- SIEMPRE debes incluir TODAS las secciones
+- Incluso si la respuesta es incorrecta o no es una carta, debes evaluarla
+
+Si la respuesta no es una carta válida (por ejemplo, copia la pregunta o es muy corta, etc):
+- Indica claramente que NO cumple con la tarea
+- Asigna una banda baja (Band 3.0–4.5)
+- Marca los puntos como no cubiertos
+- AUN ASÍ completa todas las secciones
 
 **IMPORTANTE:**
 Primero **evalúa si la respuesta es adecuada para la pregunta**. Si la respuesta no es adecuada da la menciónalo explícitamente y sigue el formato del feedback. Si la respuesta sí es adecuada, sigue el formato siguiente y el formato del feedback.
@@ -502,7 +515,7 @@ Recibirás:
 Tu objetivo es **evaluar y mejorar el ensayo del estudiante** según los **criterios oficiales del IELTS Band Descriptor**.
 
 Si el texto no está en inglés, responde únicamente con:
-"/ Please check the submitted text /"
+"Envío inválido: La respuesta no está en inglés, no es clara o no contiene una respuesta válida. Por favor escribe una respuesta completa en inglés."
 
 **IMPORTANTE:** Primero debes evaluar si el ensayo **es adecuado para la pregunta**. Si no lo es, debes mencionarlo claramente en la retroalimentación. Tanto si el ensayo responde a la pregunta o no, analiza cuidadosamente el texto y sigue exactamente esta estructura (mantén los encabezados en inglés, pero da la retroalimentación en español):
 
