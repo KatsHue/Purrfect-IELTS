@@ -4,7 +4,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { AcademicCapIcon, BoltIcon, BookOpenIcon, BriefcaseIcon, ChartBarIcon, CheckBadgeIcon, MicrophoneIcon, PencilIcon, PencilSquareIcon, RectangleGroupIcon, SparklesIcon } from "@heroicons/react/20/solid";
+import { AcademicCapIcon, BoltIcon, BookOpenIcon, BriefcaseIcon, ChartBarIcon, MicrophoneIcon, PencilSquareIcon, RectangleGroupIcon, SparklesIcon } from "@heroicons/react/20/solid";
 import { motion } from "framer-motion";
 import LoadingDots from "@/components/history/LoadingDots.";
 
