@@ -38,4 +38,10 @@ app.get("/", (req, res) => {
   res.send("✅ Purrfect IELTS API funcionando correctamente en Render 🚀");
 });
 
+// Agregar temporalmente en server.ts solo para pruebas
+app.get("/api/test/slow", async (req, res) => {
+  await new Promise((resolve) => setTimeout(resolve, 20000)); // 20s de espera
+  res.json({ message: "respuesta tardía" });
+});
+
 export default app;

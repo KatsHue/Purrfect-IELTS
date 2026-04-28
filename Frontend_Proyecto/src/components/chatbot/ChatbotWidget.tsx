@@ -46,7 +46,7 @@ const ChatbotWidget = () => {
     }
 
     requestAnimationFrame(() =>
-      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" }),
     );
   };
 
@@ -98,7 +98,7 @@ const ChatbotWidget = () => {
             <div className="flex items-center justify-between bg-[#FFD54F] text-black p-3 rounded-t-2xl font-semibold">
               <div className="flex items-center gap-2">
                 <img
-                  src="../assets/images/inkyFavicon.png"
+                  src="../assets/images/logo.png"
                   alt="Purry"
                   className="w-6 h-6 rounded-full"
                 />
