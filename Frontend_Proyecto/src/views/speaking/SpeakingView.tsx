@@ -2,6 +2,9 @@ import { useAuth } from "@/hooks/useAuth";
 import { useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { ChatBubbleLeftIcon, LightBulbIcon, MicrophoneIcon, SparklesIcon } from "@heroicons/react/20/solid";
+import { Brain, Clock, Speech } from "lucide-react";
+import LoadingDots from "@/components/history/LoadingDots.";
 
 export default function SpeakingView() {
   const { isLoading } = useAuth();
@@ -20,9 +23,7 @@ export default function SpeakingView() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-white">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-[#f4bc3c]" />
-      </div>
+      <LoadingDots />
     );
   }
 
@@ -30,8 +31,8 @@ export default function SpeakingView() {
     <div className="min-h-screen bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-10" data-aos="fade-up">
-          <h1 className="text-3xl sm:text-4xl font-black text-[#442e14] mb-2">
-            Speaking Practice 🎤
+          <h1 className="text-3xl sm:text-4xl font-black text-[#442e14] mb-2 flex items-center gap-3">
+            Speaking Practice <Speech className="w-9 h-9 text-[#f4bc3c] inline-block" />
           </h1>
           <p className="text-[#7f533b] text-lg">
             Mejora tu fluidez y confianza con práctica guiada por IA
@@ -88,7 +89,7 @@ export default function SpeakingView() {
             <div className="bg-white/80 rounded-xl p-4 border border-[#f1d49a] lg:min-w-[180px]">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-[#f4bc3c] rounded-full flex items-center justify-center text-xl">
-                  ⏱️
+                  <Clock className="text-[#442e14]" />
                 </div>
                 <div>
                   <p className="text-xs text-[#7f533b]">Duración total</p>
@@ -106,7 +107,7 @@ export default function SpeakingView() {
           >
             <div className="flex items-start gap-4 mb-6">
               <div className="w-14 h-14 bg-[#f4bc3c] rounded-full flex items-center justify-center text-2xl flex-shrink-0">
-                👋
+                <MicrophoneIcon className="w-6 h-6 text-[#442e14]" />
               </div>
               <div>
                 <h3 className="text-2xl font-black text-[#442e14] mb-2">
@@ -125,8 +126,9 @@ export default function SpeakingView() {
               </p>
 
               <div className="bg-white/60 rounded-xl p-4 space-y-2">
-                <h4 className="font-bold text-[#442e14] text-sm">
-                  ✨ Qué practicarás:
+                <h4 className="font-bold text-[#442e14] text-sm flex items-center">
+                  <SparklesIcon className="w-5 h-5 inline-block mr-2 inline text-yellow-500" />
+                  Qué practicarás:
                 </h4>
                 <ul className="text-sm text-[#7f533b] space-y-1">
                   <li>• Respuestas cortas y naturales</li>
@@ -148,7 +150,7 @@ export default function SpeakingView() {
           >
             <div className="flex items-start gap-4 mb-6">
               <div className="w-14 h-14 bg-[#f4bc3c] rounded-full flex items-center justify-center text-2xl flex-shrink-0">
-                💬
+                <ChatBubbleLeftIcon className="w-6 h-6 text-[#442e14]" />
               </div>
               <div>
                 <h3 className="text-2xl font-black text-[#442e14] mb-2">
@@ -170,8 +172,9 @@ export default function SpeakingView() {
               </p>
 
               <div className="bg-white/60 rounded-xl p-4 space-y-2">
-                <h4 className="font-bold text-[#442e14] text-sm">
-                  ✨ Qué practicarás:
+                <h4 className="font-bold text-[#442e14] text-sm flex items-center">
+                  <SparklesIcon className="w-5 h-5 inline-block mr-2 inline text-yellow-500" />
+                  Qué practicarás:
                 </h4>
                 <ul className="text-sm text-[#7f533b] space-y-1">
                   <li>• Monólogos estructurados</li>
@@ -193,7 +196,8 @@ export default function SpeakingView() {
           data-aos="fade-up"
         >
           <h3 className="text-xl font-black text-[#442e14] mb-6 flex items-center gap-2">
-            💡 Consejos para tu práctica
+            <LightBulbIcon className="w-6 h-6 text-[#442e14] text-yellow-500" />
+            Consejos para tu práctica
           </h3>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -231,7 +235,13 @@ function TipCard({
   return (
     <div className="flex gap-3">
       <div className="w-10 h-10 bg-[#f4bc3c] text-[#442e14] rounded-full flex items-center justify-center text-xl flex-shrink-0">
-        {emoji}
+        {title === "Sé natural" ? (
+          <Brain className="w-5 h-5" />
+        ) : title === "Practica el timing" ? (
+          <Clock className="w-5 h-5" />
+        ) : (
+          <SparklesIcon className="w-5 h-5" />
+        )}
       </div>
       <div>
         <h4 className="font-bold text-[#442e14] mb-1">{title}</h4>

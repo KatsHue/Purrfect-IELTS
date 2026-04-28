@@ -28,6 +28,7 @@ import {
   PresentationChartLineIcon,
   RocketLaunchIcon,
 } from "@heroicons/react/20/solid";
+import { AwardIcon } from "lucide-react";
 
 export default function AnalyticsView() {
   const { data: stats, isLoading } = useQuery({
@@ -253,7 +254,7 @@ export default function AnalyticsView() {
       {/* Motivational Card */}
       <div className="bg-gradient-to-r from-amber-500 to-orange-500 rounded-xl shadow-lg p-8 text-white">
         <h2 className="text-2xl font-bold mb-2 text-center">
-          ¡Tú puedes, sigue así! 💪
+          ¡Tú puedes, sigue así! <AwardIcon className="w-6 h-6 inline-block ml-1"></AwardIcon>
         </h2>
         <p className="text-amber-50 mb-4">
           Has completado {stats.totalPractices} práctica

@@ -9,6 +9,8 @@ import { WritingAPI } from "@/api/WritingTaskOneAPI";
 import { ChevronRightIcon, ChevronLeftIcon } from "@heroicons/react/24/solid";
 import { useSavePracticeResult } from "@/hooks/useSavePracticeResult";
 import { parseAIFeedback } from "@/utils/parseAIFeedback";
+import { CheckCircle, NotebookPenIcon } from "lucide-react";
+import { BookOpenIcon, ClockIcon, CpuChipIcon, PencilSquareIcon } from "@heroicons/react/20/solid";
 
 export type IAForm = {
   text: string;
@@ -185,8 +187,8 @@ export default function SendIAView() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* HEADER */}
         <div className="mb-8">
-          <h1 className="text-3xl sm:text-4xl font-black text-[#442e14] mb-2">
-            Writing Practice: Task 1 ✍️
+          <h1 className="text-3xl sm:text-4xl font-black text-[#442e14] mb-2 flex items-center gap-3">
+            Writing Practice: Task 1 <NotebookPenIcon className="h-8 w-8 text-[#f4bc3c]" />
           </h1>
           <p className="text-[#7f533b] text-lg">Write a letter</p>
         </div>
@@ -207,12 +209,12 @@ export default function SendIAView() {
             {/* Instrucciones del examen */}
             <div className="bg-[#f4bc3c]/20 border border-[#f4bc3c]/40 p-3 rounded-xl mb-4 flex items-center gap-3">
               <div className="flex items-center gap-2 text-sm text-[#442e14]">
-                <span className="font-bold">⏱️ Time:</span>
+                <span className="font-bold flex items-center gap-2"><ClockIcon className="h-4 w-4" /> Time:</span>
                 <span>20 min</span>
               </div>
               <div className="w-px h-4 bg-[#f4bc3c]/40"></div>
               <div className="flex items-center gap-2 text-sm text-[#442e14]">
-                <span className="font-bold">📝 Min words:</span>
+                <span className="font-bold flex items-center gap-2"><PencilSquareIcon className="h-4 w-4" /> Min words:</span>
                 <span>150</span>
               </div>
             </div>
@@ -269,10 +271,11 @@ export default function SendIAView() {
             <div className="bg-white border-2 border-[#f1d49a] p-6 rounded-2xl">
               <div className="mb-5 space-y-3">
                 <label
-                  className="text-sm uppercase font-bold text-[#442e14]"
+                  className="text-sm uppercase font-bold text-[#442e14] flex items-center gap-2"
                   htmlFor="text"
                 >
-                  📝 Your Letter:
+                  <BookOpenIcon className="h-4 w-4 inline-block" />
+                  Your Letter:
                 </label>
                 <textarea
                   id="text"
@@ -319,7 +322,7 @@ export default function SendIAView() {
             <div className="bg-[#f1d49a]/20 border-2 border-dashed border-[#f4bc3c] rounded-2xl p-6 flex items-center justify-center">
               <div className="text-center">
                 <div className="w-16 h-16 bg-[#f4bc3c] rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">
-                  ✅
+                  <CheckCircle className="h-8 w-8 text-[#442e14]" />
                 </div>
                 <p className="text-[#442e14] font-bold mb-2">
                   Feedback received!
@@ -337,7 +340,7 @@ export default function SendIAView() {
           <div className="space-y-6">
             <div className="flex items-center gap-3 mb-4">
               <div className="w-10 h-10 bg-[#f4bc3c] rounded-full flex items-center justify-center text-xl">
-                🤖
+                <CpuChipIcon className="h-5 w-5 text-[#442e14]" />
               </div>
               <h2 className="text-2xl font-black text-[#442e14]">
                 AI Feedback & Analysis

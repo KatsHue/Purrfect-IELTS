@@ -2,6 +2,9 @@ import { useAuth } from "@/hooks/useAuth";
 import { useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { ChartBarIcon, CpuChipIcon, DocumentTextIcon, EyeIcon, FireIcon, HeartIcon, LightBulbIcon, SparklesIcon, StarIcon, TrophyIcon } from "@heroicons/react/20/solid";
+import { ChartLineIcon } from "lucide-react";
+import LoadingDots from "@/components/history/LoadingDots.";
 
 export default function MiActividadView() {
   const { isLoading } = useAuth();
@@ -20,9 +23,7 @@ export default function MiActividadView() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-white">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-[#f4bc3c]" />
-      </div>
+      <LoadingDots />
     );
   }
 
@@ -30,9 +31,12 @@ export default function MiActividadView() {
     <div className="min-h-screen bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-10" data-aos="fade-up">
-          <h1 className="text-3xl sm:text-4xl font-black text-[#442e14] mb-2">
-            Mi Actividad 📊
-          </h1>
+          <div className="text-[#442e14] items-center flex mb-3">
+            <h1 className="text-4xl font-bold text-[#442e14] mr-3">
+                Mi actividad
+            </h1>
+            <StarIcon className="w-8 h-8 text-yellow-500 mr-3" />
+          </div>
           <p className="text-[#7f533b] text-lg">
             Revisa tu progreso, analíticos e historial de práctica
           </p>
@@ -55,7 +59,7 @@ export default function MiActividadView() {
               <div className="flex flex-wrap gap-3">
                 <div className="inline-flex items-center gap-2 bg-white/80 px-4 py-2 rounded-full border border-[#f4bc3c]/30">
                   <span className="w-6 h-6 bg-[#f4bc3c] text-[#442e14] rounded-full flex items-center justify-center text-xs font-black">
-                    📈
+                    <ChartBarIcon className="w-3.5 h-3.5"></ChartBarIcon>
                   </span>
                   <span className="text-sm font-semibold text-[#442e14]">
                     Analíticos
@@ -64,7 +68,7 @@ export default function MiActividadView() {
 
                 <div className="inline-flex items-center gap-2 bg-white/80 px-4 py-2 rounded-full border border-[#f4bc3c]/30">
                   <span className="w-6 h-6 bg-[#f4bc3c] text-[#442e14] rounded-full flex items-center justify-center text-xs font-black">
-                    📜
+                    <DocumentTextIcon className="w-3.5 h-3.5"></DocumentTextIcon>
                   </span>
                   <span className="text-sm font-semibold text-[#442e14]">
                     Historial
@@ -76,7 +80,7 @@ export default function MiActividadView() {
             <div className="bg-white/80 rounded-xl p-4 border border-[#f1d49a] lg:min-w-[180px]">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-[#f4bc3c] rounded-full flex items-center justify-center text-xl">
-                  🎯
+                  <EyeIcon className="w-5 h-5" />
                 </div>
                 <div>
                   <p className="text-xs text-[#7f533b]">Tu progreso</p>
@@ -96,7 +100,7 @@ export default function MiActividadView() {
           >
             <div className="flex items-start gap-4 mb-6">
               <div className="w-14 h-14 bg-[#f4bc3c] rounded-full flex items-center justify-center text-2xl flex-shrink-0">
-                📈
+                <ChartBarIcon className="w-6 h-6 text-[#442e14]" />
               </div>
               <div>
                 <h3 className="text-2xl font-black text-[#442e14] mb-2">
@@ -115,8 +119,9 @@ export default function MiActividadView() {
               </p>
 
               <div className="bg-white/60 rounded-xl p-4 space-y-2">
-                <h4 className="font-bold text-[#442e14] text-sm">
-                  ✨ Qué encontrarás:
+                <h4 className="font-bold text-[#442e14] text-sm items-center flex">
+                  <SparklesIcon className="w-5 h-5 inline mr-2 text-yellow-500" />
+                  Qué encontrarás:
                 </h4>
                 <ul className="text-sm text-[#7f533b] space-y-1">
                   <li>• Gráficas de progreso por habilidad</li>
@@ -137,7 +142,7 @@ export default function MiActividadView() {
           >
             <div className="flex items-start gap-4 mb-6">
               <div className="w-14 h-14 bg-[#f4bc3c] rounded-full flex items-center justify-center text-2xl flex-shrink-0">
-                📜
+                <DocumentTextIcon className="w-6 h-6 text-[#442e14]" />
               </div>
               <div>
                 <h3 className="text-2xl font-black text-[#442e14] mb-2">
@@ -155,8 +160,9 @@ export default function MiActividadView() {
               </p>
 
               <div className="bg-white/60 rounded-xl p-4 space-y-2">
-                <h4 className="font-bold text-[#442e14] text-sm">
-                  ✨ Qué encontrarás:
+                <h4 className="font-bold text-[#442e14] text-sm items-center flex">
+                  <SparklesIcon className="w-5 h-5 inline mr-2 text-yellow-500" />
+                  Qué encontrarás:
                 </h4>
                 <ul className="text-sm text-[#7f533b] space-y-1">
                   <li>• Todas tus prácticas organizadas</li>
@@ -177,7 +183,8 @@ export default function MiActividadView() {
           data-aos="fade-up"
         >
           <h3 className="text-xl font-black text-[#442e14] mb-6 flex items-center gap-2">
-            💡 Aprovecha al máximo tu actividad
+            <LightBulbIcon className="w-5 h-5 inline mr-2 text-yellow-500" />
+            Aprovecha al máximo tu actividad
           </h3>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -220,7 +227,7 @@ export default function MiActividadView() {
         >
           <div className="flex items-start gap-4">
             <div className="w-12 h-12 bg-[#f4bc3c] rounded-full flex items-center justify-center text-2xl flex-shrink-0">
-              🔥
+              <FireIcon className="w-6 h-6 text-[#442e14]" />
             </div>
             <div>
               <h3 className="text-lg font-black text-[#442e14] mb-2">
@@ -252,7 +259,12 @@ function TipCard({
   return (
     <div className="flex gap-3">
       <div className="w-10 h-10 bg-[#f4bc3c] text-[#442e14] rounded-full flex items-center justify-center text-xl flex-shrink-0">
-        {emoji}
+        {title === "Revisa tus analíticos" && <ChartBarIcon className="w-5 h-5 text-[#442e14]" />}
+        {title === "Repasa tu historial" && <DocumentTextIcon className="w-5 h-5 text-[#442e14]" />}
+        {title === "Establece metas" && <TrophyIcon className="w-5 h-5 text-[#442e14]" />}
+        {title === "Mide tu progreso" && <ChartLineIcon className="w-5 h-5 text-[#442e14]" />}
+        {title === "Mantén la constancia" && <HeartIcon className="w-5 h-5 text-[#442e14]" />}
+        {title === "Confía en la IA" && <CpuChipIcon className="w-5 h-5 text-[#442e14]" />}
       </div>
       <div>
         <h4 className="font-bold text-[#442e14] mb-1">{title}</h4>

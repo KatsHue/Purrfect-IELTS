@@ -5,6 +5,7 @@ import {
   MicrophoneIcon,
   PlayIcon,
   StopIcon,
+  CpuChipIcon,
 } from "@heroicons/react/24/solid";
 import { SpeakingAPI } from "@/api/SpeakingTaskTwoAPI";
 import { transcriptionAI } from "@/api/TranscriptionAI";
@@ -16,6 +17,8 @@ import {
 import { formatResponse } from "@/utils/format";
 import { useSavePracticeResult } from "@/hooks/useSavePracticeResult";
 import { parseAIFeedback } from "@/utils/parseAIFeedback";
+import { SpeechIcon } from "lucide-react";
+import { CheckBadgeIcon, ChevronDoubleDownIcon, ClockIcon, DocumentTextIcon, PencilSquareIcon } from "@heroicons/react/20/solid";
 
 export default function SpeakingView() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -100,7 +103,7 @@ export default function SpeakingView() {
             const text = await transcriptionAI(audioBlob);
 
             if (text.trim() === "/ Please check the submitted text /") {
-              setTranscription("⚠️ Unable to process audio. Please try again.");
+              setTranscription("Unable to process audio. Please try again.");
               setIsProcessing(false);
               return;
             }
@@ -125,7 +128,7 @@ export default function SpeakingView() {
 
             if (safeFeedback.includes("/ Please check the submitted text /")) {
               setTranscription(
-                "⚠️ The recording seems unclear or not in English. Try again."
+                "The recording seems unclear or not in English. Try again."
               );
               setIsProcessing(false);
               return;
@@ -166,7 +169,7 @@ export default function SpeakingView() {
           } catch (err) {
             console.error("Error generando transcripción o feedback:", err);
             setTranscription(
-              "⚠️ There was an issue processing your audio. Please record again."
+              "There was an issue processing your audio. Please record again."
             );
           } finally {
             setIsProcessing(false);
@@ -180,7 +183,7 @@ export default function SpeakingView() {
             const text = await transcriptionAI(audioBlob);
 
             if (text.trim() === "/ Please check the submitted text /") {
-              alert("⚠️ Unable to process audio. Please try again.");
+              alert("Unable to process audio. Please try again.");
               setIsProcessing(false);
               return;
             }
@@ -229,7 +232,7 @@ export default function SpeakingView() {
             });
           } catch (err) {
             console.error("Error en Task 3:", err);
-            alert("⚠️ There was an issue processing your audio.");
+            alert("There was an issue processing your audio.");
           } finally {
             setIsProcessing(false);
           }
@@ -385,8 +388,8 @@ export default function SpeakingView() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* HEADER */}
         <div className="mb-8">
-          <h1 className="text-3xl sm:text-4xl font-black text-[#442e14] mb-2">
-            Speaking Practice: Part 2 {showTaskThree && "& Part 3"} 🎤
+          <h1 className="text-3xl sm:text-4xl font-black text-[#442e14] mb-2 flex items-center gap-2">
+            Speaking Practice: Part 2 {showTaskThree && "& Part 3"} <SpeechIcon className="w-12 h-12 text-[#f4bc3c]" />
           </h1>
           <p className="text-[#7f533b] text-lg">
             Long turn & follow-up discussion
@@ -413,12 +416,12 @@ export default function SpeakingView() {
                 {/* Instrucciones del examen */}
                 <div className="bg-[#f4bc3c]/20 border border-[#f4bc3c]/40 p-3 rounded-xl mb-4 flex items-center gap-3">
                   <div className="flex items-center gap-2 text-sm text-[#442e14]">
-                    <span className="font-bold">⏱️ Time:</span>
+                    <span className="font-bold flex items-center gap-2"><ClockIcon className="w-4 h-4" /> Time:</span>
                     <span>1-2 min</span>
                   </div>
                   <div className="w-px h-4 bg-[#f4bc3c]/40"></div>
                   <div className="flex items-center gap-2 text-sm text-[#442e14]">
-                    <span className="font-bold">🎯 Task:</span>
+                    <span className="font-bold flex items-center gap-2"><PencilSquareIcon className="w-4 h-4" /> Task:</span>
                     <span>Long turn</span>
                   </div>
                 </div>
@@ -521,7 +524,8 @@ export default function SpeakingView() {
                   <div className="space-y-4">
                     <div className="bg-[#f9f8f6] border-2 border-[#f1d49a] p-4 rounded-xl">
                       <h3 className="font-bold text-[#442e14] mb-2 flex items-center gap-2">
-                        <span>📝</span> Your transcription:
+                        <DocumentTextIcon className="h-5 w-5" />
+                        Your transcription:
                       </h3>
                       <p className="whitespace-pre-line text-[#442e14] leading-relaxed">
                         {transcription}
@@ -548,7 +552,8 @@ export default function SpeakingView() {
                     </div>
                     <div className="bg-[#f1d49a]/40 p-4 rounded-xl mb-6">
                       <h4 className="font-bold text-[#442e14] text-sm mb-2 flex items-center gap-2">
-                        <span>👇</span> Scroll down to see your feedback
+                        <ChevronDoubleDownIcon className="h-4 w-4" />
+                        Scroll down to see your feedback
                       </h4>
                     </div>
                   </div>
@@ -565,7 +570,7 @@ export default function SpeakingView() {
                 <div className="space-y-6 mb-8">
                   <div className="flex items-center gap-3 mb-4">
                     <div className="w-10 h-10 bg-[#f4bc3c] rounded-full flex items-center justify-center text-xl">
-                      🤖
+                      <CpuChipIcon className="h-5 w-5 text-[#442e14]" />
                     </div>
                     <h2 className="text-2xl font-black text-[#442e14]">
                       AI Feedback & Analysis
@@ -594,8 +599,9 @@ export default function SpeakingView() {
             {/* TASK 3 */}
             {taskThreeReady && !showTaskThree && (
               <div className="bg-[#f1d49a]/40 border-2 border-[#f4bc3c] rounded-2xl p-6">
-                <h3 className="text-xl font-black text-[#442e14] mb-2">
-                  🎯 Ready for Part 3?
+                <h3 className="text-xl font-black text-[#442e14] mb-2 flex items-center gap-2">
+                  <CheckBadgeIcon className="h-5 w-5" />
+                  Ready for Part 3?
                 </h3>
                 <p className="text-[#7f533b] mb-4">
                   Now let's move to follow-up questions.
@@ -631,12 +637,12 @@ export default function SpeakingView() {
                 {/* Instrucciones del examen */}
                 <div className="bg-[#f4bc3c]/20 border border-[#f4bc3c]/40 p-3 rounded-xl mb-4 flex items-center gap-3">
                   <div className="flex items-center gap-2 text-sm text-[#442e14]">
-                    <span className="font-bold">⏱️ Time:</span>
+                    <span className="font-bold flex items-center gap-1"><ClockIcon className="h-4 w-4" /> Time:</span>
                     <span>4-5 min total</span>
                   </div>
                   <div className="w-px h-4 bg-[#f4bc3c]/40"></div>
                   <div className="flex items-center gap-2 text-sm text-[#442e14]">
-                    <span className="font-bold">🎯 Task:</span>
+                    <span className="font-bold flex items-center gap-1"><CheckBadgeIcon className="h-4 w-4" /> Task:</span>
                     <span>Discussion</span>
                   </div>
                 </div>
@@ -752,7 +758,8 @@ export default function SpeakingView() {
                   <div className="space-y-4">
                     <div className="bg-[#f9f8f6] border-2 border-[#f1d49a] p-4 rounded-xl">
                       <h3 className="font-bold text-[#442e14] mb-2 flex items-center gap-2">
-                        <span>📝</span> Your transcription:
+                        <DocumentTextIcon className="h-5 w-5" />
+                        Your transcription:
                       </h3>
                       <p className="whitespace-pre-line text-[#442e14] leading-relaxed">
                         {taskThreeTranscriptions[currentTaskThreeIndex]}
@@ -772,7 +779,8 @@ export default function SpeakingView() {
                     )}
                     <div className="bg-[#f1d49a]/40 p-4 rounded-xl mb-6">
                       <h4 className="font-bold text-[#442e14] text-sm mb-2 flex items-center gap-2">
-                        <span>👇</span> Scroll down to see your feedback
+                        <ChevronDoubleDownIcon className="h-4 w-4" />
+                        Scroll down to see your feedback
                       </h4>
                     </div>
                   </div>
@@ -786,7 +794,7 @@ export default function SpeakingView() {
                 <div className="space-y-6">
                   <div className="flex items-center gap-3 mb-4">
                     <div className="w-10 h-10 bg-[#f4bc3c] rounded-full flex items-center justify-center text-xl">
-                      🤖
+                      <CpuChipIcon className="h-5 w-5 text-[#442e14]" />
                     </div>
                     <h2 className="text-2xl font-black text-[#442e14]">
                       AI Feedback & Analysis

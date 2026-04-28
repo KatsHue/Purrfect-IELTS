@@ -6,6 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useAuth } from "@/hooks/useAuth";
 import ChatbotWidget from "@/components/chatbot/ChatbotWidget";
 import { useEffect, useState } from "react";
+import Loading from "@/components/history/Loading";
 
 export const AppLayout = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -21,7 +22,7 @@ export const AppLayout = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  if (isLoading) return "cargando...";
+  if (isLoading) return <Loading />;
 
   if (isError) {
     return <Navigate to="/auth/login" />;
