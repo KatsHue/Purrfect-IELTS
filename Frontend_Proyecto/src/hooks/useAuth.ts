@@ -22,7 +22,9 @@ export const useAuth = () => {
         }
     }, [isLoading]);
 
-    const loading = isLoading || minLoading || !data;
+    // Si hay error, no bloquear por falta de data
+    const loading = isLoading || minLoading || (!data && !isError);
+   // const loading = isLoading || minLoading || !data;
 
     return { data, isError, isLoading : loading };
 }
